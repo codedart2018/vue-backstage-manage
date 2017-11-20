@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import { Button, Table } from 'iview'
+  import {Button, Table} from 'iview'
   export default {
     name: 'HelloWorld',
     data () {

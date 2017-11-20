@@ -22,6 +22,20 @@ module.exports = {
     // allow async-await
     'generator-star-spacing': 0,
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'indent': ['error', 2],
+    'no-unexpected-multiline': 2,//避免多行表达式
+    'no-unreachable': 2,//不能有无法执行的代码
+    'semi': [0], // 关闭语句强制分号结尾
+    'space-before-function-paren': [0, "always"],//函数定义时括号前面要不要有空格
+    'no-mixed-spaces-and-tabs': [0],//关闭禁止混用tab和空格
+    'no-unused-vars': [2, {
+      'vars': 'local',// 允许声明未使用变量
+      'args': 'none'// 参数不检查
+    }
+    ],
+    'no-tabs': [0],
+    'spaced-comment': [0],
+    'camelcase': 2,//强制驼峰法命名
   }
 }
