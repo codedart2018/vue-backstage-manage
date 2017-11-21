@@ -1,16 +1,20 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: resolve => require(['../pages/common/manage'], resolve),
+      name: 'mainLayout',
+      meta: {
+        title: '管理中心',
+        routeAuth: false
+      },
+      component: resolve => require(['../pages/common/layout'], resolve),
       children: []
     }
   ]
-})
+});
