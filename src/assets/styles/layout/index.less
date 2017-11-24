@@ -7,6 +7,9 @@
  * 华灯未眠晨未曦,绿荷万丛湖中缀。
  * 闻莹林间自由在,遥望山尖闺梦人。
  */
+//全局变量
+@import '../common/variable.less';
+
 .app-wrapper {
   position: fixed;
   top: 0;
@@ -19,6 +22,23 @@
     height: 60px;
     background-color: #09C;
     color: #FFF;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .right-area {
+      .expand-screen {
+        display: inline-block;
+        float: right;
+        height: 50px;
+        width: 50px;
+        text-align: center;
+        line-height: 60px;
+        font-size: 24px;
+        color: @white;
+        cursor: pointer;
+      }
+    }
   }
 }
 .container {
