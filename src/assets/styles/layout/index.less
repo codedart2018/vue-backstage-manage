@@ -26,17 +26,35 @@
     flex-direction: row;
     justify-content: space-between;
 
+    .left-area {
+      width: 300px;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      padding-left: 10px;
+      align-items: center;
+
+      .logo{
+        img {
+          height: 45px;
+        }
+      }
+    }
+
     .right-area {
+      //扩大屏幕
       .expand-screen {
-        display: inline-block;
+        width: 60px;
+        height: 100%;
+        //display: inline-block;
         float: right;
-        height: 50px;
-        width: 50px;
         text-align: center;
-        line-height: 60px;
         font-size: 24px;
         color: @white;
         cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
     }
   }
@@ -54,11 +72,40 @@
   overflow: hidden;
 }
 .left-sidebar {
-  width: 155px;
+  width: 240px;
   height: 100%;
+  background: #404040;
+  transition: all 0.28s ease-in-out;
+  overflow: hidden;
+
+  .sidebar-fold {
+    height: 40px;
+    width: 100%;
+    background: #394555;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      color: @white;
+      font-size: 26px;
+    }
+  }
+
+  .menu {
+    width: 260px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+.mini-left-sidebar {
+  width: 40px;
 }
 .right-sidebar {
   flex: 1;
   height: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
