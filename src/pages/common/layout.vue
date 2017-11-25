@@ -8,9 +8,42 @@
           <img :src="require('@/assets/images/mini-logo.png')" alt="LOGO" height="40" width="40" style="position: absolute; top: 5px; left: 0; display: none">
         </div>
       </div>
+      <div class="center-area flex-row-center">
+        <div class="quick-panel">
+          <span>快捷面板</span>
+        </div>
+      </div>
       <div class="right-area">
-        <div class="expand-screen" @click="toggleScreen">
-          <Tooltip placement="bottom" class="tool-tip" :content="tipContent" :delay="1000">
+        <!--通知信息-->
+        <div class="notice flex-row-center">
+          <div class="bell">
+            <Badge count="100">
+              <Tooltip placement="bottom" content="通知">
+                <Icon type="ios-bell"></Icon>
+              </Tooltip>
+            </Badge>
+          </div>
+
+        </div>
+        <!-- 用户信息 -->
+        <div class="user-info flex-row-center">
+          <Dropdown>
+            <div><span>Hello World</span><Icon type="arrow-down-b"></Icon></div>
+            <DropdownMenu slot="list">
+              <DropdownItem @click.native="modalUser=true">个人信息</DropdownItem>
+              <DropdownItem @click="modal = true">退出登录</DropdownItem>
+              <DropdownItem @click.native="lock">锁定屏幕</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+        <div class="login-out flex-row-center" @click="modal = true">
+          <Tooltip placement="bottom" content="退出登陆" :delay="500">
+            <Icon type="log-out"></Icon>
+          </Tooltip>
+        </div>
+        <!--屏幕伸缩-->
+        <div class="expand-screen flex-row-center" @click="toggleScreen">
+          <Tooltip placement="bottom" :content="tipContent" :delay="500">
             <Icon type="android-expand" v-if="!screen"></Icon>
             <Icon type="android-contract" v-if="screen"></Icon>
           </Tooltip>
@@ -18,12 +51,18 @@
       </div>
     </div>
     <div class="container">
-      <div class="left-sidebar" :class="{'mini-left-sidebar':!sidebarStatus}">
+      <div class="left-sidebar dark-theme" :class="{'mini-left-sidebar':!sidebarStatus}">
         <div class="sidebar-fold" @click="toggleSideBar" title="收缩菜单">
           <Icon type="navicon"></Icon>
         </div>
         <div class="menu">
-          <IMenu active-name="1-2" :open-names="['1', '2', '3', '4']">
+          <IMenu active-name="1-2" width="auto" :open-names="['1', '2', '3', '4']">
+            <Submenu name="0">
+              <template slot="title">
+                <Icon type="ios-paper"></Icon>
+                只有一级
+              </template>
+            </Submenu>
             <Submenu name="1">
               <template slot="title">
                 <Icon type="ios-paper"></Icon>
@@ -79,23 +118,42 @@
         <div style="height: 1500px;">
           this is template body
         </div>
+        <div class="copyright-footer">©copyright by codeRabbit</div>
       </div>
     </div>
+
+    <!--modal 提示-->
+    <Modal v-model="modal" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>温馨提示</span>
+      </p>
+      <div style="text-align:center">
+        <p>您确认要退出?退出后将无法操作哦!</p>
+      </div>
+      <div slot="footer">
+        <IButton type="primary" size="large" long :loading="modalLoading" @click="signOut" style="background: #09C">确认退出</IButton>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
-  import {Tooltip, Icon, Menu} from 'iview';
+  import {Badge, Tooltip, Icon, Menu, Dropdown, Modal, Button} from 'iview';
   export default {
     data () {
       return {
       	screen: false,
         tipContent: '全屏',
-        //测动块状态
-        sidebarStatus: true
+        //sidebar bold state
+        sidebarStatus: true,
+        //弹窗modal
+        modal: false,
+        //modal loading
+        modalLoading: false
       };
     },
     methods: {
-    	//切换左边滑动块
+      //change sidebar bold block
       toggleSideBar () {
         this.sidebarStatus = !this.sidebarStatus;
         console.log(this.sidebarStatus);
@@ -131,15 +189,29 @@
           this.screen = false;
         }
         this.tipContent = this.screen ? '缩小' : '全屏';
+      },
+      //sign out function
+      signOut () {
+        this.modalLoading = true;
+        setTimeout(() => {
+          this.modalLoading = false;
+          this.modal = false;
+        }, 1000);
       }
     },
     components: {
+    	'Badge': Badge,
       'Tooltip': Tooltip,
       'Icon': Icon,
+      'Modal': Modal,
+      'IButton': Button,
       'IMenu': Menu,
       'Submenu': Menu.Sub,
       'IMenuItem': Menu.Item,
-      'MenuGroup': Menu.Group
+      'MenuGroup': Menu.Group,
+      'Dropdown': Dropdown,
+      'DropdownMenu': Dropdown.Menu,
+      'DropdownItem': Dropdown.Item
     }
   };
 </script>

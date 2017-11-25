@@ -16,53 +16,95 @@
   left: 0;
   right: 0;
   bottom: 0;
+
+  .flex-row-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 @media (min-width: 768px) {
   .nav-header {
-    height: 60px;
-    background-color: #09C;
+    height: 50px;
+    background-color: @dark-blue-background;
     color: #FFF;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 
     .left-area {
+      background-color: #0087b4;
       width: 300px;
       height: 100%;
       display: flex;
       flex-direction: row;
-      padding-left: 10px;
       align-items: center;
 
       .logo{
+        padding-left: 10px;
+
         img {
           height: 45px;
         }
       }
     }
-
+    .center-area {
+      flex: 1;
+    }
     .right-area {
+      width: 300px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+
+      //退出
+      .notice {
+        width: 60px;
+        color: @white;
+        cursor: pointer;
+        text-align: center;
+        font-size: 24px;
+        height: 100%;
+      }
+
       //扩大屏幕
       .expand-screen {
-        width: 60px;
+        width: 40px;
         height: 100%;
         //display: inline-block;
-        float: right;
-        text-align: center;
+        text-align: left;
         font-size: 24px;
         color: @white;
         cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+      }
+
+      //退出
+      .login-out {
+        width: 60px;
+        color: @white;
+        cursor: pointer;
+        text-align: center;
+        font-size: 24px;
+        height: 100%;
+      }
+
+      //用户信息
+      .user-info {
+        width: auto;
+        color: @white;
+        cursor: pointer;
+
+        span {
+          padding-right: 5px;
+        }
       }
     }
   }
 }
 .container {
-  //background-color: #293038;
+  //background-color: @dark-background;
   position: absolute;
-  top: 60px;
+  top: 50px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -72,9 +114,8 @@
   overflow: hidden;
 }
 .left-sidebar {
-  width: 240px;
+  width: 180px;
   height: 100%;
-  background: #404040;
   transition: all 0.28s ease-in-out;
   overflow: hidden;
 
@@ -94,12 +135,76 @@
   }
 
   .menu {
-    width: 260px;
+    width: 197px;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
   }
 }
+
+/** dark style but css customization also has style  **/
+.dark-theme {
+  background: @dark-background;
+  color: @white;
+
+  .menu {
+    .ivu-menu-light.ivu-menu-vertical {
+      background: #37424f;
+
+      .ivu-menu-item-active:not(.ivu-menu-submenu) {
+        color: @white;
+        background: @dark-blue-background;
+        border-right: none;
+      }
+
+      /** 开封有个包青天，我要斩断掉伪样式 **/
+      &:after {
+        background: none;
+      }
+
+      .ivu-menu-submenu {
+
+        .ivu-menu {
+
+          .ivu-menu-item {
+            color: @white;
+
+            &:hover {
+              background: #42515f;
+            }
+          }
+        }
+      }
+    }
+
+    .ivu-menu {
+      color: @white;
+    }
+  }
+
+}
+
+.center-area {
+  .quick-panel {
+    width: 100px;
+    height: 100%;
+    border-right: 1px solid #008fbf;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span {
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    &:hover {
+      background: #0087b4;
+    }
+  }
+}
+
 .mini-left-sidebar {
   width: 40px;
 }
@@ -108,4 +213,15 @@
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
+
+  .copyright-footer {
+    height: 40px;
+    width: 100%;
+    border-top: 1px solid #E7E7E7;
+    color: #ABA498;
+    font-size: 12px;
+    background: #fafafa;
+    text-align: center;
+    line-height: 40px;
+  }
 }

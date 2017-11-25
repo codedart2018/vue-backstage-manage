@@ -6,5 +6,36 @@
  * 《晨》· By codeRabbit 2017.7.1 重庆龙头寺公园
  * 华灯未眠晨未曦,绿荷万丛湖中缀。
  * 闻莹林间自由在,遥望山尖闺梦人。
+ * 定制样式
  */
+@import '~iview/src/styles/index.less';
+#app {
+  .dark-theme {
+    .menu {
+      .ivu-menu-submenu-title:hover {
+        background: #42515f;
+      }
 
+      .ivu-menu-light.ivu-menu-vertical {
+        .ivu-menu-submenu {
+
+          .ivu-menu-item {
+            padding-left: 41px;
+          }
+
+          .ivu-menu {
+            background: #2F3640;
+          }
+        }
+
+        .ivu-menu-item, .ivu-menu-submenu-title {
+          padding: 12px 18px;
+        }
+
+        .ivu-menu-item-group-title {
+          padding-left: 18px;
+        }
+      }
+    }
+  }
+}
