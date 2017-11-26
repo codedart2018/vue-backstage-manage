@@ -9,14 +9,17 @@
  * 定制样式
  */
 @import '~iview/src/styles/index.less';
+//全局变量
+@import './variable.less';
 #app {
+  //dark style
   .dark-theme {
     .menu {
       .ivu-menu-submenu-title:hover {
         background: #42515f;
       }
 
-      .ivu-menu-light.ivu-menu-vertical {
+      .ivu-menu-dark.ivu-menu-vertical {
         .ivu-menu-submenu {
 
           .ivu-menu-item {
@@ -34,6 +37,11 @@
 
         .ivu-menu-item-group-title {
           padding-left: 18px;
+        }
+
+        .ivu-menu-item-active.ivu-menu-item-selected {
+          color: @white;
+          background: @dark-blue-background!important;
         }
       }
     }

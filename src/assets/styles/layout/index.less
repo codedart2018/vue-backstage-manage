@@ -93,9 +93,19 @@
         width: auto;
         color: @white;
         cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
 
         span {
           padding-right: 5px;
+        }
+
+        .avatar {
+          margin-left: 10px;
+          border: 1px solid #ffffff;
+          border-radius: 50%;
         }
       }
     }
@@ -148,12 +158,12 @@
   color: @white;
 
   .menu {
-    .ivu-menu-light.ivu-menu-vertical {
+    .ivu-menu-dark.ivu-menu-vertical {
       background: #37424f;
 
       .ivu-menu-item-active:not(.ivu-menu-submenu) {
         color: @white;
-        background: @dark-blue-background;
+        background: @dark-blue-background!important;
         border-right: none;
       }
 
@@ -161,7 +171,6 @@
       &:after {
         background: none;
       }
-
       .ivu-menu-submenu {
 
         .ivu-menu {
@@ -170,7 +179,7 @@
             color: @white;
 
             &:hover {
-              background: #42515f;
+              background: #42515f!important;
             }
           }
         }

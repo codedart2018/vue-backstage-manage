@@ -14,7 +14,17 @@ export default new Router({
         routeAuth: false
       },
       component: resolve => require(['../pages/common/layout'], resolve),
-      children: []
+      children: [
+        {
+          path: '/demo',
+          name: 'demo',
+          meta: {
+            title: '测试demo',
+            routeAuth: false
+          },
+          component: resolve => require(['../pages/demo/demo'], resolve)
+        }
+      ]
     }
   ]
 });

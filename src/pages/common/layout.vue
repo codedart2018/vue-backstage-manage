@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="center-area flex-row-center">
-        <div class="quick-panel">
+        <div class="quick-panel" @click="testChangeOpenNames">
           <span>快捷面板</span>
         </div>
       </div>
@@ -26,7 +26,7 @@
 
         </div>
         <!-- 用户信息 -->
-        <div class="user-info flex-row-center">
+        <div class="user-info">
           <Dropdown>
             <div><span>Hello World</span><Icon type="arrow-down-b"></Icon></div>
             <DropdownMenu slot="list">
@@ -35,7 +35,12 @@
               <DropdownItem @click.native="lock">锁定屏幕</DropdownItem>
             </DropdownMenu>
           </Dropdown>
+          <!--头像-->
+          <div class="avatar">
+            <Avatar src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&amp;fm=27&amp;gp=0.jpg" />
+          </div>
         </div>
+        <!--退出登陆-->
         <div class="login-out flex-row-center" @click="modal = true">
           <Tooltip placement="bottom" content="退出登陆" :delay="500">
             <Icon type="log-out"></Icon>
@@ -44,8 +49,8 @@
         <!--屏幕伸缩-->
         <div class="expand-screen flex-row-center" @click="toggleScreen">
           <Tooltip placement="bottom" :content="tipContent" :delay="500">
-            <Icon type="android-expand" v-if="!screen"></Icon>
-            <Icon type="android-contract" v-if="screen"></Icon>
+            <Icon type="arrow-expand" v-if="!screen"></Icon>
+            <Icon type="arrow-shrink" v-if="screen"></Icon>
           </Tooltip>
         </div>
       </div>
@@ -56,13 +61,8 @@
           <Icon type="navicon"></Icon>
         </div>
         <div class="menu">
-          <IMenu active-name="1-2" width="auto" :open-names="['1', '2', '3', '4']">
-            <Submenu name="0">
-              <template slot="title">
-                <Icon type="ios-paper"></Icon>
-                只有一级
-              </template>
-            </Submenu>
+          <SideMenu :menu-list="menuList" :open-names="openedSubmenu" @on-change="handleSubmenuChange"></SideMenu>
+          <IMenu ref="setOpenNames" :active-name="activeName" :open-names="openNames" width="auto" theme="dark" accordion>
             <Submenu name="1">
               <template slot="title">
                 <Icon type="ios-paper"></Icon>
@@ -82,34 +82,11 @@
             </Submenu>
             <Submenu name="3">
               <template slot="title">
-                <Icon type="stats-bars"></Icon>
-                统计分析
-              </template>
-              <MenuGroup title="使用">
-                <IMenuItem name="3-1">新增和启动</IMenuItem>
-                <IMenuItem name="3-2">活跃分析</IMenuItem>
-                <IMenuItem name="3-3">时段分析</IMenuItem>
-              </MenuGroup>
-              <MenuGroup title="留存">
-                <IMenuItem name="3-4">用户留存</IMenuItem>
-                <IMenuItem name="3-5">流失用户</IMenuItem>
-              </MenuGroup>
-              <MenuGroup title="好人呀">
-                <IMenuItem name="3-6">用户留存</IMenuItem>
-                <IMenuItem name="3-7">流失用户</IMenuItem>
-                <IMenuItem name="3-8">流失用户</IMenuItem>
-                <IMenuItem name="3-9">流失用户</IMenuItem>
-                <IMenuItem name="3-10">流失用户</IMenuItem>
-                <IMenuItem name="3-11">流失用户</IMenuItem>
-              </MenuGroup>
-            </Submenu>
-            <Submenu name="4">
-              <template slot="title">
                 <Icon type="ios-people"></Icon>
                 粉丝管理
               </template>
-              <IMenuItem name="4-1">新增用户</IMenuItem>
-              <IMenuItem name="4-2">活跃用户</IMenuItem>
+              <IMenuItem name="3-1">新增用户</IMenuItem>
+              <IMenuItem name="3-2">活跃用户</IMenuItem>
             </Submenu>
           </IMenu>
         </div>
@@ -138,7 +115,10 @@
   </div>
 </template>
 <script>
-  import {Badge, Tooltip, Icon, Menu, Dropdown, Modal, Button} from 'iview';
+  import {Badge, Tooltip, Icon, Menu, Dropdown, Modal, Button, Avatar} from 'iview';
+  import SideMenu from './side-menu.vue';
+  //临时的菜单路由
+  import MenuList from '../../router/menu.js';
   export default {
     data () {
       return {
@@ -146,10 +126,15 @@
         tipContent: '全屏',
         //sidebar bold state
         sidebarStatus: true,
-        //弹窗modal
+        //pop modal
         modal: false,
         //modal loading
-        modalLoading: false
+        modalLoading: false,
+        //menu list data
+        menuList: MenuList,
+        openedSubmenu: [],
+        openNames: ['2'],
+        activeName: '2-1'
       };
     },
     methods: {
@@ -197,7 +182,25 @@
           this.modalLoading = false;
           this.modal = false;
         }, 1000);
+      },
+      //change menus
+      handleSubmenuChange (val) {
+        console.log(val);
+        this.openedSubmenu.push(val);
+      },
+      testChangeOpenNames () {
+        this.openNames = [];
+        this.activeName = '';
+        console.log(this.openNames);
       }
+    },
+    updated () {
+      this.$nextTick(() => {
+        //iview 没有提供 关闭菜单方法 下周天放假的时候 自己修改来打包
+        console.log(this.openNames);
+        this.$refs.setOpenNames.updateOpened();
+        this.$refs.setOpenNames.updateActiveName();
+      });
     },
     components: {
     	'Badge': Badge,
@@ -211,7 +214,12 @@
       'MenuGroup': Menu.Group,
       'Dropdown': Dropdown,
       'DropdownMenu': Dropdown.Menu,
-      'DropdownItem': Dropdown.Item
+      'DropdownItem': Dropdown.Item,
+      'Avatar': Avatar,
+      'SideMenu': SideMenu
+    },
+    mounted() {
+    	//console.log(this.$route);
     }
   };
 </script>
