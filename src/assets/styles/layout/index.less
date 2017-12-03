@@ -111,6 +111,7 @@
     }
   }
 }
+
 .container {
   //background-color: @dark-background;
   position: absolute;
@@ -123,10 +124,12 @@
   display: flex;
   overflow: hidden;
 }
+
 .left-sidebar {
   width: 180px;
   height: 100%;
-  transition: all 0.28s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  position: relative;
   overflow: hidden;
 
   .sidebar-fold {
@@ -145,52 +148,14 @@
   }
 
   .menu {
-    width: 197px;
+    width: 100%;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-  }
-}
-
-/** dark style but css customization also has style  **/
-.dark-theme {
-  background: @dark-background;
-  color: @white;
-
-  .menu {
-    .ivu-menu-dark.ivu-menu-vertical {
-      background: #37424f;
-
-      .ivu-menu-item-active:not(.ivu-menu-submenu) {
-        color: @white;
-        background: @dark-blue-background!important;
-        border-right: none;
-      }
-
-      /** 开封有个包青天，我要斩断掉伪样式 **/
-      &:after {
-        background: none;
-      }
-      .ivu-menu-submenu {
-
-        .ivu-menu {
-
-          .ivu-menu-item {
-            color: @white;
-
-            &:hover {
-              background: #42515f!important;
-            }
-          }
-        }
-      }
-    }
-
-    .ivu-menu {
-      color: @white;
+    &::-webkit-scrollbar {
+      display:none
     }
   }
-
 }
 
 .center-area {
@@ -215,14 +180,45 @@
 }
 
 .mini-left-sidebar {
-  width: 40px;
+  width: 48px;
+  overflow: visible;
 }
 .right-sidebar {
   flex: 1;
   height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 
+  .tags-con {
+    height: 40px;
+    z-index: -1;
+    overflow: hidden;
+    background: #f0f0f0;
+  }
+  .common-area {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    /*滚动条样式*/
+    //&::-webkit-scrollbar {
+    //  -moz-appearance: none !important;
+    //  width: 5px;
+    //  height: 5px;
+    //}
+    //&::-webkit-scrollbar-thumb {
+    //  border-radius: 10px;
+    //  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    //  background: rgba(0,0,0,0.2);
+    //}
+    //&::-webkit-scrollbar-track {
+    //  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    //  border-radius: 0;
+    //  background: rgba(0,0,0,0.1);
+    //}
+  }
   .copyright-footer {
     height: 40px;
     width: 100%;
@@ -234,3 +230,5 @@
     line-height: 40px;
   }
 }
+
+

@@ -7,6 +7,7 @@ import Router from './router';
 import Util from './libs/util';
 import 'iview/dist/styles/iview.css'; // 使用 IVIEW CSS
 import './assets/styles/common/customize.less';
+import './assets/styles/common/index.less';
 
 window.Util = Util;
 Vue.config.productionTip = false;

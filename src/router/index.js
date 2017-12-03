@@ -13,7 +13,7 @@ export default new Router({
         title: '管理中心',
         routeAuth: false
       },
-      component: resolve => require(['../pages/common/layout'], resolve),
+      component: resolve => require(['../pages/layout/index'], resolve),
       children: [
         {
           path: '/demo',

@@ -11,13 +11,13 @@ const menu = [
   {
     path: '/index',
     name: 'index',
-    icon: 'ionic',
+    icon: 'home',
     children: []
   },
   {
     path: '/',
     name: '权限角色',
-    icon: 'ionic',
+    icon: 'cloud',
     children: [
       {
         path: '/chart',
@@ -48,13 +48,13 @@ const menu = [
   {
     path: '/index',
     name: 'haha',
-    icon: 'ionic',
+    icon: 'star',
     children: []
   },
   {
     path: '/index',
     name: 'gogogo to',
-    icon: 'ionic',
+    icon: 'heart',
     children: []
   }
 ];

@@ -1,0 +1,98 @@
+/**
+ * Created by truncate on 2017/11/28.
+ * Author: 带鞋拖地
+ * QQ: 327056088
+ *
+ * 《晨》· By codeRabbit 2017.7.1 重庆龙头寺公园
+ * 华灯未眠晨未曦,绿荷万丛湖中缀。
+ * 闻莹林间自由在,遥望山尖闺梦人。
+ */
+@import '../common/variable.less';
+
+#app {
+  //dark style
+  .dark-theme {
+    background: @dark-background;
+    color: @white;
+    .menu {
+      .ivu-menu-submenu-title:hover {
+        background: #42515f;
+      }
+      .ivu-menu-dark.ivu-menu-vertical {
+        background: #37424f;
+        /** 开封有个包青天，我要斩断掉伪样式 **/
+        &:after {
+          background: none;
+        }
+        .ivu-menu-item-active:not(.ivu-menu-submenu) {
+          color: @white;
+          background: @dark-blue-background !important;
+          border-right: none;
+        }
+        .ivu-menu-submenu {
+          .ivu-menu-item {
+            padding-left: 41px;
+          }
+          .ivu-menu {
+            background: #2F3640;
+            .ivu-menu-item {
+              color: @white;
+              &:hover {
+                background: #42515f !important;
+              }
+            }
+          }
+        }
+        .ivu-menu-item, .ivu-menu-submenu-title {
+          padding: 12px 18px;
+        }
+        .ivu-menu-item-group-title {
+          padding-left: 18px;
+        }
+        .ivu-menu-item-active.ivu-menu-item-selected {
+          color: @white;
+          background: @dark-blue-background !important;
+        }
+      }
+      .ivu-menu {
+        color: @white;
+      }
+    }
+
+    //收缩后迷你菜单
+    .mini-menu {
+      cursor: pointer;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      &::-webkit-scrollbar {
+        display: none
+      }
+      .menu-ul {
+        width: 100%;
+        height: auto;
+        background: #37424f;
+        text-align: center;
+        .menu-li {
+          padding: 12px 0;
+          //transform: translate(0,0);
+          //position: relative;
+          position: static; //通过计算来处理高度
+          &:hover {
+            background: #42515f;
+          }
+          .sub-menu {
+            width: 200px;
+            height: 100px;
+            border: 1px solid red;
+            position: absolute;
+            left: 50px;
+            top: 40px;
+            z-index: 999;
+          }
+        }
+      }
+    }
+  }
+}
+

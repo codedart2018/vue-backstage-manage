@@ -1,0 +1,63 @@
+/**
+ * Created by truncate on 2017/12/3.
+ * Author: 带鞋拖地
+ * QQ: 327056088
+ *
+ * 《晨》· By codeRabbit 2017.7.1 重庆龙头寺公园
+ * 华灯未眠晨未曦,绿荷万丛湖中缀。
+ * 闻莹林间自由在,遥望山尖闺梦人。
+ */
+.tabs-menu {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+
+  .leftward {
+    width: 18px;
+    height: auto;
+    text-align: right;
+    font-size: 22px;
+    cursor: pointer;
+  }
+  .center-slide {
+    flex: 1;
+    overflow: hidden;
+
+    .tags-outer-scroll-con{
+      position: relative;
+      box-sizing: border-box;
+      padding-right: 120px;
+      width: 100%;
+      height: 100%;
+      .tags-inner-scroll-body{
+        position: absolute;
+        padding: 2px 10px;
+        overflow: visible;
+        white-space: nowrap;
+        transition: left .3s ease;
+      }
+      .close-all-tag-con{
+        position: absolute;
+        right: 0;
+        top: 0;
+        box-sizing: border-box;
+        padding-top: 8px;
+        text-align: center;
+        width: 110px;
+        height: 100%;
+        background: white;
+        box-shadow: -3px 0 15px 3px rgba(0, 0, 0, .1);
+        z-index: 10;
+      }
+    }
+  }
+  .rightward {
+    width: 18px;
+    font-size: 22px;
+  }
+  .fixed-box {
+    width: 50px;
+    border-left: 1px solid #fff;
+  }
+}
