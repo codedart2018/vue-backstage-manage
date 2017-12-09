@@ -9,6 +9,9 @@
         </div>
       </div>
       <div class="center-area flex-row-center">
+        <div class="home">
+          <Icon type="home"></Icon>
+        </div>
         <div class="quick-panel" @click="testChangeOpenNames">
           <span>快捷面板</span>
         </div>
@@ -69,9 +72,10 @@
           <TabsMenu :pageTagsList="pageTagsList"></TabsMenu>
         </div>
 
-        <div class="common-area" @mousewheel="demo">
+        <div class="common-area">
           <div style="height: 1500px;">
             this is template body
+            <router-view></router-view>
           </div>
         </div>
         <div class="copyright-footer">©copyright by codeRabbit</div>
@@ -98,8 +102,8 @@
   import SideMenu from './sideMenu.vue';
   import TabsMenu from './tabsMenu.vue';
 
-  //临时的菜单路由
-  import MenuList from '../../router/menu.js';
+  //菜单路由
+  import {MenuRouters} from '../../router/router';
   export default {
     data () {
       return {
@@ -112,100 +116,12 @@
         //modal loading
         modalLoading: false,
         //menu list data
-        menuList: MenuList,
+        menuList: MenuRouters,
         openedSubmenu: [],
         openNames: ['2'],
         activeName: '2-1',
         //demo
         pageTagsList: [
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
           {
           	argu: [],
             icon: 'pound',
@@ -292,9 +208,6 @@
         this.openedSubmenu.push(val);
       },
       testChangeOpenNames () {
-      },
-      demo() {
-      	//console.log(23232322232323);
       }
     },
     updated () {
@@ -321,7 +234,7 @@
       'BreadcrumbItem': Breadcrumb.Item
     },
     mounted() {
-    	//console.log(this.$route);
+    	console.log(MenuRouters);
     }
   };
 </script>

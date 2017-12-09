@@ -1,30 +1,27 @@
 import Vue from 'vue';
-import Router from 'vue-router';
-
-Vue.use(Router);
-
-export default new Router({
+import VueRouter from 'vue-router';
+import iView from 'iview';
+import {Routers} from './router';
+import Util from '../libs/util';
+Vue.use(VueRouter);
+//路由配置
+const RouterConfig = {
   mode: 'history',
-  routes: [
-    {
-      path: '/',
-      name: 'mainLayout',
-      meta: {
-        title: '管理中心',
-        routeAuth: false
-      },
-      component: resolve => require(['../pages/layout/index'], resolve),
-      children: [
-        {
-          path: '/demo',
-          name: 'demo',
-          meta: {
-            title: '测试demo',
-            routeAuth: false
-          },
-          component: resolve => require(['../pages/demo/demo'], resolve)
-        }
-      ]
-    }
-  ]
+  routes: Routers
+};
+export const Router = new VueRouter(RouterConfig);
+//路由前置处理
+Router.beforeEach(({meta, path}, from, next) => {
+  iView.LoadingBar.start();
+  //判断是否刷新
+  if (path === '/refresh') {
+    next({path: from.path});
+    next();
+  }
+  Util.title(meta.title);
+  next();
+});
+//路由后置处理
+Router.afterEach(route => {
+  iView.LoadingBar.finish();
 });

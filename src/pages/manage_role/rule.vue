@@ -1,18 +1,14 @@
 <template>
   <div>
-    <div>this is template body</div>
+    <div>规则</div>
   </div>
 </template>
-
 <script>
   export default{
-    data() {
+    data () {
       return {
         msg: 'hello vue'
       };
-    },
-    mounted() {
-    	console.log(2);
     },
     components: {}
   };

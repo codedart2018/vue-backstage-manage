@@ -3,19 +3,18 @@
   <IMenu ref="sideMenu" :active-name="$route.name" :open-names="openNames" :theme="menuTheme" width="auto" @on-select="changeMenu" accordion>
     <template v-for="(item, index) in menuList">
       <IMenuItem v-if="item.children.length <= 1" :name="item.name" :key="item.path">
-        <Icon :type="item.icon" :size="iconSize" :key="item.path"></Icon>
-        <span class="layout-text" :key="item.path">{{item.name}}</span>
+          <Icon :type="item.icon" :size="iconSize" :key="item.path"></Icon>
+          <span class="layout-text" :key="item.path">{{item.title}}</span>
       </IMenuItem>
-
       <ISubmenu v-if="item.children.length > 1" :name="item.name" :key="item.path">
         <template slot="title">
           <Icon :type="item.icon" :size="iconSize"></Icon>
-          <span class="layout-text">{{item.name}}</span>
+          <span class="layout-text">{{item.title}}</span>
         </template>
         <template v-for="child in item.children">
           <IMenuItem :name="child.name" :key="child.name">
             <Icon :type="child.icon" :size="iconSize" :key="child.name"></Icon>
-            <span class="layout-text" :key="child.name">{{child.name}}</span>
+            <span class="layout-text" :key="child.name">{{child.title}}</span>
           </IMenuItem>
         </template>
       </ISubmenu>
@@ -41,6 +40,11 @@
     methods: {
       changeMenu (name) {
         this.$emit('on-change', name);
+        //编程式导航
+        this.$router.push({name: name, params: {userId: 123}, query: {plan: 'private'}});
+      },
+      //编程式导航
+      goTo(path) {
       }
     },
     updated () {
@@ -59,3 +63,5 @@
     }
   };
 </script>
+
+

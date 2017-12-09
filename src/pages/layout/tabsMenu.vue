@@ -2,11 +2,11 @@
 <template>
   <div class="tabs-menu">
     <div class="leftward">
-      <Icon type="android-arrow-dropleft"></Icon>
+      <i class="icon-font icon-arrow-left"></i>
     </div>
     <div class="center-slide">
-      <div ref="scrollCon" class="tags-outer-scroll-con" @mousewheel="demo">
-        <div ref="scrollBody" class="tags-inner-scroll-body" :style="{left: tagBodyLeft + 'px'}" style="left: -142px;">
+      <div ref="scrollDom" class="tags-outer-scroll-con" @DOMMouseScroll="handleScroll" @mousewheel="handleScroll" >
+        <div ref="scrollBody" class="tags-inner-scroll-body" :style="{left: tagBodyLeft + 'px'}">
           <transition-group name="taglist-moving-animation">
             <Tag
               type="dot"
@@ -24,17 +24,39 @@
       </div>
     </div>
     <div class="rightward">
-      <Icon type="android-arrow-dropright"></Icon>
+      <div class="arrow-box">
+        <i class="icon-font icon-arrow-right"></i>
+      </div>
+      <div class="drop-down" :class="{'drop-down-hover': isOpenMore}" @mouseover="tabsMorePlan" @mouseout="tabsMorePlan">
+        <Icon type="arrow-down-b"></Icon>
+        <div class="down-box" :class="{'down-box-slide': isOpenMore}">
+          <ul class="drop-down-ul">
+            <li class="reload-page" @click="refresh">
+              <Icon type="refresh"></Icon>
+              <span>刷新当前</span>
+            </li>
+            <li class="reload-page">
+              <Icon type="close"></Icon>
+              <span>关闭其它</span>
+            </li>
+            <li class="reload-page" role="presentation">
+              <Icon type="power"></Icon>
+              <span>关闭所有</span>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="fixed-box"></div>
+    </div>
   </div>
 </template>
 <script>
-  import {Tag, Icon} from 'iview';
+  import {Tag, Icon, Dropdown, Button} from 'iview';
   export default {
     name: 'tagsPageOpened',
     data () {
       return {
+        isOpenMore: false,
         currentPageName: this.$route.name,
         tagBodyLeft: 0,
         refsTag: [],
@@ -56,6 +78,14 @@
       }
     },
     methods: {
+    	//显示菜单
+      tabsMorePlan () {
+      	this.isOpenMore = !this.isOpenMore;
+      },
+      //刷新当前页面
+      refresh() {
+      	this.$router.go(0);
+      },
       closePage (name) {
         let pageOpenedList = this.$store.state.app.pageOpenedList;
         let lastPageObj = pageOpenedList[0];
@@ -93,28 +123,6 @@
           this.$router.push(routerObj);
         }
       },
-      handlescroll (e) {
-        var type = e.type;
-        let delta = 0;
-        if (type === 'DOMMouseScroll' || type === 'mousewheel') {
-          delta = (e.wheelDelta) ? e.wheelDelta : -(e.detail || 0) * 40;
-        }
-        let left = 0;
-        if (delta > 0) {
-          left = Math.min(0, this.tagBodyLeft + delta);
-        } else {
-          if (this.$refs.scrollCon.offsetWidth - 100 < this.$refs.scrollBody.offsetWidth) {
-            if (this.tagBodyLeft < -(this.$refs.scrollBody.offsetWidth - this.$refs.scrollCon.offsetWidth + 100)) {
-              left = this.tagBodyLeft;
-            } else {
-              left = Math.max(this.tagBodyLeft + delta, this.$refs.scrollCon.offsetWidth - this.$refs.scrollBody.offsetWidth - 100);
-            }
-          } else {
-            this.tagBodyLeft = 0;
-          }
-        }
-        this.tagBodyLeft = left;
-      },
       handleTagsOption (type) {
         if (type === 'clearAll') {
           this.$store.commit('clearAllTags');
@@ -126,19 +134,40 @@
         }
         this.tagBodyLeft = 0;
       },
+      //移动视图
       moveToView (tag) {
         if (tag.offsetLeft < -this.tagBodyLeft) {
           // 标签在可视区域左侧
           this.tagBodyLeft = -tag.offsetLeft + 10;
-        } else if (tag.offsetLeft + 10 > -this.tagBodyLeft && tag.offsetLeft + tag.offsetWidth < -this.tagBodyLeft + this.$refs.scrollCon.offsetWidth - 100) {
+        } else if (tag.offsetLeft + 10 > -this.tagBodyLeft && tag.offsetLeft + tag.offsetWidth < -this.tagBodyLeft + this.$refs.scrollDom.offsetWidth - 100) {
           // 标签在可视区域
         } else {
           // 标签在可视区域右侧
-          this.tagBodyLeft = -(tag.offsetLeft - (this.$refs.scrollCon.offsetWidth - 100 - tag.offsetWidth) + 20);
+          this.tagBodyLeft = -(tag.offsetLeft - (this.$refs.scrollDom.offsetWidth - 100 - tag.offsetWidth) + 20);
         }
       },
-      demo() {
-      	console.log(3233);
+      //滚动tabs
+      handleScroll(e) {
+        let type = e.type;
+        let delta = 0;
+        if (type === 'DOMMouseScroll' || type === 'mousewheel') {
+          delta = (e.wheelDelta) ? e.wheelDelta : -(e.detail || 0) * 40;
+        }
+        let left = 0;
+        if (delta > 0) {
+          left = Math.min(0, this.tagBodyLeft + delta);
+        } else {
+          if (this.$refs.scrollDom.offsetWidth - 100 < this.$refs.scrollBody.offsetWidth) {
+            if (this.tagBodyLeft < -(this.$refs.scrollBody.offsetWidth - this.$refs.scrollDom.offsetWidth + 100)) {
+              left = this.tagBodyLeft;
+            } else {
+              left = Math.max(this.tagBodyLeft + delta, this.$refs.scrollDom.offsetWidth - this.$refs.scrollBody.offsetWidth - 100);
+            }
+          } else {
+            this.tagBodyLeft = 0;
+          }
+        }
+        this.tagBodyLeft = left;
       }
     },
     mounted () {
@@ -154,6 +183,8 @@
     },
     watch: {
       '$route' (to) {
+      	let currentRouter = this.$route;
+        console.log(currentRouter);
         this.currentPageName = to.name;
         this.$nextTick(() => {
           this.refsTag.forEach((item, index) => {
@@ -168,7 +199,11 @@
     },
     components: {
       'Tag': Tag,
-      'Icon': Icon
+      'Icon': Icon,
+      'IButton': Button,
+      'Dropdown': Dropdown,
+      'DropdownMenu': Dropdown.Menu,
+      'DropdownItem': Dropdown.Item
     }
   };
 </script>

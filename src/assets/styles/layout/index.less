@@ -50,6 +50,8 @@
     }
     .center-area {
       flex: 1;
+      flex-direction: row;
+      justify-content: flex-start;
     }
     .right-area {
       width: 300px;
@@ -159,6 +161,20 @@
 }
 
 .center-area {
+  .home {
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #008fbf;
+    font-size: 24px;
+    cursor: pointer;
+
+    &:hover {
+      background: #0087b4;
+    }
+  }
+
   .quick-panel {
     width: 100px;
     height: 100%;
@@ -190,10 +206,9 @@
   flex-direction: column;
 
   .tags-con {
-    height: 40px;
-    z-index: -1;
-    overflow: hidden;
-    background: #f0f0f0;
+    height: auto;
+    background: @white;
+    border-bottom: solid 1px #e4eaec;
   }
   .common-area {
     width: 100%;
@@ -201,6 +216,7 @@
     flex: 1;
     overflow-y: scroll;
     overflow-x: hidden;
+    background: #f1f4f5;
 
     /*滚动条样式*/
     //&::-webkit-scrollbar {
