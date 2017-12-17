@@ -5,7 +5,7 @@
       <i class="icon-font icon-arrow-left"></i>
     </div>
     <div class="center-slide">
-      <div ref="scrollDom" class="tags-outer-scroll-con" @DOMMouseScroll="handleScroll" @mousewheel="handleScroll" >
+      <div ref="scrollDom" class="tags-outer-scroll-con" @DOMMouseScroll="handleScroll" @mousewheel="handleScroll">
         <div ref="scrollBody" class="tags-inner-scroll-body" :style="{left: tagBodyLeft + 'px'}">
           <transition-group name="taglist-moving-animation">
             <Tag
@@ -15,10 +15,11 @@
               :key="item.name"
               :name="item.name"
               @on-close="closePage"
-              @click.native="linkTo(item)"
-              :closable="item.name==='home_index'?false:true"
-              :color="item.children?(item.children[0].name===currentPageName?'blue':'default'):(item.name===currentPageName?'blue':'default')"
-            >{{item.name}}</Tag>
+              @click.native="goTo(item)"
+              :closable="true"
+              :color="item.name === currentPageName ? 'blue' : 'default'"
+            >{{item.title}}
+            </Tag>
           </transition-group>
         </div>
       </div>
@@ -27,7 +28,8 @@
       <div class="arrow-box">
         <i class="icon-font icon-arrow-right"></i>
       </div>
-      <div class="drop-down" :class="{'drop-down-hover': isOpenMore}" @mouseover="tabsMorePlan" @mouseout="tabsMorePlan">
+      <div class="drop-down" :class="{'drop-down-hover': isOpenMore}" @mouseover="tabsMorePlan"
+           @mouseout="tabsMorePlan">
         <Icon type="arrow-down-b"></Icon>
         <div class="down-box" :class="{'down-box-slide': isOpenMore}">
           <ul class="drop-down-ul">
@@ -35,11 +37,11 @@
               <Icon type="refresh"></Icon>
               <span>刷新当前</span>
             </li>
-            <li class="reload-page">
+            <li class="reload-page" @click="closeChose('other')">
               <Icon type="close"></Icon>
               <span>关闭其它</span>
             </li>
-            <li class="reload-page" role="presentation">
+            <li class="reload-page" @click="closeChose('all')">
               <Icon type="power"></Icon>
               <span>关闭所有</span>
             </li>
@@ -47,7 +49,7 @@
         </div>
       </div>
     </div>
-    </div>
+  </div>
   </div>
 </template>
 <script>
@@ -67,7 +69,7 @@
       pageTagsList: Array,
       beforePush: {
         type: Function,
-        default: (item) => {
+        default: () => {
           return true;
         }
       }
@@ -78,61 +80,68 @@
       }
     },
     methods: {
-    	//显示菜单
+      //显示菜单
       tabsMorePlan () {
-      	this.isOpenMore = !this.isOpenMore;
+        this.isOpenMore = !this.isOpenMore;
       },
       //刷新当前页面
       refresh() {
-      	this.$router.go(0);
+        this.$router.go(0);
       },
-      closePage (name) {
-        let pageOpenedList = this.$store.state.app.pageOpenedList;
-        let lastPageObj = pageOpenedList[0];
+      //关闭标签页面
+      closePage (e, name) {
+        let pageOpenedList = this.$store.state.NavigationTags.listData;
+        let len = pageOpenedList.length;
+        let lastTagObj = pageOpenedList[0];
         if (this.currentPageName === name) {
-          let len = pageOpenedList.length;
-          for (let i = 1; i < len; i++) {
+          for (let i = 0; i < len; i++) {
             if (pageOpenedList[i].name === name) {
               if (i < (len - 1)) {
-                lastPageObj = pageOpenedList[i + 1];
+                lastTagObj = pageOpenedList[i + 1];
               } else {
-                lastPageObj = pageOpenedList[i - 1];
+                lastTagObj = pageOpenedList[i - 1];
               }
               break;
             }
           }
         }
-        this.$store.commit('removeTag', name);
-        this.$store.commit('closePage', name);
-        pageOpenedList = this.$store.state.app.pageOpenedList;
-        localStorage.pageOpenedList = JSON.stringify(pageOpenedList);
+        this.$store.commit('removeCurrentTag', name);
+        //如果没有的时候直接跳首页了
+        if (len <= 1) {
+          this.$router.push({
+            path: '/'
+          });
+        }
         if (this.currentPageName === name) {
-          this.linkTo(lastPageObj);
+          this.goTo(lastTagObj);
         }
       },
-      linkTo (item) {
+      //选择关闭
+      closeChose(type) {
+        if (type === 'all') {
+          this.$store.commit('removeAllTag');
+          this.$router.push({
+            path: '/'
+          });
+        } else {
+          this.$store.commit('removeOtherTag', this);
+        }
+        this.tagBodyLeft = 0;
+      },
+      //路由跳转
+      goTo (item) {
         let routerObj = {};
         routerObj.name = item.name;
-        if (item.argu) {
-          routerObj.params = item.argu;
+        if (item.params) {
+          routerObj.params = item.params;
         }
         if (item.query) {
           routerObj.query = item.query;
         }
         if (this.beforePush(item)) {
+        	//编程式导航
           this.$router.push(routerObj);
         }
-      },
-      handleTagsOption (type) {
-        if (type === 'clearAll') {
-          this.$store.commit('clearAllTags');
-          this.$router.push({
-            name: 'home_index'
-          });
-        } else {
-          this.$store.commit('clearOtherTags', this);
-        }
-        this.tagBodyLeft = 0;
       },
       //移动视图
       moveToView (tag) {
@@ -171,30 +180,10 @@
       }
     },
     mounted () {
-      this.refsTag = this.$refs.tagsPageOpened;
-      setTimeout(() => {
-        this.refsTag.forEach((item, index) => {
-          if (this.$route.name === item.name) {
-            let tag = this.refsTag[index].$el;
-            this.moveToView(tag);
-          }
-        });
-      }, 1);  // 这里不设定时器就会有偏移bug
     },
     watch: {
       '$route' (to) {
-      	let currentRouter = this.$route;
-        console.log(currentRouter);
         this.currentPageName = to.name;
-        this.$nextTick(() => {
-          this.refsTag.forEach((item, index) => {
-            if (to.name === item.name) {
-              let tag = this.refsTag[index].$el;
-              this.moveToView(tag);
-            }
-          });
-        });
-        this.tagsCount = this.tagsList.length;
       }
     },
     components: {

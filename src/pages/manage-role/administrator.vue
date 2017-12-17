@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>角色</div>
+    <div>管理员</div>
   </div>
 </template>
 <script>

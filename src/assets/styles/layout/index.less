@@ -59,7 +59,7 @@
       flex-direction: row;
       justify-content: flex-end;
 
-      //退出
+      //通知
       .notice {
         width: 60px;
         color: @white;
@@ -67,6 +67,10 @@
         text-align: center;
         font-size: 24px;
         height: 100%;
+
+        &:hover {
+          background: #0087b4;
+        }
       }
 
       //扩大屏幕
@@ -74,24 +78,33 @@
         width: 40px;
         height: 100%;
         //display: inline-block;
-        text-align: left;
+        text-align: center;
         font-size: 24px;
         color: @white;
         cursor: pointer;
+
+        &:hover {
+          background: #0087b4;
+        }
       }
 
       //退出
       .login-out {
-        width: 60px;
+        padding: 0 10px;
         color: @white;
         cursor: pointer;
         text-align: center;
         font-size: 24px;
         height: 100%;
+
+        &:hover {
+          background: #0087b4;
+        }
       }
 
       //用户信息
       .user-info {
+        padding: 0 10px;
         width: auto;
         color: @white;
         cursor: pointer;
@@ -108,6 +121,10 @@
           margin-left: 10px;
           border: 1px solid #ffffff;
           border-radius: 50%;
+        }
+
+        &:hover {
+          background: #0087b4;
         }
       }
     }

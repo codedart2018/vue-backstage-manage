@@ -39,7 +39,7 @@
           </Dropdown>
           <!--头像-->
           <div class="avatar">
-            <Avatar src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&amp;fm=27&amp;gp=0.jpg" />
+            <Avatar src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" />
           </div>
         </div>
         <!--退出登陆-->
@@ -50,7 +50,7 @@
         </div>
         <!--屏幕伸缩-->
         <div class="expand-screen flex-row-center" @click="toggleScreen">
-          <Tooltip placement="bottom" :content="tipContent" :delay="500">
+          <Tooltip placement="left" :content="tipContent" :delay="500">
             <Icon type="arrow-expand" v-if="!screen"></Icon>
             <Icon type="arrow-shrink" v-if="screen"></Icon>
           </Tooltip>
@@ -121,40 +121,7 @@
         openNames: ['2'],
         activeName: '2-1',
         //demo
-        pageTagsList: [
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          }
-        ]
+        pageTagsList: this.$store.state.NavigationTags.listData
       };
     },
     methods: {
@@ -235,7 +202,6 @@
       'BreadcrumbItem': Breadcrumb.Item
     },
     mounted() {
-    	console.log(MenuRouters);
     }
   };
 </script>

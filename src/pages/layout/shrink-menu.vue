@@ -3,7 +3,7 @@
   <IMenu ref="sideMenu" :active-name="$route.name" :open-names="openNames" :theme="menuTheme" width="auto" accordion>
     <template v-for="(item, index) in menuList">
       <IMenuItem v-if="item.children.length <= 1" :name="item.name" :key="item.path">
-        <div class="title-box" @click="demo">
+        <div class="title-box" @click="goTo(item)">
           <Icon :type="item.icon" :size="iconSize" :key="item.path"></Icon>
           <span class="layout-text" :key="item.path">{{item.title}}</span>
         </div>
@@ -15,7 +15,7 @@
         </template>
         <template v-for="child in item.children">
           <IMenuItem :name="child.name" :key="child.name">
-            <div class="title-box" @click="demo">
+            <div class="title-box" @click="goTo(child)">
               <Icon :type="child.icon" :size="iconSize" :key="child.name"></Icon>
               <span class="layout-text" :key="child.name">{{child.title}}</span>
             </div>
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+  import {mapActions} from 'vuex';
   import {Icon, Menu} from 'iview';
   export default{
     name: 'sideMenu',
@@ -42,16 +43,13 @@
       }
     },
     methods: {
-      changeMenu (name) {
-        this.$emit('on-change', name);
-        //编程式导航
-        this.$router.push({name: name, params: {userId: 123}, query: {plan: 'private'}});
-      },
+      ...mapActions(['addNavigationTabs']),
       //编程式导航
-      goTo(path) {
-      },
-      demo() {
-      	console.log(123);
+      goTo(params) {
+        //this.$router.push({name: params.name, params: {userId: 123}, query: {plan: 'private'}});
+        this.addNavigationTabs(params);
+        this.$router.push({name: params.name});
+        //console.log('vuex:', this.$store.state.NavigationTags.listData);
       }
     },
     updated () {

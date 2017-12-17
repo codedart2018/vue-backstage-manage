@@ -12,7 +12,7 @@ import Layout from '@/pages/layout/index.vue';
 export const MenuRouters = [
   {
     path: '/demo/demo',
-    name: 'demo',
+    name: 'Demo',
     icon: 'ios-home',
     title: '测试demo',
     meta: {
@@ -42,7 +42,7 @@ export const MenuRouters = [
           title: '角色权限',
           routeAuth: false
         },
-        component: resolve => require(['../pages/manage_role/role'], resolve),
+        component: resolve => require(['../pages/manage-role/role'], resolve),
         children: []
       },
       {
@@ -54,7 +54,7 @@ export const MenuRouters = [
           title: '节点管理',
           routeAuth: false
         },
-        component: resolve => require(['../pages/manage_role/rule'], resolve),
+        component: resolve => require(['../pages/manage-role/rule'], resolve),
         children: []
       },
       {
@@ -66,7 +66,7 @@ export const MenuRouters = [
           title: '后台用户管理',
           routeAuth: false
         },
-        component: resolve => require(['../pages/manage_role/administrator'], resolve),
+        component: resolve => require(['../pages/manage-role/administrator'], resolve),
         children: []
       }
     ]

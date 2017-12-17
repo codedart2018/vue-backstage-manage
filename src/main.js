@@ -4,7 +4,7 @@ import 'babel-polyfill'; // 解决恶心的IE6
 import Vue from 'vue';
 import App from './App';
 import {Router} from './router';
-//import {MenuRouters} from './router/router';
+import Store from './vuex/store/index';
 import Util from './libs/util';
 import 'iview/dist/styles/iview.css'; // 使用 IVIEW CSS
 import './assets/styles/common/customize.less';
@@ -17,6 +17,7 @@ Vue.config.productionTip = false;
 new Vue({
   el: '#app',
   router: Router,
+  store: Store,
   template: '<App/>',
   components: { App }
 });
