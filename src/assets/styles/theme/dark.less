@@ -44,7 +44,11 @@
           }
         }
         .ivu-menu-item, .ivu-menu-submenu-title {
+          color: @white;
           padding: 12px 18px;
+        }
+        .ivu-menu-item > div > i {
+          margin-right: 6px;
         }
         .ivu-menu-item-group-title {
           padding-left: 18px;
@@ -56,41 +60,6 @@
       }
       .ivu-menu {
         color: @white;
-      }
-    }
-
-    //收缩后迷你菜单
-    .mini-menu {
-      cursor: pointer;
-      height: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-      &::-webkit-scrollbar {
-        display: none
-      }
-      .menu-ul {
-        width: 100%;
-        height: auto;
-        background: #37424f;
-        text-align: center;
-        .menu-li {
-          padding: 12px 0;
-          //transform: translate(0,0);
-          //position: relative;
-          position: static; //通过计算来处理高度
-          &:hover {
-            background: #42515f;
-          }
-          .sub-menu {
-            width: 200px;
-            height: 100px;
-            border: 1px solid red;
-            position: absolute;
-            left: 50px;
-            top: 40px;
-            z-index: 999;
-          }
-        }
       }
     }
   }

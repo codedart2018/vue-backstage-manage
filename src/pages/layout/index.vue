@@ -9,6 +9,9 @@
         </div>
       </div>
       <div class="center-area flex-row-center">
+        <div class="home">
+          <Icon type="home"></Icon>
+        </div>
         <div class="quick-panel" @click="testChangeOpenNames">
           <span>快捷面板</span>
         </div>
@@ -61,7 +64,7 @@
         </div>
         <!--导航菜单-->
         <div class="menu">
-          <SideMenu :menu-list="menuList" :open-names="openedSubmenu" @on-change="handleSubmenuChange"></SideMenu>
+          <ShrinkMenu :menu-list="menuList" :open-names="openedSubmenu" @on-change="handleSubmenuChange"></ShrinkMenu>
         </div>
       </div>
       <div class="right-sidebar">
@@ -69,9 +72,10 @@
           <TabsMenu :pageTagsList="pageTagsList"></TabsMenu>
         </div>
 
-        <div class="common-area" @mousewheel="demo">
+        <div class="common-area">
           <div style="height: 1500px;">
             this is template body
+            <router-view></router-view>
           </div>
         </div>
         <div class="copyright-footer">©copyright by codeRabbit</div>
@@ -95,11 +99,11 @@
 </template>
 <script>
   import {Badge, Tooltip, Icon, Menu, Dropdown, Modal, Button, Avatar, Breadcrumb} from 'iview';
-  import SideMenu from './sideMenu.vue';
-  import TabsMenu from './tabsMenu.vue';
+  import TabsMenu from './tabs-menu.vue';
+  import ShrinkMenu from './shrink-menu.vue';
 
-  //临时的菜单路由
-  import MenuList from '../../router/menu.js';
+  //菜单路由
+  import {MenuRouters} from '../../router/router';
   export default {
     data () {
       return {
@@ -112,100 +116,12 @@
         //modal loading
         modalLoading: false,
         //menu list data
-        menuList: MenuList,
+        menuList: MenuRouters,
         openedSubmenu: [],
         openNames: ['2'],
         activeName: '2-1',
         //demo
         pageTagsList: [
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
-          {
-          	argu: [],
-            icon: 'pound',
-            name: 'md-editor',
-            path: 'md-editor',
-            query: [],
-            title: 'Markdown编辑器'
-          },
           {
           	argu: [],
             icon: 'pound',
@@ -244,7 +160,8 @@
     methods: {
       //change sidebar bold block
       toggleSideBar () {
-        this.sidebarStatus = !this.sidebarStatus;
+      	return false;
+        //this.sidebarStatus = !this.sidebarStatus;
       },
       //全屏切换
       toggleScreen () {
@@ -292,9 +209,6 @@
         this.openedSubmenu.push(val);
       },
       testChangeOpenNames () {
-      },
-      demo() {
-      	//console.log(23232322232323);
       }
     },
     updated () {
@@ -315,13 +229,13 @@
       'DropdownMenu': Dropdown.Menu,
       'DropdownItem': Dropdown.Item,
       'Avatar': Avatar,
-      'SideMenu': SideMenu,
       'TabsMenu': TabsMenu,
+      'ShrinkMenu': ShrinkMenu,
       'Breadcrumb': Breadcrumb,
       'BreadcrumbItem': Breadcrumb.Item
     },
     mounted() {
-    	//console.log(this.$route);
+    	console.log(MenuRouters);
     }
   };
 </script>
