@@ -5,11 +5,14 @@ import Vue from 'vue';
 import App from './App';
 import {Router} from './router';
 import Store from './vuex/store/index';
+import Toast from './libs/toast/';
+import Http from './libs/http';
 import Util from './libs/util';
 import 'iview/dist/styles/iview.css'; // 使用 IVIEW CSS
 import './assets/styles/common/customize.less';
 import './assets/styles/common/index.less';
-
+Vue.use(Toast);
+Vue.use(Http);
 window.Util = Util;
 Vue.config.productionTip = false;
 

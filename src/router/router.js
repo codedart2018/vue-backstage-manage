@@ -99,8 +99,22 @@ export const MainRouter = {
     ...MenuRouters
   ]
 };
+//登陆路由
+const Login = {
+  path: '/passport/login',
+  name: 'passportLogin',
+  icon: 'home',
+  title: '首页',
+  meta: {
+    title: '首页',
+    routeAuth: false
+  },
+  component: resolve => require(['../pages/passport/login'], resolve),
+  children: []
+};
 //导出所有路由
 export const Routers = [
   MainRouter,
+  Login,
   NotFound
 ];

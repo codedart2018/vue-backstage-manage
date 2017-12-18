@@ -20,8 +20,8 @@
         <!--通知信息-->
         <div class="notice flex-row-center">
           <div class="bell">
-            <Badge count="100">
-              <Tooltip placement="bottom" content="通知">
+            <Badge dot>
+              <Tooltip placement="bottom" content="9条通知">
                 <Icon type="ios-bell"></Icon>
               </Tooltip>
             </Badge>
@@ -39,7 +39,7 @@
           </Dropdown>
           <!--头像-->
           <div class="avatar">
-            <Avatar src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" />
+            <Avatar src="https://avatars.githubusercontent.com/u/12706830?v=3"/>
           </div>
         </div>
         <!--退出登陆-->
