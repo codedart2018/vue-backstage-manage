@@ -8,8 +8,23 @@
  * 留连戏蝶时时舞，自在娇莺恰恰啼。
  */
 import * as types from '../mutation-types.js';
+/**
+ * 添加tab导航菜单
+ * @param commit
+ * @param params
+ */
 export const addNavigationTabs = ({commit}, params) => {
   if (params) {
     commit(types.ADD_NAVIGATION_TAGS, params);
+  }
+};
+/**
+ * 添加侧边菜单
+ * @param commit
+ * @param params
+ */
+export const addSideMenu = ({commit}, params) => {
+  if (params) {
+    commit(types.ADD_SIDE_MENU, params);
   }
 };

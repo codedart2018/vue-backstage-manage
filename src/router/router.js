@@ -9,16 +9,13 @@
  */
 import Layout from '@/pages/layout/index.vue';
 //菜单路由
-export const MenuRouters = [
+export const SubRouter = [
   {
     path: '/demo/demo',
     name: 'Demo',
     icon: 'ios-home',
     title: '测试demo',
-    meta: {
-      title: '测试demo',
-      routeAuth: false
-    },
+    routeAuth: true,
     component: resolve => require(['../pages/demo/demo'], resolve),
     children: [] //一级没有子菜单 也必须加上
   },
@@ -27,10 +24,7 @@ export const MenuRouters = [
     name: 'manageRole',
     icon: 'locked',
     title: '角色权限',
-    meta: {
-      title: '角色权限',
-      routeAuth: false
-    },
+    routeAuth: true,
     component: Layout,
     children: [
       {
@@ -38,10 +32,7 @@ export const MenuRouters = [
         name: 'Role',
         icon: 'person-stalker',
         title: '角色管理',
-        meta: {
-          title: '角色权限',
-          routeAuth: false
-        },
+        routeAuth: true,
         component: resolve => require(['../pages/manage-role/role'], resolve),
         children: []
       },
@@ -50,10 +41,7 @@ export const MenuRouters = [
         name: 'Rule',
         icon: 'fork-repo',
         title: '节点管理',
-        meta: {
-          title: '节点管理',
-          routeAuth: false
-        },
+        routeAuth: true,
         component: resolve => require(['../pages/manage-role/rule'], resolve),
         children: []
       },
@@ -62,10 +50,7 @@ export const MenuRouters = [
         name: 'Administrator',
         icon: 'person',
         title: '管理员管理',
-        meta: {
-          title: '后台用户管理',
-          routeAuth: false
-        },
+        routeAuth: true,
         component: resolve => require(['../pages/manage-role/administrator'], resolve),
         children: []
       }
@@ -90,13 +75,10 @@ export const MainRouter = {
   name: 'mainLayout',
   icon: 'home',
   title: '首页',
-  meta: {
-    title: '首页',
-    routeAuth: false
-  },
+  routeAuth: true,
   component: Layout,
   children: [
-    ...MenuRouters
+    ...SubRouter
   ]
 };
 //登陆路由
@@ -105,10 +87,7 @@ const Login = {
   name: 'passportLogin',
   icon: 'home',
   title: '首页',
-  meta: {
-    title: '首页',
-    routeAuth: false
-  },
+  routeAuth: false,
   component: resolve => require(['../pages/passport/login'], resolve),
   children: []
 };

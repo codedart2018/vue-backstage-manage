@@ -40,7 +40,7 @@
         },
         ruleValidate: {
           account: [
-            { required: true, message: 'The name cannot be empty', trigger: 'blur' }
+            {required: true, message: 'The name cannot be empty', trigger: 'blur'}
           ],
           password: [
             {required: true, message: '请填写密码', trigger: 'blur'},
@@ -63,14 +63,18 @@
               this.request('AdminLogin', this.formLogin).then((res) => {
                 this.modalLoading = false;
                 if (res.status) {
+                	//把从后台取出来的菜单存一个在storage里面去。刷新页面从里面去拿
+                  //window.localStorage.setItem('merchantMenu', JSON.stringify([]));
                   Message.success('登录成功!');
-                  this.$router.push({path: '/'});
+                  console.log(res);
+                  //this.$store.commit('addSideMenu');
+                  //this.$router.push({path: '/'});
                 } else {
                   Message.error(res.msg);
                 }
               }).catch((e) => {
                 this.modalLoading = false;
-              	console.log(e);
+                console.log(e);
               });
             }, 500);
           }

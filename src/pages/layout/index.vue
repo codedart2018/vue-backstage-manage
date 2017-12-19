@@ -103,7 +103,7 @@
   import ShrinkMenu from './shrink-menu.vue';
 
   //菜单路由
-  import {MenuRouters} from '../../router/router';
+  import {SubRouter} from '../../router/router';
   export default {
     data () {
       return {
@@ -116,7 +116,7 @@
         //modal loading
         modalLoading: false,
         //menu list data
-        menuList: MenuRouters,
+        menuList: SubRouter,
         openedSubmenu: [],
         openNames: ['2'],
         activeName: '2-1',

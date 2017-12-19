@@ -10,3 +10,7 @@
 
 /** 滑动导航菜单 **/
 export const ADD_NAVIGATION_TAGS = 'ADD_NAVIGATION_TAGS';
+/** 添加侧边导航 **/
+export const ADD_SIDE_MENU = 'ADD_SIDE_MENU';
+/** 删除所有侧边导航菜单 **/
+export const DEL_SIDE_MENU = 'DEL_SIDE_MENU';
