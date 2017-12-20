@@ -68,7 +68,7 @@
                   Message.success('登录成功!');
                   console.log(res);
                   //this.$store.commit('addSideMenu');
-                  //this.$router.push({path: '/'});
+                  this.$router.push({path: '/'});
                 } else {
                   Message.error(res.msg);
                 }

@@ -168,6 +168,7 @@
         setTimeout(() => {
           this.modalLoading = false;
           this.modal = false;
+          this.$router.push({path: '/passport/login'});
         }, 1000);
       },
       //change menus

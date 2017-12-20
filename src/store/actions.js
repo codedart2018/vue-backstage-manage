@@ -7,7 +7,7 @@
  * 黄四娘家花满蹊，千朵万朵压枝低。
  * 留连戏蝶时时舞，自在娇莺恰恰啼。
  */
-import * as types from '../mutation-types.js';
+import * as types from './mutation-types.js';
 /**
  * 添加tab导航菜单
  * @param commit

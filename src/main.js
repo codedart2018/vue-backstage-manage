@@ -4,7 +4,8 @@ import 'babel-polyfill'; // 解决恶心的IE6
 import Vue from 'vue';
 import App from './App';
 import {Router} from './router';
-import Store from './vuex/store/index';
+//import Store from './vuex/store/index';
+import Store from './store/index';
 import Toast from './libs/toast/';
 import Http from './libs/http';
 import Util from './libs/util';
