@@ -29,6 +29,7 @@
 </template>
 <script>
   import {Message, Row, Col, Modal, Input, Button, Form, Icon} from 'iview';
+  import {mapActions} from 'vuex';
   export default {
     name: 'Login',
     data () {
@@ -55,6 +56,7 @@
       };
     },
     methods: {
+      ...mapActions(['addSideMenu']),
       handleSubmit () {
         this.$refs.formLogin.validate((valid) => {
           this.modalLoading = true;
@@ -63,11 +65,10 @@
               this.request('AdminLogin', this.formLogin).then((res) => {
                 this.modalLoading = false;
                 if (res.status) {
-                	//把从后台取出来的菜单存一个在storage里面去。刷新页面从里面去拿
-                  //window.localStorage.setItem('merchantMenu', JSON.stringify([]));
+                	window.localStorage.setItem('loginToken', res.data.token);
                   Message.success('登录成功!');
-                  console.log(res);
-                  //this.$store.commit('addSideMenu');
+                  this.addSideMenu(res.data.menu);
+                  //this.$store.commit('ADD_SIDE_MENU', res.data.menu);
                   this.$router.push({path: '/'});
                 } else {
                   Message.error(res.msg);

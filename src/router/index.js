@@ -19,9 +19,8 @@ Router.beforeEach(({routeAuth, title, path}, from, next) => {
     auth = true;
   }
   //获取用户是否登陆;
-  let info = window.localStorage.getItem('merchantInfo');
-  let token = window.localStorage.getItem('merchantToken');
-  if (auth && !token && !info && path !== '/passport/login') {
+  let token = window.localStorage.getItem('loginToken');
+  if (auth && !token && path !== '/passport/login') {
     next({path: '/passport/login'});
   } else if (path === '/passport/login' && token) {
     next({path: '/'});

@@ -21,10 +21,10 @@ export const addNavigationTabs = ({commit}, params) => {
 /**
  * 添加侧边菜单
  * @param commit
- * @param params
+ * @param menu
  */
-export const addSideMenu = ({commit}, params) => {
-  if (params) {
-    commit(types.ADD_SIDE_MENU, params);
+export const addSideMenu = ({commit}, menu) => {
+  if (menu) {
+    commit(types.ADD_SIDE_MENU, menu);
   }
 };

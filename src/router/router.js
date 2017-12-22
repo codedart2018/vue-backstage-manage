@@ -11,52 +11,44 @@ import Layout from '@/pages/layout/index.vue';
 //菜单路由
 export const SubRouter = [
   {
-    path: '/demo/demo',
-    name: 'Demo',
-    icon: 'ios-home',
-    title: '测试demo',
-    routeAuth: true,
-    component: resolve => require(['../pages/demo/demo'], resolve),
-    children: [] //一级没有子菜单 也必须加上
-  },
-  {
-    path: '/manage_role',
-    name: 'manageRole',
+    path: '/permission/index',
+    name: 'Permission',
     icon: 'locked',
     title: '角色权限',
     routeAuth: true,
     component: Layout,
     children: [
       {
-        path: '/role',
+        path: '/permission/role',
         name: 'Role',
         icon: 'person-stalker',
         title: '角色管理',
         routeAuth: true,
-        component: resolve => require(['../pages/manage-role/role'], resolve),
-        children: []
+        component: resolve => require(['../pages/permission/role'], resolve),
+        children: [] //一级二级没有子菜单 也必须加上
       },
       {
-        path: '/rule',
+        path: '/permission/rule',
         name: 'Rule',
         icon: 'fork-repo',
-        title: '节点管理',
+        title: '权限节点',
         routeAuth: true,
-        component: resolve => require(['../pages/manage-role/rule'], resolve),
+        component: resolve => require(['../pages/permission/rule'], resolve),
         children: []
       },
       {
-        path: '/administrator',
+        path: '/permission/administrator',
         name: 'Administrator',
         icon: 'person',
-        title: '管理员管理',
+        title: '后台用户',
         routeAuth: true,
-        component: resolve => require(['../pages/manage-role/administrator'], resolve),
+        component: resolve => require(['../pages/permission/administrator'], resolve),
         children: []
       }
     ]
   }
 ];
+
 //404未找到路由
 export const NotFound = {
   path: '*', //其他页面，强制跳转到登录页面

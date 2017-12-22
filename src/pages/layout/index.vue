@@ -103,7 +103,13 @@
   import ShrinkMenu from './shrink-menu.vue';
 
   //菜单路由
-  import {SubRouter} from '../../router/router';
+  let menuRouter = window.localStorage.getItem('sideMenuList') ? window.localStorage.getItem('sideMenuList') : [];
+  if (menuRouter) {
+    menuRouter = JSON.parse(menuRouter);
+    if (typeof (menuRouter) !== 'object') {
+      menuRouter = [];
+    }
+  }
   export default {
     data () {
       return {
@@ -116,7 +122,7 @@
         //modal loading
         modalLoading: false,
         //menu list data
-        menuList: SubRouter,
+        menuList: menuRouter,
         openedSubmenu: [],
         openNames: ['2'],
         activeName: '2-1',

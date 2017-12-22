@@ -1,6 +1,4 @@
-let Util = {
-  logSwitch: true
-};
+let Util = {};
 /**
  * 修改页面标题
  * @param title
@@ -89,5 +87,27 @@ Util.cloneObj = (obj) => {
     }
   }
   return newObj;
+};
+/**
+ * 处理路由params参数
+ * @param path
+ * @param params
+ * @returns {*}
+ */
+Util.routerParams = (path, params) => {
+  //参数处理 之前理解错了 地址栏参数获取是query
+  if (params) {
+    let lastStr = path.charAt(path.length - 1);
+    let tmpStr = '';
+    for (let p of params.split(',')) {
+      tmpStr += '/:' + p + '?';
+    }
+    if (lastStr === '/') {
+      path = path + tmpStr.substr(1);
+    } else {
+      path = path + tmpStr;
+    }
+  }
+  return path;
 };
 export default Util;

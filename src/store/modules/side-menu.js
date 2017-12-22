@@ -9,18 +9,48 @@
  * 右侧导航菜单
  */
 import * as types from '../mutation-types';
+import Util from '../../libs/util';
+import {SubRouter} from '../../router/router';
 const state = {
   sideMenuList: JSON.parse(window.localStorage.getItem('sideMenuList')) || {}
 };
 const mutations = {
   //一次性添加菜单
   [types.ADD_SIDE_MENU] (state, menu) {
-    window.localStorage.setItem('mainMenu', JSON.stringify(menu));
-    state.mainMenu = menu;
+    //克隆一个路由数据出来操作
+    let cloneRouter = Util.cloneObj(SubRouter);
+    cloneRouter.forEach((item, index) => {
+      if (typeof (item.children) !== 'undefined' && item.children.length === 0) {
+        menu.forEach(storageItem => {
+          if (storageItem.name === item.name) {
+            cloneRouter[index].title = storageItem.title;
+            cloneRouter[index].icon = storageItem.icon;
+          }
+        });
+      } else {
+        menu.forEach(storageItem => {
+          if (storageItem.name === item.name) {
+            cloneRouter[index].title = storageItem.title;
+            cloneRouter[index].icon = storageItem.icon;
+          }
+        });
+        //再循环子菜单
+        item.children.forEach((childItem, childIndex) => {
+          menu.forEach(storageItem => {
+            if (storageItem.name === childItem.name) {
+              cloneRouter[index].children[childIndex].title = storageItem.title;
+              cloneRouter[index].children[childIndex].icon = storageItem.icon;
+            }
+          });
+        });
+      }
+    });
+    window.localStorage.setItem('sideMenuList', JSON.stringify(cloneRouter));
+    state.mainMenu = cloneRouter;
   },
   //删除所有菜单
   [types.DEL_SIDE_MENU] (state, menu) {
-    window.localStorage.removeItem('mainMenu');
+    window.localStorage.removeItem('sideMenuList');
     state.mainMenu = menu;
     state.auth = {};
   }
