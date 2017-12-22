@@ -174,6 +174,8 @@
         setTimeout(() => {
           this.modalLoading = false;
           this.modal = false;
+          this.$store.commit('DEL_SIDE_MENU');
+          window.localStorage.removeItem('loginToken');
           this.$router.push({path: '/passport/login'});
         }, 1000);
       },

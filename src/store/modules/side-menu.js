@@ -49,10 +49,9 @@ const mutations = {
     state.mainMenu = cloneRouter;
   },
   //删除所有菜单
-  [types.DEL_SIDE_MENU] (state, menu) {
+  [types.DEL_SIDE_MENU] (state) {
     window.localStorage.removeItem('sideMenuList');
-    state.mainMenu = menu;
-    state.auth = {};
+    state.mainMenu = [];
   }
 };
 export default {
