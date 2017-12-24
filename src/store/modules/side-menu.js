@@ -38,9 +38,9 @@ function eachMenu(menu = [], compare = [], routes = []) {
       if (inItem.name === item.name) {
         let arr = {
           path: item.path,
-          name: item.name,
           icon: item.icon,
-          title: item.title
+          name: item.name,
+          title: inItem.title ? inItem.title : item.meta.title
         };
         //recursion menu
         if (item.children && item.children.length !== 0) {

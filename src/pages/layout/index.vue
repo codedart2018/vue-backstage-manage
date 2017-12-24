@@ -33,8 +33,8 @@
             <div><span>Hello World</span><Icon type="arrow-down-b"></Icon></div>
             <DropdownMenu slot="list">
               <DropdownItem @click.native="modalUser=true">个人信息</DropdownItem>
-              <DropdownItem @click="modal = true">退出登录</DropdownItem>
-              <DropdownItem @click.native="lock">锁定屏幕</DropdownItem>
+              <DropdownItem @click.native="modal = true">退出登录</DropdownItem>
+              <DropdownItem @click.native="screenLock">锁定屏幕</DropdownItem>
             </DropdownMenu>
           </Dropdown>
           <!--头像-->
@@ -175,6 +175,10 @@
       handleSubmenuChange (val) {
         console.log(val);
         this.openedSubmenu.push(val);
+      },
+      screenLock () {
+        window.localStorage.removeItem('loginToken');
+        //this.$router.push({path: '/passport/lock'});
       },
       testChangeOpenNames () {
       }

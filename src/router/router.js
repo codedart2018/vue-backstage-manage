@@ -14,16 +14,20 @@ export const SubRouter = [
     path: '/permission/index',
     name: 'Permission',
     icon: 'locked',
-    title: '角色权限',
-    routeAuth: true,
+    meta: {
+      title: '角色权限',
+      routeAuth: true
+    },
     component: Layout,
     children: [
       {
         path: '/permission/role',
         name: 'Role',
         icon: 'person-stalker',
-        title: '角色管理',
-        routeAuth: true,
+        meta: {
+          title: '角色管理',
+          routeAuth: true
+        },
         component: resolve => require(['../pages/permission/role'], resolve),
         children: [] //一级二级没有子菜单 也必须加上
       },
@@ -31,8 +35,10 @@ export const SubRouter = [
         path: '/permission/rule',
         name: 'Rule',
         icon: 'fork-repo',
-        title: '权限节点',
-        routeAuth: true,
+        meta: {
+          title: '权限节点',
+          routeAuth: true
+        },
         component: resolve => require(['../pages/permission/rule'], resolve),
         children: []
       },
@@ -40,8 +46,10 @@ export const SubRouter = [
         path: '/permission/administrator',
         name: 'Administrator',
         icon: 'person',
-        title: '后台用户',
-        routeAuth: true,
+        meta: {
+          title: '后台用户',
+          routeAuth: true
+        },
         component: resolve => require(['../pages/permission/administrator'], resolve),
         children: []
       }
@@ -66,7 +74,10 @@ export const MainRouter = {
   name: 'mainLayout',
   icon: 'home',
   title: '首页',
-  routeAuth: true,
+  meta: {
+    title: '首页',
+    routeAuth: true
+  },
   component: Layout,
   children: [
     ...SubRouter
@@ -77,14 +88,29 @@ const Login = {
   path: '/passport/login',
   name: 'passportLogin',
   icon: 'home',
-  title: '首页',
-  routeAuth: false,
+  meta: {
+    title: '欢迎登陆',
+    routeAuth: false
+  },
   component: resolve => require(['../pages/passport/login'], resolve),
+  children: []
+};
+//锁屏路由
+const Lock = {
+  path: '/passport/lock',
+  name: 'passportLock',
+  icon: 'locked',
+  meta: {
+    title: '登陆认证',
+    routeAuth: false
+  },
+  component: resolve => require(['../pages/passport/lock'], resolve),
   children: []
 };
 //导出所有路由
 export const Routers = [
   MainRouter,
   Login,
+  Lock,
   NotFound
 ];

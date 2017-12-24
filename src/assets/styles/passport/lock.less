@@ -1,0 +1,129 @@
+/**
+ * Created by truncate on 2017/12/24.
+ * Author: 带鞋拖地
+ * QQ: 327056088
+ *
+ * 《晨》· By codeRabbit 2017.7.1 重庆龙头寺公园
+ * 华灯未眠晨未曦,绿荷万丛湖中缀。
+ * 闻莹林间自由在,遥望山尖闺梦人。
+ */
+body,html,.container{
+  height: 100%;
+  background: #293038;
+  background-size: cover;
+}
+.lock {
+  margin: auto;
+  position: absolute;
+  top: -250px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 200px;
+  height: 200px;
+
+  .wrapper {
+    box-sizing: border-box;
+    position: relative;
+    margin: 100px auto;
+    width: 300px;
+    text-align: center;
+
+    .unlock-box{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      box-sizing: border-box;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid white;
+      cursor: pointer;
+      transition: all .5s;
+      z-index: 12;
+      box-shadow: 0 0 10px 2px rgba(255, 255, 255, .3);
+      .unlock-img{
+        width: 100%;
+        height: 100%;
+        display: block;
+        z-index: 7;
+      }
+      .unlock-cover{
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .6);
+        z-index: 11600;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        transition: opacity .2s;
+        color: white;
+        span{
+          display: block;
+          margin: 20px auto 5px;
+          text-align: center;
+        }
+        p{
+          text-align: center;
+          font-size: 16px;
+          font-weight: 500;
+        }
+      }
+      &:hover .unlock-cover{
+        opacity: 1;
+        transition: opacity .2s;
+      }
+    }
+    .input-wrapper {
+      position: relative;
+      top: 50px;
+      input::-webkit-input-placeholder {
+        color: #AAA;
+      }
+      input:focus::-webkit-input-placeholder {
+        color: dodgerblue;
+      }
+      .input {
+        text-align: center;
+        background-color: transparent;
+        border: none;
+        height: 40px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 300px;
+        color: #bdc3c7;
+        font-weight: 300;
+        font-size: 14px;
+        padding: 8px 20px;
+        &:focus {
+          outline: none;
+        }
+      }
+      .underline {
+        background-color: dodgerblue;
+        display: inline-block;
+        height: 2px;
+        left: 0;
+        position: absolute;
+        top: 40px;
+        -webkit-transform: scale(0, 1);
+        transform: scale(0, 1);
+        -webkit-transition: all 0.5s linear;
+        transition: all 0.5s linear;
+        width: 300px;
+      }
+      .input:focus + .underline {
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+
+
+
+

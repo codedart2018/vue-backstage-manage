@@ -23,6 +23,13 @@
     justify-content: center;
   }
 }
+.clear-fix::after {
+  content: '';
+  clear: both;
+  display: block;
+  height: 0;
+  overflow: hidden;
+}
 @media (min-width: 768px) {
   .nav-header {
     height: 50px;

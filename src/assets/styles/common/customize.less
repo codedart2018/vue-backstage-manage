@@ -12,5 +12,11 @@
 //全局变量
 @import './variable.less';
 #app {
-
+  .clear-fix::after {
+    content: '';
+    clear: both;
+    display: block;
+    height: 0;
+    overflow: hidden;
+  }
 }
