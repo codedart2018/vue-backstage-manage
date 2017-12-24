@@ -8,7 +8,6 @@
  * 留连戏蝶时时舞，自在娇莺恰恰啼。
  */
 import Layout from '@/pages/layout/index.vue';
-//import Util from '../libs/util';
 //菜单路由
 export const SubRouter = [
   {
@@ -49,36 +48,6 @@ export const SubRouter = [
     ]
   }
 ];
-// //取出后台菜单
-// //取出菜单
-// let sideMenuList = window.localStorage.getItem('sideMenuList');
-// let storageMenu = JSON.parse(sideMenuList);
-// //克隆一个路由数据出来操作
-// let cloneRouter = Util.cloneObj(SubRouter);
-// console.log(SubRouter, 90);
-// console.log(eachMenu(cloneRouter));
-// //循环处理菜单
-// function eachMenu(menu = [], routes = []) {
-//   if (menu.length <= 0) return routes;
-//   for (let item of menu) {
-//     storageMenu.forEach(storageItem => {
-//       if (storageItem.name === item.name) {
-//         let arr = {
-//           path: item.path,
-//           name: item.name,
-//           icon: item.icon,
-//           title: item.title
-//         };
-//         //递归子菜单
-//         if (item.children && item.children.length !== 0) {
-//           arr.children = eachMenu(item.children);
-//         }
-//         routes.push(arr);
-//       }
-//     });
-//   }
-//   return routes;
-// }
 //404未找到路由
 export const NotFound = {
   path: '*', //其他页面，强制跳转到登录页面

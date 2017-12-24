@@ -102,14 +102,6 @@
   import TabsMenu from './tabs-menu.vue';
   import ShrinkMenu from './shrink-menu.vue';
 
-  //菜单路由
-//  let menuRouter = window.localStorage.getItem('sideMenuList') ? window.localStorage.getItem('sideMenuList') : [];
-//  if (menuRouter) {
-//    menuRouter = JSON.parse(menuRouter);
-//    if (typeof (menuRouter) !== 'object') {
-//      menuRouter = [];
-//    }
-//  }
   export default {
     data () {
       return {
@@ -122,7 +114,7 @@
         //modal loading
         modalLoading: false,
         //menu list data
-        menuList: [],
+        menuList: this.$store.state.SideMenu.sideMenuList,
         openedSubmenu: [],
         openNames: ['2'],
         activeName: '2-1',

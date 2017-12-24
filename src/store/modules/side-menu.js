@@ -21,12 +21,14 @@ const mutations = {
     let cloneRouter = Util.cloneObj(SubRouter);
     let newMenu = eachMenu(cloneRouter, menu);
     window.localStorage.setItem('sideMenuList', JSON.stringify(newMenu));
-    state.mainMenu = newMenu;
+    state.sideMenuList = newMenu;
   },
   //delete all menu
   [types.DEL_SIDE_MENU] (state) {
     window.localStorage.removeItem('sideMenuList');
-    state.mainMenu = [];
+    state.sideMenuList = [];
+  },
+  [types.GET_SIDE_MENU] (state) {
   }
 };
 function eachMenu(menu = [], compare = [], routes = []) {
