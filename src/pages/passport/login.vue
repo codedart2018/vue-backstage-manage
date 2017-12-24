@@ -65,11 +65,12 @@
               this.request('AdminLogin', this.formLogin).then((res) => {
                 this.modalLoading = false;
                 if (res.status) {
-                	window.localStorage.setItem('loginToken', res.data.token);
+                  //window.localStorage.setItem('sideMenuList', JSON.stringify(res.data.menu));
+                	//window.localStorage.setItem('loginToken', res.data.token);
                   Message.success('登录成功!');
                   this.addSideMenu(res.data.menu);
                   //this.$store.commit('ADD_SIDE_MENU', res.data.menu);
-                  this.$router.push({path: '/'});
+                  //this.$router.push({path: '/'});
                 } else {
                   Message.error(res.msg);
                 }

@@ -15,45 +15,41 @@ const state = {
   sideMenuList: JSON.parse(window.localStorage.getItem('sideMenuList')) || {}
 };
 const mutations = {
-  //一次性添加菜单
+  //add menu
   [types.ADD_SIDE_MENU] (state, menu) {
-    //克隆一个路由数据出来操作
+    //clone router
     let cloneRouter = Util.cloneObj(SubRouter);
-    cloneRouter.forEach((item, index) => {
-      if (typeof (item.children) !== 'undefined' && item.children.length === 0) {
-        menu.forEach(storageItem => {
-          if (storageItem.name === item.name) {
-            cloneRouter[index].title = storageItem.title;
-            cloneRouter[index].icon = storageItem.icon;
-          }
-        });
-      } else {
-        menu.forEach(storageItem => {
-          if (storageItem.name === item.name) {
-            cloneRouter[index].title = storageItem.title;
-            cloneRouter[index].icon = storageItem.icon;
-          }
-        });
-        //再循环子菜单
-        item.children.forEach((childItem, childIndex) => {
-          menu.forEach(storageItem => {
-            if (storageItem.name === childItem.name) {
-              cloneRouter[index].children[childIndex].title = storageItem.title;
-              cloneRouter[index].children[childIndex].icon = storageItem.icon;
-            }
-          });
-        });
-      }
-    });
-    window.localStorage.setItem('sideMenuList', JSON.stringify(cloneRouter));
-    state.mainMenu = cloneRouter;
+    let newMenu = eachMenu(cloneRouter, menu);
+    window.localStorage.setItem('sideMenuList', JSON.stringify(newMenu));
+    state.mainMenu = newMenu;
   },
-  //删除所有菜单
+  //delete all menu
   [types.DEL_SIDE_MENU] (state) {
     window.localStorage.removeItem('sideMenuList');
     state.mainMenu = [];
   }
 };
+function eachMenu(menu = [], compare = [], routes = []) {
+  if (menu.length <= 0 || compare.length <= 0) return routes;
+  for (let item of menu) {
+    compare.forEach(inItem => {
+      if (inItem.name === item.name) {
+        let arr = {
+          path: item.path,
+          name: item.name,
+          icon: item.icon,
+          title: item.title
+        };
+        //recursion menu
+        if (item.children && item.children.length !== 0) {
+          arr.children = eachMenu(item.children, compare);
+        }
+        routes.push(arr);
+      }
+    });
+  }
+  return routes;
+}
 export default {
   state,
   mutations
