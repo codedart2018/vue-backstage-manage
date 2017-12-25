@@ -66,8 +66,11 @@
                 this.modalLoading = false;
                 if (res.status) {
                   //window.localStorage.setItem('sideMenuList', JSON.stringify(res.data.menu));
+                  //用户信息应该走store 暂时不走
+                  window.localStorage.setItem('userInfo', JSON.stringify(res.data.user_info));
                 	window.localStorage.setItem('loginToken', res.data.token);
                   Message.success('登录成功!');
+                  //store 菜单
                   this.addSideMenu(res.data.menu);
                   //this.$store.commit('ADD_SIDE_MENU', res.data.menu);
                   this.$router.push({path: '/'});

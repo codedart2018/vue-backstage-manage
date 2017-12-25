@@ -168,6 +168,7 @@
           this.modal = false;
           this.$store.commit('DEL_SIDE_MENU');
           window.localStorage.removeItem('loginToken');
+          window.localStorage.removeItem('userInfo');
           this.$router.push({path: '/passport/login'});
         }, 1000);
       },
@@ -178,7 +179,7 @@
       },
       screenLock () {
         window.localStorage.removeItem('loginToken');
-        //this.$router.push({path: '/passport/lock'});
+        this.$router.push({path: '/passport/lock'});
       },
       testChangeOpenNames () {
       }
