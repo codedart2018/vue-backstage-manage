@@ -19,13 +19,10 @@
       <div class="right-area">
         <!--通知信息-->
         <div class="notice flex-row-center">
-          <div class="bell">
-            <Badge dot>
-              <Tooltip placement="bottom" content="9条通知">
-                <Icon type="ios-bell"></Icon>
-              </Tooltip>
-            </Badge>
-          </div>
+          <Tooltip placement="bottom" content="9条通知">
+            <Icon type="ios-bell" class="bell"></Icon>
+            <span class="bell-num">9</span>
+          </Tooltip>
         </div>
         <!-- 用户信息 -->
         <div class="user-info">
