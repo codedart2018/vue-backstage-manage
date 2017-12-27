@@ -56,6 +56,17 @@ export const SubRouter = [
     ]
   }
 ];
+//demo
+const Demo = {
+  path: '/demo', //其他页面，强制跳转到登录页面
+  name: '测试',
+  icon: '',
+  meta: {
+    title: '测试',
+    routeAuth: false
+  },
+  component: resolve => require(['../pages/demo/demo'], resolve)
+};
 //404未找到路由
 export const NotFound = {
   path: '*', //其他页面，强制跳转到登录页面
@@ -112,5 +123,6 @@ export const Routers = [
   MainRouter,
   Login,
   Lock,
+  Demo,
   NotFound
 ];

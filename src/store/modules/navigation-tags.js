@@ -9,7 +9,7 @@
  */
 import * as types from '../mutation-types';
 const state = {
-  listData: []
+  listData: JSON.parse(window.localStorage.getItem('tagMenuList')) || []
 };
 const mutations = {
   //路由添加标签
@@ -23,6 +23,7 @@ const mutations = {
       title: params.title
     };
     state.listData.push(data);
+    window.localStorage.setItem('tagMenuList', JSON.stringify(state.listData));
   },
   //关闭当前标签
   removeCurrentTag (state, name) {

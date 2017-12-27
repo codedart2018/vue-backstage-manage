@@ -12,7 +12,7 @@ import * as types from '../mutation-types';
 import Util from '../../libs/util';
 import {SubRouter} from '../../router/router';
 const state = {
-  sideMenuList: JSON.parse(window.localStorage.getItem('sideMenuList')) || {}
+  sideMenuList: JSON.parse(window.localStorage.getItem('sideMenuList')) || []
 };
 const mutations = {
   //add menu
