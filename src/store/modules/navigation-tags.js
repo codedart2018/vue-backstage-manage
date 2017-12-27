@@ -32,10 +32,12 @@ const mutations = {
         state.listData.splice(index, 1);
       }
     });
+    window.localStorage.setItem('tagMenuList', JSON.stringify(state.listData));
   },
   //关闭所有
   removeAllTag (state) {
     state.listData.splice(0);
+    window.localStorage.setItem('tagMenuList', JSON.stringify(state.listData));
   },
   removeOtherTag (state, vm) {
     let currentName = vm.$route.name;
@@ -47,6 +49,7 @@ const mutations = {
     });
     state.listData.splice(0);
     state.listData.push(tmp);
+    window.localStorage.setItem('tagMenuList', JSON.stringify(state.listData));
   }
 };
 export default {
