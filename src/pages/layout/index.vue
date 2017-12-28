@@ -89,13 +89,12 @@
         <p>您确认要退出?退出后将无法操作哦!</p>
       </div>
       <div slot="footer">
-        <IButton type="primary" size="large" long :loading="modalLoading" @click="signOut" style="background: #09C">确认退出</IButton>
+        <Button type="primary" size="large" long :loading="modalLoading" @click="signOut" style="background: #09C">确认退出</Button>
       </div>
     </Modal>
   </div>
 </template>
 <script>
-  import {Badge, Tooltip, Icon, Menu, Dropdown, Modal, Button, Avatar} from 'iview';
   import TabsMenu from './tabs-menu.vue';
   import ShrinkMenu from './shrink-menu.vue';
 
@@ -186,19 +185,6 @@
       });
     },
     components: {
-    	'Badge': Badge,
-      'Tooltip': Tooltip,
-      'Icon': Icon,
-      'Modal': Modal,
-      'IButton': Button,
-      'IMenu': Menu,
-      'Submenu': Menu.Sub,
-      'IMenuItem': Menu.Item,
-      'MenuGroup': Menu.Group,
-      'Dropdown': Dropdown,
-      'DropdownMenu': Dropdown.Menu,
-      'DropdownItem': Dropdown.Item,
-      'Avatar': Avatar,
       'TabsMenu': TabsMenu,
       'ShrinkMenu': ShrinkMenu
     },

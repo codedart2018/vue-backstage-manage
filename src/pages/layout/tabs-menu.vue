@@ -53,7 +53,6 @@
   </div>
 </template>
 <script>
-  import {Tag, Icon, Dropdown, Button} from 'iview';
   export default {
     name: 'tagsPageOpened',
     data () {
@@ -187,12 +186,6 @@
       }
     },
     components: {
-      'Tag': Tag,
-      'Icon': Icon,
-      'IButton': Button,
-      'Dropdown': Dropdown,
-      'DropdownMenu': Dropdown.Menu,
-      'DropdownItem': Dropdown.Item
     }
   };
 </script>
