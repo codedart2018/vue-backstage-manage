@@ -95,7 +95,7 @@
   </div>
 </template>
 <script>
-  import {Badge, Tooltip, Icon, Menu, Dropdown, Modal, Button, Avatar, Breadcrumb} from 'iview';
+  import {Badge, Tooltip, Icon, Menu, Dropdown, Modal, Button, Avatar} from 'iview';
   import TabsMenu from './tabs-menu.vue';
   import ShrinkMenu from './shrink-menu.vue';
 
@@ -200,9 +200,7 @@
       'DropdownItem': Dropdown.Item,
       'Avatar': Avatar,
       'TabsMenu': TabsMenu,
-      'ShrinkMenu': ShrinkMenu,
-      'Breadcrumb': Breadcrumb,
-      'BreadcrumbItem': Breadcrumb.Item
+      'ShrinkMenu': ShrinkMenu
     },
     mounted() {
     }

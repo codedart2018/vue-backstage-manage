@@ -28,8 +28,8 @@ const AsInst = Axios.create(config);
 //请求拦截器
 AsInst.interceptors.request.use((config) => {
   //若是有做鉴权token , 就给头部带上token
-  if (window.localStorage.getItem('token')) {
-    config.headers.Authorization = `${window.localStorage.getItem('token')}`;
+  if (window.localStorage.getItem('loginToken')) {
+    config.headers.Authorization = `${window.localStorage.getItem('loginToken')}`;
   }
   return config;
 }, (err) => {
@@ -47,8 +47,10 @@ AsInst.interceptors.response.use(response => {
   }
   //检查登陆信息是否还存在
   if (response.data.code === 2001 && response.data.status === false) {
+    window.localStorage.removeItem('userInfo');
+    window.localStorage.removeItem('loginToken');
     Router.push({
-      path: '/login'
+      path: '/passport/login'
     });
     return Promise.reject(response);
   }

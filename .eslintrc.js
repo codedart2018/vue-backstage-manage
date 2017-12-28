@@ -16,13 +16,13 @@ module.exports = {
     'html'
   ],
   // add your custom rules here
-  'rules': {
+  rules: {
+    // allow async-await
+    'generator-star-spacing': 'off',
+    // allow debugger during development
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // allow paren-less arrow functions
     'arrow-parens': 0,
-    // allow async-await
-    'generator-star-spacing': 0,
-    // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'indent': ['error', 2],
     'eqeqeq': 2,//必须使用全等
     'no-unexpected-multiline': 2,//避免多行表达式

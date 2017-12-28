@@ -9,6 +9,16 @@
  */
 const methodMap = {
   /** 管理登陆接口 **/
-  AdminLogin: {url: '/admin/passport/login', method: 'post'}
+  AdminLogin: {url: '/admin/passport/login', method: 'post'},
+  /** 角色列表 **/
+  AdminGetRole: {url: '/admin/role_auth/role', method: 'get'},
+  /** 添加角色 **/
+  AdminAddRole: {url: '/admin/role_auth/add_role', method: 'post'},
+  /** 编辑角色 **/
+  AdminEditRole: {url: '/admin/role_auth/edit_role', method: 'post'},
+  /** 删除角色 **/
+  AdminDelRole: {url: '/admin/role_auth/delete_role', method: 'post'},
+  /** 角色授权列表 **/
+  Authorize: {url: '/admin/role_auth/authorize', method: 'get'}
 };
 export default methodMap;
