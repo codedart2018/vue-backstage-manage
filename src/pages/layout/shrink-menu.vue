@@ -4,8 +4,8 @@
     <template v-for="(item, index) in menuList">
       <IMenuItem v-if="item.children.length <= 1" :name="item.name" :key="item.path">
         <div class="title-box" @click="goTo(item)">
-          <Icon :type="item.icon" :size="iconSize" :key="item.path"></Icon>
-          <span class="layout-text" :key="item.path">{{item.title}}</span>
+          <Icon :type="item.icon" :size="iconSize"></Icon>
+          <span class="layout-text">{{item.title}}</span>
         </div>
       </IMenuItem>
       <ISubmenu v-if="item.children.length > 1" :name="item.name" :key="item.path">
@@ -16,8 +16,8 @@
         <template v-for="child in item.children">
           <IMenuItem :name="child.name" :key="child.name">
             <div class="title-box" @click="goTo(child)">
-              <Icon :type="child.icon" :size="iconSize" :key="child.name"></Icon>
-              <span class="layout-text" :key="child.name">{{child.title}}</span>
+              <Icon :type="child.icon" :size="iconSize"></Icon>
+              <span class="layout-text">{{child.title}}</span>
             </div>
           </IMenuItem>
         </template>
