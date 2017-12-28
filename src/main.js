@@ -10,8 +10,10 @@ import Toast from './libs/toast/';
 import Http from './libs/http';
 import Util from './libs/util';
 if (process.env.NODE_ENV === 'development') {
-  require('./assets/styles/common/customize.less');
+  require('iview/dist/styles/iview.css');
+  require('iview/src/styles/index.less');
 }
+require('./assets/styles/common/customize.less');
 require('./assets/styles/common/index.less');
 Vue.use(iView);
 Vue.use(Toast);
