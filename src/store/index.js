@@ -14,7 +14,9 @@ import * as getters from './getters';
 import createLogger from 'vuex/dist/logger';
 import NavigationTags from './modules/navigation-tags';
 import SideMenu from './modules/side-menu';
-Vue.use(Vuex);
+if (process.env.NODE_ENV === 'development') {
+  Vue.use(Vuex);
+}
 const debug = process.env.NODE_ENV !== 'production';
 // store可以理解为一个容器，包含着应用中的state等
 export default new Vuex.Store({

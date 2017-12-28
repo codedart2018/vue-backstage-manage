@@ -2,7 +2,9 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import {Routers} from './router';
 import Util from '../libs/util';
-Vue.use(VueRouter);
+if (process.env.NODE_ENV === 'development') {
+  Vue.use(VueRouter);
+}
 //路由配置
 const RouterConfig = {
   mode: 'history',

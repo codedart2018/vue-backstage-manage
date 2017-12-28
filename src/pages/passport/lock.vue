@@ -24,7 +24,6 @@
 </template>
 
 <script>
-  import {Avatar, Icon, Message} from 'iview';
   export default {
     name: 'Unlock',
     data () {
@@ -46,11 +45,11 @@
               this.inputLeft = '400px';
               this.password = '';
             } else {
-              Message.error(res.msg);
+              this.$Message.error(res.msg);
             }
           }).catch(() => {});
         } else {
-          Message.error('请输入正确密码');
+          this.$Message.error('请输入正确密码');
         }
       },
       onBlur () {
@@ -72,8 +71,6 @@
       }
     },
     components: {
-      'Avatar': Avatar,
-      'Icon': Icon
     }
   };
 </script>

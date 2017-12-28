@@ -4,31 +4,30 @@
     <div class="login">
       <div class="welcome">永川优生活商家总端管理平台</div>
       <div class="form-box">
-        <FormAs ref="formLogin" :model="formLogin" :rules="ruleValidate">
+        <Form ref="formLogin" :model="formLogin" :rules="ruleValidate">
           <FormItem prop="account">
-            <InputAs v-model="formLogin.account" placeholder="帐号 / 手机号" @on-enter="handleSubmit">
+            <Input v-model="formLogin.account" placeholder="帐号 / 手机号" @on-enter="handleSubmit">
             <span slot="prepend">
               <Icon :size="16" type="person"></Icon>
             </span>
-            </InputAs>
+            </Input>
           </FormItem>
           <FormItem prop="password">
-            <InputAs type="password" v-model="formLogin.password" placeholder="请输入密码" @on-enter="handleSubmit">
+            <Input type="password" v-model="formLogin.password" placeholder="请输入密码" @on-enter="handleSubmit">
             <span slot="prepend">
               <Icon :size="14" type="locked"></Icon>
             </span>
-            </InputAs>
+            </Input>
           </FormItem>
           <FormItem>
-            <ButtonAs @click="handleSubmit" type="primary" long :loading="modalLoading">登录</ButtonAs>
+            <Button @click="handleSubmit" type="primary" long :loading="modalLoading">登录</Button>
           </FormItem>
-        </FormAs>
+        </Form>
       </div>
     </div>
   </div>
 </template>
 <script>
-  import {Message, Row, Col, Modal, Input, Button, Form, Icon} from 'iview';
   import {mapActions} from 'vuex';
   export default {
     name: 'Login',
@@ -69,13 +68,13 @@
                   //用户信息应该走store 暂时不走
                   window.localStorage.setItem('userInfo', JSON.stringify(res.data.user_info));
                 	window.localStorage.setItem('loginToken', res.data.token);
-                  Message.success('登录成功!');
+                  this.$Message.success('登录成功!');
                   //store 菜单
                   this.addSideMenu(res.data.menu);
                   //this.$store.commit('ADD_SIDE_MENU', res.data.menu);
                   this.$router.push({path: '/'});
                 } else {
-                  Message.error(res.msg);
+                  this.$Message.error(res.msg);
                 }
               }).catch((e) => {
                 this.modalLoading = false;
@@ -90,15 +89,6 @@
       }
     },
     components: {
-      'Row': Row,
-      'ColAs': Col,
-      'Modal': Modal,
-      'Icon': Icon,
-      'InputAs': Input,
-      'ButtonAs': Button,
-      'FormAs': Form,
-      'FormItem': Form.Item,
-      'Message': Message
     }
   };
 </script>

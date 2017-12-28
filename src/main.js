@@ -4,14 +4,16 @@ import 'babel-polyfill'; // 解决恶心的IE6
 import Vue from 'vue';
 import App from './App';
 import {Router} from './router';
-//import Store from './vuex/store/index';
 import Store from './store/index';
+import iView from 'iview';
 import Toast from './libs/toast/';
 import Http from './libs/http';
 import Util from './libs/util';
-import 'iview/dist/styles/iview.css'; // 使用 IVIEW CSS
-import './assets/styles/common/customize.less';
-import './assets/styles/common/index.less';
+if (process.env.NODE_ENV === 'development') {
+  require('./assets/styles/common/customize.less');
+}
+require('./assets/styles/common/index.less');
+Vue.use(iView);
 Vue.use(Toast);
 Vue.use(Http);
 window.Util = Util;
