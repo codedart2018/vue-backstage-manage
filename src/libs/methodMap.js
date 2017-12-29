@@ -11,14 +11,16 @@ const methodMap = {
   /** 管理登陆接口 **/
   AdminLogin: {url: '/admin/passport/login', method: 'post'},
   /** 角色列表 **/
-  AdminGetRole: {url: '/admin/role_auth/role', method: 'get'},
+  AdminGetRole: {url: '/admin/permission/role', method: 'get'},
   /** 添加角色 **/
-  AdminAddRole: {url: '/admin/role_auth/add_role', method: 'post'},
+  AdminAddRole: {url: '/admin/permission/add_role', method: 'post'},
   /** 编辑角色 **/
-  AdminEditRole: {url: '/admin/role_auth/edit_role', method: 'post'},
+  AdminEditRole: {url: '/admin/permission/edit_role', method: 'post'},
   /** 删除角色 **/
-  AdminDelRole: {url: '/admin/role_auth/delete_role', method: 'post'},
+  AdminDelRole: {url: '/admin/permission/delete_role', method: 'post'},
   /** 角色授权列表 **/
-  Authorize: {url: '/admin/role_auth/authorize', method: 'get'}
+  Authorize: {url: '/admin/permission/authorize', method: 'get'},
+  /** 保存角色授权 **/
+  SaveAuth: {url: '/admin/permission/save_authorize', method: 'post'}
 };
 export default methodMap;

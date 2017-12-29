@@ -52,6 +52,18 @@ export const SubRouter = [
         },
         component: resolve => require(['../pages/permission/administrator'], resolve),
         children: []
+      },
+      {
+        path: '/permission/authorize/:id?',
+        name: 'Authorize',
+        icon: 'person',
+        meta: {
+          title: '后台用户',
+          routeAuth: true,
+          display: 0
+        },
+        component: resolve => require(['../pages/permission/authorize'], resolve),
+        children: []
       }
     ]
   }

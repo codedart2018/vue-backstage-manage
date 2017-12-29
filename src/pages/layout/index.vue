@@ -70,8 +70,8 @@
         </div>
 
         <div class="common-area">
-          <div style="height: 1500px;">
-            this is template body
+          <div style="background: #ffffff; padding: 10px;">
+            <!--公共模板未加-->
             <router-view></router-view>
           </div>
         </div>
@@ -97,7 +97,6 @@
 <script>
   import TabsMenu from './tabs-menu.vue';
   import ShrinkMenu from './shrink-menu.vue';
-
   export default {
     data () {
       return {

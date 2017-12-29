@@ -9,6 +9,7 @@ import iView from 'iview';
 import Toast from './libs/toast/';
 import Http from './libs/http';
 import Util from './libs/util';
+import Plugin from './libs/plugin/index';
 if (process.env.NODE_ENV === 'development') {
   require('iview/dist/styles/iview.css');
   require('iview/src/styles/index.less');
@@ -18,6 +19,7 @@ require('./assets/styles/common/index.less');
 Vue.use(iView);
 Vue.use(Toast);
 Vue.use(Http);
+Vue.use(Plugin);
 window.Util = Util;
 Vue.config.productionTip = false;
 
