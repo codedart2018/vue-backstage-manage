@@ -102,7 +102,6 @@ Http.install = function (Vue) {
       AsInst.get(url, {
         params: data
       }).then((response) => {
-        console.log(response, 23332);
         setTimeout(() => closeLoading(), 800);
         resolve(response.data);
       }).catch((error) => {

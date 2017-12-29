@@ -21,6 +21,14 @@ const methodMap = {
   /** 角色授权列表 **/
   Authorize: {url: '/admin/permission/authorize', method: 'get'},
   /** 保存角色授权 **/
-  SaveAuth: {url: '/admin/permission/save_authorize', method: 'post'}
+  SaveAuth: {url: '/admin/permission/save_authorize', method: 'post'},
+  /** 后台用户列表 **/
+  AdminUser: {url: '/admin/user/index', method: 'get'},
+  /** 添加后台用户 **/
+  AdminAddUser: {url: '/admin/user/add', method: 'post'},
+  /** 编辑后台用户 **/
+  AdminEditUser: {url: '/admin/user/edit', method: 'post'},
+  /** 重置后台用户密码 **/
+  RestPassword: {url: '/admin/user/rest_password', method: 'post'}
 };
 export default methodMap;
