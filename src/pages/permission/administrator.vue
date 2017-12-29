@@ -43,8 +43,7 @@
       <Table :columns="columns" :data="list"></Table>
     </Row>
     <Row type="flex" justify="end">
-      <Page :total="total" :page-size="pageSize" :current="pageNumber" show-total show-elevator
-            @on-change="changePage"></Page>
+      <Page :total="total" :page-size="pageSize" :current="pageNumber" show-total show-elevator @on-change="changePage"></Page>
     </Row>
 
     <!--添加 Modal 对话框-->
@@ -91,7 +90,6 @@
         <Button type="ghost" @click="handleReset('addForm')" style="margin-left: 8px">重置</Button>
       </div>
     </Modal>
-
     <!--编辑 Modal 对话框-->
     <Modal v-model="editModal" title="编辑用户" class-name="customize-modal-center" @on-cancel="modalCancel()">
       <div>
@@ -161,8 +159,7 @@
             </Radio-group>
           </Form-item>
           <Form-item label="备注说明" prop="desc">
-            <Input v-model="editForm.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="200字说明备注..."></Input>
+            <Input v-model="editForm.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="200字说明备注..."></Input>
           </Form-item>
         </Form>
       </div>
@@ -171,60 +168,57 @@
         <Button type="ghost" @click="modalCancel()" style="margin-left: 8px">取消</Button>
       </div>
     </Modal>
-
   </div>
 </template>
 
 <style scoped>
-.search .ivu-form-item {
-  margin-bottom: 0px;
-  vertical-align: top;
-  zoom: 1;
-}
+  .search .ivu-form-item {
+    margin-bottom: 0px;
+    vertical-align: top;
+    zoom: 1;
+  }
 
-.demo-upload-list {
-  display: inline-block;
-  width: 60px;
-  height: 60px;
-  text-align: center;
-  line-height: 60px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  overflow: hidden;
-  background: #fff;
-  position: relative;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-  margin-right: 4px;
-}
+  .demo-upload-list {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+    margin-right: 4px;
+  }
 
-.demo-upload-list img {
-  width: 100%;
-  height: 100%;
-}
+  .demo-upload-list img {
+    width: 100%;
+    height: 100%;
+  }
 
-.demo-upload-list-cover {
-  display: none;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, .6);
-}
+  .demo-upload-list-cover {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .6);
+  }
 
-.demo-upload-list:hover .demo-upload-list-cover {
-  display: block;
-}
+  .demo-upload-list:hover .demo-upload-list-cover {
+    display: block;
+  }
 
-.demo-upload-list-cover i {
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  margin: 0 2px;
-}
+  .demo-upload-list-cover i {
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 2px;
+  }
 </style>
-
-
 <script>
   export default {
     data () {
@@ -283,8 +277,8 @@
             align: 'center',
             render: (h, params) => {
               const row = params.row;
-              const color = row.status === 1 ? 'green' : row.status === 0 ? 'yellow' : 'red';
-              const text = row.status === 1 ? '正常' : row.status === 0 ? '锁定' : '删除';
+              const color = row.status === '1' ? 'green' : row.status === '0' ? 'yellow' : 'red';
+              const text = row.status === '1' ? '正常' : row.status === '0' ? '锁定' : '删除';
               return h('Tag', {
                 props: {
                   type: 'dot',
@@ -304,7 +298,7 @@
             width: 135,
             align: 'center',
             render: (h, params) => {
-              if (params.row.last_login_time === 0) {
+              if (params.row.last_login_time === '0') {
                 return h('Tag', '从未登陆');
               }
               return h('div', this.$formatDate(params.row.create_time, 'yyyy-MM-dd h:m'));

@@ -22,6 +22,14 @@ const methodMap = {
   Authorize: {url: '/admin/permission/authorize', method: 'get'},
   /** 保存角色授权 **/
   SaveAuth: {url: '/admin/permission/save_authorize', method: 'post'},
+  /** 权限节点接口 **/
+  AdminGetRule: {url: '/admin/permission/rule', method: 'get'},
+  /** 添加节点接口 **/
+  AdminAddRule: {url: '/admin/permission/add_rule', method: 'post'},
+  /** 编辑节点接口 **/
+  AdminEditRule: {url: '/admin/permission/edit_rule', method: 'post'},
+  /** 删除节点接口 **/
+  AdminDelRule: {url: '/admin/permission/delete_rule', method: 'post'},
   /** 后台用户列表 **/
   AdminUser: {url: '/admin/user/index', method: 'get'},
   /** 添加后台用户 **/
