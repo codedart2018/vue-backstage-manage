@@ -1,3 +1,4 @@
+<script src="../../../dist/static/js/4.a5808abc46690b2a555b.js"></script>
 <template>
   <div>
     <Row class="mb-15">
