@@ -141,11 +141,12 @@
                 </Radio-group>
               </Form-item>
             </Col>
-            <Col span="8">
+            <Col span="12">
               <Form-item label="节点状态" prop="status">
                 <Radio-group v-model="editForm.status">
                   <Radio label="1">正常</Radio>
                   <Radio label="0">锁定</Radio>
+                  <Radio label="-1">删除</Radio>
                 </Radio-group>
               </Form-item>
             </Col>
