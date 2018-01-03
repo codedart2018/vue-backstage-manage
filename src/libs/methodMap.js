@@ -37,6 +37,8 @@ const methodMap = {
   /** 编辑后台用户 **/
   AdminEditUser: {url: '/admin/user/edit', method: 'post'},
   /** 重置后台用户密码 **/
-  RestPassword: {url: '/admin/user/rest_password', method: 'post'}
+  RestPassword: {url: '/admin/user/rest_password', method: 'post'},
+  /** 七牛上传token **/
+  QiNiuToken: {url: '/common/upload/qi_niu_token', method: 'post'}
 };
 export default methodMap;

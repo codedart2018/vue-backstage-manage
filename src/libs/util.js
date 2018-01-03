@@ -110,4 +110,13 @@ Util.routerParams = (path, params) => {
   }
   return path;
 };
+/**
+ * 获得屏幕大小
+ * @returns {{width: Number, height: Number}}
+ */
+Util.screenSize = () => {
+  let width = window.screen.width;
+  let height = window.screen.height;
+  return {width: width, height: height};
+};
 export default Util;

@@ -17,6 +17,13 @@ module.exports = {
         pathRewrite: {
           '^/admin': '/admin'
         }
+      },
+      '/common': {
+        target: 'http://api.m.yc.cn/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/common': '/common'
+        }
       }
     },
 

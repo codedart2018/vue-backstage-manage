@@ -203,6 +203,11 @@
             width: 200
           },
           {
+            title: '路由名称',
+            key: 'name',
+            width: 200
+          },
+          {
             title: 'ICON',
             key: 'icon',
             width: 120

@@ -122,6 +122,7 @@
               </div>
               <Upload
                 ref="upload"
+                name="file"
                 :show-upload-list="false"
                 :default-file-list="defaultList"
                 :on-success="handleSuccess"
@@ -132,13 +133,14 @@
                 :before-upload="handleBeforeUpload"
                 multiple
                 type="drag"
-                action="//jsonplaceholder.typicode.com/posts/"
+                action="//up-z2.qiniu.com"
+                :data="uploadAvatarParams"
                 style="display: inline-block;width:58px;">
                 <div style="width: 58px;height:58px;line-height: 58px;">
                   <Icon type="camera" size="20"></Icon>
                 </div>
               </Upload>
-              <Modal title="查看图片" v-model="visible">
+              <Modal title="View Image" v-model="visible">
                 <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
               </Modal>
             </template>
@@ -415,6 +417,12 @@
         addModal: false,
         //编辑 modal
         editModal: false,
+        //上传参数
+        uploadAvatarParams: {
+          token: '', //授权token
+          key: 'manage/user/avatar/', //上传目录
+          'x:scene': '2' //上传方式
+        },
         //头像相关
         defaultList: [
           {
@@ -562,7 +570,8 @@
           desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
         });
       },
-      handleBeforeUpload () {
+      handleBeforeUpload (file) {
+        this.uploadAvatarParams.key = this.uploadAvatarParams.key + file.name;
         const check = this.uploadList.length < 5;
         if (!check) {
           this.$Notice.warning({
@@ -576,6 +585,13 @@
       //服务端获取数据
       this.getData();
       this.uploadList = this.$refs.upload.fileList;
+      //请求token
+      this.request('QiNiuToken', {bucket: 'yc-life-dev', callback: true}).then((res) => {
+        if (res.status) {
+          this.uploadAvatarParams.token = res.data.token;
+        } else {
+        }
+      });
     },
     components: {},
     watch: {
