@@ -119,4 +119,22 @@ Util.screenSize = () => {
   let height = window.screen.height;
   return {width: width, height: height};
 };
+/**
+ * 返回当前日期
+ * @returns {string}
+ */
+Util.currentDate = () => {
+  let myDate = new Date();
+  let year = parseInt(myDate.getFullYear());    //获取完整的年份(4位,1970-????)
+  let month = parseInt(myDate.getMonth()) + 1;  //获取当前月份(0-11,0代表1月)
+  let day = parseInt(myDate.getDate());         //获取当前日(1-31)
+  //小于10的时候
+  if (month < 10) {
+    month = 0 + month.toString();
+  }
+  if (day < 10) {
+    day = 0 + day.toString();
+  }
+  return year + '-' + month + '-' + day;
+};
 export default Util;

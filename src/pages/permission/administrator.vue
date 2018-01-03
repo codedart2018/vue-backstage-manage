@@ -106,44 +106,33 @@
               <Option v-for="item in roles" :value="item.id" :key="item.id">{{ item.name }}</Option>
             </Select>
           </Form-item>
-          <Form-item label="头像">
-            <template>
-              <div class="demo-upload-list" v-for="item in uploadList">
-                <template v-if="item.status === 'finished'">
-                  <img :src="item.url">
-                  <div class="demo-upload-list-cover">
-                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                  </div>
-                </template>
-                <template v-else>
-                  <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-                </template>
+          <Form-item label="头像" prop="avatar_id">
+            <div class="demo-upload-list">
+              <img :src="editForm.avatar_url">
+              <div class="demo-upload-list-cover">
+                <Icon type="ios-eye-outline" @click.native="handleView(editForm.avatar_url)"></Icon>
+                <Icon type="ios-trash-outline" @click.native="handleRemove(editForm.avatar_id)"></Icon>
               </div>
-              <Upload
-                ref="upload"
-                name="file"
-                :show-upload-list="false"
-                :default-file-list="defaultList"
-                :on-success="handleSuccess"
-                :format="['jpg','jpeg','png']"
-                :max-size="2048"
-                :on-format-error="handleFormatError"
-                :on-exceeded-size="handleMaxSize"
-                :before-upload="handleBeforeUpload"
-                multiple
-                type="drag"
-                action="//up-z2.qiniu.com"
-                :data="uploadAvatarParams"
-                style="display: inline-block;width:58px;">
-                <div style="width: 58px;height:58px;line-height: 58px;">
-                  <Icon type="camera" size="20"></Icon>
-                </div>
-              </Upload>
-              <Modal title="View Image" v-model="visible">
-                <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-              </Modal>
-            </template>
+            </div>
+            <Upload
+              ref="upload"
+              name="file"
+              multiple
+              type="drag"
+              :show-upload-list="false"
+              :on-success="handleSuccess"
+              :format="['jpg','jpeg','png']"
+              :max-size="512"
+              :on-format-error="handleFormatError"
+              :on-exceeded-size="handleMaxSize"
+              :before-upload="handleBeforeUpload"
+              action="//up-z2.qiniu.com"
+              :data="uploadAvatarParams"
+              style="display: inline-block;width:58px;">
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </Upload>
           </Form-item>
           <Form-item label="姓名" prop="real_name">
             <Input v-model="editForm.real_name" placeholder="请填写姓名"></Input>
@@ -169,6 +158,10 @@
         <Button type="primary" @click="editSubmit('editForm')">提交</Button>
         <Button type="ghost" @click="modalCancel()" style="margin-left: 8px">取消</Button>
       </div>
+    </Modal>
+    <!--头像modal-->
+    <Modal title="预览头像" v-model="visible">
+      <img :src="imgUrl + '?imageView2/1/w/700/h/700'" v-if="visible" style="width: 100%">
     </Modal>
   </div>
 </template>
@@ -222,6 +215,7 @@
   }
 </style>
 <script>
+  import Util from '../../libs/util';
   export default {
     data () {
       const validatePassword = (rule, value, callback) => {
@@ -419,22 +413,12 @@
         editModal: false,
         //上传参数
         uploadAvatarParams: {
+          domain: '', //访问域名
           token: '', //授权token
-          key: 'manage/user/avatar/', //上传目录
+          key: '', //上传目录
           'x:scene': '2' //上传方式
         },
-        //头像相关
-        defaultList: [
-          {
-            'name': 'a42bdcc1178e62b4694c830f028db5c0',
-            'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-          },
-          {
-            'name': 'bc7521e033abdd1e92222d733590f104',
-            'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
-          }
-        ],
-        imgName: '',
+        imgUrl: '',
         visible: false,
         uploadList: []
       };
@@ -544,19 +528,23 @@
         });
       },
       //头像
-      handleView (name) {
-        this.imgName = name;
+      handleView (url) {
+        this.imgUrl = url;
         this.visible = true;
       },
-      handleRemove (file) {
-        // 从 upload 实例删除数据
-        const fileList = this.$refs.upload.fileList;
-        this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-      },
-      handleSuccess (res, file) {
-        // 因为上传过程为实例，这里模拟添加 url
-        file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-        file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+      //删除头像
+      handleRemove (id, msg) {
+        this.request('RemoveAttachment', {id: id}, '删除中...').then((res) => {
+          if (res.status) {
+            if (msg) {
+              this.$Message.success(msg);
+            } else {
+              this.$Message.success(res.msg);
+            }
+          } else {
+            this.$Message.error(res.msg);
+          }
+        });
       },
       handleFormatError (file) {
         this.$Notice.warning({
@@ -567,28 +555,38 @@
       handleMaxSize (file) {
         this.$Notice.warning({
           title: '超出文件大小限制',
-          desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
+          desc: '文件 ' + file.name + ' 太大，不能超过 512KB。'
         });
       },
+      //上传前前置操作
       handleBeforeUpload (file) {
-        this.uploadAvatarParams.key = this.uploadAvatarParams.key + file.name;
-        const check = this.uploadList.length < 5;
-        if (!check) {
-          this.$Notice.warning({
-            title: '最多只能上传 5 张图片。'
-          });
+        this.uploadAvatarParams.key = 'manage/user/avatar/' + Util.currentDate() + '/' + file.name;
+        return true;
+      },
+      //上传成功操作
+      handleSuccess (res) {
+        if (res.status === false) {
+          this.$Message.error('上传失败...');
+          return false;
         }
-        return check;
+        //判断原来是否有 如果有删除掉
+        if (parseInt(this.editForm.avatar_id) > 0) {
+          this.handleRemove(this.editForm.avatar_id, '替换成功...');
+        } else {
+          this.$Message.success('上传成功...');
+        }
+        this.editForm.avatar_id = res.data.id;
+        this.editForm.avatar_url = this.uploadAvatarParams.domain + this.uploadAvatarParams.key;
       }
     },
     mounted() {
       //服务端获取数据
       this.getData();
-      this.uploadList = this.$refs.upload.fileList;
       //请求token
       this.request('QiNiuToken', {bucket: 'yc-life-dev', callback: true}).then((res) => {
         if (res.status) {
           this.uploadAvatarParams.token = res.data.token;
+          this.uploadAvatarParams.domain = res.data.domain;
         } else {
         }
       });
@@ -597,6 +595,7 @@
     watch: {
       '$route' (to, from) {
       }
-    }
+    },
+    beforeDestroy () {}
   };
 </script>

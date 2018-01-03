@@ -8,6 +8,10 @@
  * 留连戏蝶时时舞，自在娇莺恰恰啼。
  */
 const methodMap = {
+  /** 公共删除图片接口 **/
+  RemoveAttachment: {url: '/common/upload/oss_remove', method: 'post'},
+  /** 七牛上传token **/
+  QiNiuToken: {url: '/common/upload/qi_niu_token', method: 'post'},
   /** 管理登陆接口 **/
   AdminLogin: {url: '/admin/passport/login', method: 'post'},
   /** 角色列表 **/
@@ -37,8 +41,6 @@ const methodMap = {
   /** 编辑后台用户 **/
   AdminEditUser: {url: '/admin/user/edit', method: 'post'},
   /** 重置后台用户密码 **/
-  RestPassword: {url: '/admin/user/rest_password', method: 'post'},
-  /** 七牛上传token **/
-  QiNiuToken: {url: '/common/upload/qi_niu_token', method: 'post'}
+  RestPassword: {url: '/admin/user/rest_password', method: 'post'}
 };
 export default methodMap;
