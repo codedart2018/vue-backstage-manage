@@ -41,6 +41,8 @@ const methodMap = {
   /** 编辑后台用户 **/
   AdminEditUser: {url: '/admin/user/edit', method: 'post'},
   /** 重置后台用户密码 **/
-  RestPassword: {url: '/admin/user/rest_password', method: 'post'}
+  RestPassword: {url: '/admin/user/rest_password', method: 'post'},
+  /** 清空头像 **/
+  AdminEmptyAvatar: {url: '/admin/user/empty_avatar', method: 'post'}
 };
 export default methodMap;

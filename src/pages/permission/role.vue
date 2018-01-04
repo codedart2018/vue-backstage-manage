@@ -291,7 +291,7 @@
           } else {
             this.$Message.error(res.msg);
           }
-        });
+        }).catch((response) => {});
       },
       authGo(id) {
         this.$router.push({path: '/permission/authorize/' + id, params: {id: id}});

@@ -189,7 +189,7 @@
             } else {
               this.$Message.error(res.msg);
             }
-          });
+          }).catch((response) => {});
         }
       },
       //提交保存数据
@@ -203,7 +203,7 @@
             } else {
               this.$Message.error(res.msg);
             }
-          });
+          }).catch((response) => {});
         }
       },
       goBack() {

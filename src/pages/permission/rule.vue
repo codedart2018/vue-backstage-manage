@@ -68,7 +68,7 @@
             <Input v-model="addForm.controller" placeholder="请填写控制器名称(后台)"></Input>
           </Form-item>
           <Form-item label="方法名称" prop="action">
-            <Input v-model="addForm.action" placeholder="请填写方法名称(rgck )"></Input>
+            <Input v-model="addForm.action" placeholder="请填写方法名称(后台)"></Input>
           </Form-item>
           <Form-item label="排序" prop="sort">
             <Input type="text" v-model="addForm.sort" placeholder="只能填写正数,数值越大越靠前" number></Input>
