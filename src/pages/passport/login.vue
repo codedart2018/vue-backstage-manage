@@ -55,7 +55,7 @@
       };
     },
     methods: {
-      ...mapActions(['addSideMenu']),
+      ...mapActions(['addSideMenu', 'userLogin']),
       handleSubmit () {
         this.$refs.formLogin.validate((valid) => {
           this.modalLoading = true;
@@ -64,14 +64,13 @@
               this.request('AdminLogin', this.formLogin).then((res) => {
                 this.modalLoading = false;
                 if (res.status) {
-                  //window.localStorage.setItem('sideMenuList', JSON.stringify(res.data.menu));
-                  //用户信息应该走store 暂时不走
-                  window.localStorage.setItem('userInfo', JSON.stringify(res.data.user_info));
-                	window.localStorage.setItem('loginToken', res.data.token);
-                  this.$Message.success('登录成功!');
+                  let data = res.data;
+                  let userData = {userInfo: data.userInfo, token: data.token};
+                  this.userLogin(userData);
                   //store 菜单
-                  this.addSideMenu(res.data.menu);
+                  this.addSideMenu(data.menu);
                   //this.$store.commit('ADD_SIDE_MENU', res.data.menu);
+                  this.$Message.success('登录成功!');
                   this.$router.push({path: '/'});
                 } else {
                   this.$Message.error(res.msg);

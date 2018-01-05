@@ -89,7 +89,7 @@
       },
       //关闭标签页面
       closePage (e, name) {
-        let pageOpenedList = this.$store.state.NavigationTags.listData;
+        let pageOpenedList = this.$store.state.NavigationTags.tagMenuList;
         let len = pageOpenedList.length;
         let lastTagObj = pageOpenedList[0];
         if (this.currentPageName === name) {

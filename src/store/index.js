@@ -14,6 +14,7 @@ import * as getters from './getters';
 import createLogger from 'vuex/dist/logger';
 import NavigationTags from './modules/navigation-tags';
 import SideMenu from './modules/side-menu';
+import ManageUser from './modules/manage-user';
 if (process.env.NODE_ENV === 'development') {
   Vue.use(Vuex);
 }
@@ -24,7 +25,8 @@ export default new Vuex.Store({
   getters,
   modules: {
     NavigationTags,
-    SideMenu
+    SideMenu,
+    ManageUser
   },
   strict: debug,
   plugins: [createLogger()]

@@ -10,7 +10,9 @@
       </div>
       <div class="center-area flex-row-center">
         <div class="home">
-          <Icon type="home"></Icon>
+          <router-link to="/" style="color: #ffffff;">
+            <Icon type="home"></Icon>
+          </router-link>
         </div>
         <div class="quick-panel" @click="testChangeOpenNames">
           <span>快捷面板</span>
@@ -19,15 +21,15 @@
       <div class="right-area">
         <!--通知信息-->
         <div class="notice flex-row-center">
-          <Tooltip placement="bottom" content="9条通知">
+          <Tooltip placement="bottom" :content="userInfo.msgNum + '条通知'">
             <Icon type="ios-bell" class="bell"></Icon>
-            <span class="bell-num">9</span>
+            <span class="bell-num">{{userInfo.msgNum}}</span>
           </Tooltip>
         </div>
         <!-- 用户信息 -->
         <div class="user-info">
           <Dropdown>
-            <div><span>Hello World</span><Icon type="arrow-down-b"></Icon></div>
+            <div><span>{{userInfo.account}}</span><Icon type="arrow-down-b"></Icon></div>
             <DropdownMenu slot="list">
               <DropdownItem @click.native="modalUser=true">个人信息</DropdownItem>
               <DropdownItem @click.native="modal = true">退出登录</DropdownItem>
@@ -36,7 +38,7 @@
           </Dropdown>
           <!--头像-->
           <div class="avatar">
-            <Avatar src="https://avatars.githubusercontent.com/u/12706830?v=3"/>
+            <Avatar :src="userInfo.avatarUrl"/>
           </div>
         </div>
         <!--退出登陆-->
@@ -97,9 +99,11 @@
 <script>
   import TabsMenu from './tabs-menu.vue';
   import ShrinkMenu from './shrink-menu.vue';
+  import {mapActions} from 'vuex';
   export default {
     data () {
       return {
+        userInfo: this.$store.state.ManageUser.userInfo,
       	screen: false,
         tipContent: '全屏',
         //sidebar bold state
@@ -114,10 +118,11 @@
         openNames: ['2'],
         activeName: '2-1',
         //demo
-        pageTagsList: this.$store.state.NavigationTags.listData
+        pageTagsList: this.$store.state.NavigationTags.tagMenuList
       };
     },
     methods: {
+      ...mapActions(['userOut']),
       //change sidebar bold block
       toggleSideBar () {
       	return false;
@@ -161,9 +166,9 @@
         setTimeout(() => {
           this.modalLoading = false;
           this.modal = false;
+          this.$store.commit('USER_OUT');
           this.$store.commit('DEL_SIDE_MENU');
-          window.localStorage.removeItem('loginToken');
-          window.localStorage.removeItem('userInfo');
+          this.$store.commit('DELETE_NAVIGATION_TAGS');
           this.$router.push({path: '/passport/login'});
         }, 1000);
       },

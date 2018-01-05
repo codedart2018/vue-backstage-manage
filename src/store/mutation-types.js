@@ -7,9 +7,12 @@
  * 黄四娘家花满蹊，千朵万朵压枝低。
  * 留连戏蝶时时舞，自在娇莺恰恰啼。
  */
-
+/** 用户相关 **/
+export const USER_LOGIN = 'USER_LOGIN';
+export const USER_OUT = 'USER_OUT';
 /** 滑动导航菜单 **/
 export const ADD_NAVIGATION_TAGS = 'ADD_NAVIGATION_TAGS';
+export const DELETE_NAVIGATION_TAGS = 'DELETE_NAVIGATION_TAGS';
 /** 添加侧边菜单 **/
 export const ADD_SIDE_MENU = 'ADD_SIDE_MENU';
 /** 获得侧边菜单 **/

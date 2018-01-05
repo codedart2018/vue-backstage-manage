@@ -48,7 +48,6 @@
         //this.$router.push({name: params.name, params: {userId: 123}, query: {plan: 'private'}});
         this.addNavigationTabs(params);
         this.$router.push({name: params.name});
-        //console.log('vuex:', this.$store.state.NavigationTags.listData);
       }
     },
     updated () {

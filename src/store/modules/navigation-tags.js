@@ -9,12 +9,12 @@
  */
 import * as types from '../mutation-types';
 const state = {
-  listData: JSON.parse(window.localStorage.getItem('tagMenuList')) || []
+  tagMenuList: JSON.parse(window.localStorage.getItem('tagMenuList')) || []
 };
 const mutations = {
   //路由添加标签
   [types.ADD_NAVIGATION_TAGS] (state, params) {
-    if (state.listData.some(v => v.path === params.path)) return false;
+    if (state.tagMenuList.some(v => v.path === params.path)) return false;
     let data = {
       params: [],
       name: params.name,
@@ -22,34 +22,38 @@ const mutations = {
       query: [],
       title: params.title
     };
-    state.listData.push(data);
-    window.localStorage.setItem('tagMenuList', JSON.stringify(state.listData));
+    state.tagMenuList.push(data);
+    window.localStorage.setItem('tagMenuList', JSON.stringify(state.tagMenuList));
+  },
+  [types.DELETE_NAVIGATION_TAGS] (state) {
+    window.localStorage.removeItem('tagMenuList');
+    state.tagMenuList = [];
   },
   //关闭当前标签
   removeCurrentTag (state, name) {
-    state.listData.map((item, index) => {
+    state.tagMenuList.map((item, index) => {
       if (item.name === name) {
-        state.listData.splice(index, 1);
+        state.tagMenuList.splice(index, 1);
       }
     });
-    window.localStorage.setItem('tagMenuList', JSON.stringify(state.listData));
+    window.localStorage.setItem('tagMenuList', JSON.stringify(state.tagMenuList));
   },
   //关闭所有
   removeAllTag (state) {
-    state.listData.splice(0);
-    window.localStorage.setItem('tagMenuList', JSON.stringify(state.listData));
+    state.tagMenuList.splice(0);
+    window.localStorage.setItem('tagMenuList', JSON.stringify(state.tagMenuList));
   },
   removeOtherTag (state, vm) {
     let currentName = vm.$route.name;
     let tmp = {};
-    state.listData.forEach((item) => {
+    state.tagMenuList.forEach((item) => {
       if (item.name === currentName) {
         tmp = item;
       }
     });
-    state.listData.splice(0);
-    state.listData.push(tmp);
-    window.localStorage.setItem('tagMenuList', JSON.stringify(state.listData));
+    state.tagMenuList.splice(0);
+    state.tagMenuList.push(tmp);
+    window.localStorage.setItem('tagMenuList', JSON.stringify(state.tagMenuList));
   }
 };
 export default {

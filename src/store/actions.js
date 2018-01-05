@@ -8,6 +8,28 @@
  * 留连戏蝶时时舞，自在娇莺恰恰啼。
  */
 import * as types from './mutation-types.js';
+
+/**
+ * 用户登陆
+ * @param commit
+ * @param userInfo
+ * @param token
+ */
+export const userLogin = ({commit}, {userInfo, token}) => {
+  if (userInfo && token) {
+    commit(types.USER_LOGIN, {
+      userInfo: userInfo,
+      token: token
+    });
+  }
+};
+/**
+ * 用户退出
+ * @param commit
+ */
+export const userOut = ({commit}) => {
+  commit(types.USER_OUT);
+};
 /**
  * 添加tab导航菜单
  * @param commit
