@@ -45,9 +45,9 @@
               this.avatarLeft = '0px';
               this.inputLeft = '400px';
               this.password = '';
-              this.$router.push({path: '/'});
               this.$store.commit('SET_LOGIN_TOKEN', res.data.token);
               this.$Message.success(res.msg);
+              this.$router.push({path: '/'});
             } else {
               this.$Message.error(res.msg);
             }
