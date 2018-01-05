@@ -30,6 +30,11 @@ const mutations = {
     window.localStorage.removeItem('loginToken');
     state.userInfo = {};
     state.loginToken = '';
+  },
+  //设置登陆token
+  [types.SET_LOGIN_TOKEN] (state, token) {
+    window.localStorage.setItem('loginToken', token);
+    state.loginToken = token;
   }
 };
 

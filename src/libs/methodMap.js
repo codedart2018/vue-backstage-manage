@@ -14,6 +14,8 @@ const methodMap = {
   QiNiuToken: {url: '/common/upload/qi_niu_token', method: 'post'},
   /** 管理登陆接口 **/
   AdminLogin: {url: '/admin/passport/login', method: 'post'},
+  /** 用户登陆解锁 **/
+  AdminUnlock: {url: '/admin/passport/unlock', method: 'post'},
   /** 角色列表 **/
   AdminGetRole: {url: '/admin/permission/role', method: 'get'},
   /** 添加角色 **/

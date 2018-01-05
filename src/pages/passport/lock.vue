@@ -3,8 +3,8 @@
   <div class="container">
     <div class="lock">
       <div class="wrapper clear-fix">
-        <div class="unlock-box" :style="{marginLeft: avatorLeft}" @click="passwordShow=true">
-          <img class="unlock-img" src="https://avatars1.githubusercontent.com/u/19198355?s=400&u=aa18d8f6d07dbd4f8f4dd966f3fbb2b3a1b3ee00&v=4">
+        <div class="unlock-box" :style="{marginLeft: avatarLeft}" @click="passwordShow=true">
+          <img class="unlock-img" :src="userInfo.avatarUrl">
           <div class="unlock-cover">
             <span><Icon type="unlocked" :size="30"></Icon></span>
             <p>解锁</p>
@@ -28,7 +28,8 @@
     name: 'Unlock',
     data () {
       return {
-        avatorLeft: '0px',
+        userInfo: this.$store.state.ManageUser.userInfo,
+        avatarLeft: '0px',
         inputLeft: '400px',
         password: '',
         placeholder: '请输入登录密码',
@@ -39,11 +40,14 @@
       handleUnlock () {
         if (this.password) {
         	//发起后端验证
-          this.request('AdminLogin', {password: this.password}).then((res) => {
+          this.request('AdminUnlock', {uid: this.userInfo.uid, password: this.password}).then((res) => {
             if (res.status) {
-              this.avatorLeft = '0px';
+              this.avatarLeft = '0px';
               this.inputLeft = '400px';
               this.password = '';
+              this.$router.push({path: '/'});
+              this.$store.commit('SET_LOGIN_TOKEN', res.data.token);
+              this.$Message.success(res.msg);
             } else {
               this.$Message.error(res.msg);
             }

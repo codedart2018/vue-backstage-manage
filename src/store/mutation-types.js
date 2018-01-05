@@ -10,6 +10,7 @@
 /** 用户相关 **/
 export const USER_LOGIN = 'USER_LOGIN';
 export const USER_OUT = 'USER_OUT';
+export const SET_LOGIN_TOKEN = 'SET_LOGIN_TOKEN';
 /** 滑动导航菜单 **/
 export const ADD_NAVIGATION_TAGS = 'ADD_NAVIGATION_TAGS';
 export const DELETE_NAVIGATION_TAGS = 'DELETE_NAVIGATION_TAGS';
