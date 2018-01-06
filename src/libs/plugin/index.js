@@ -44,6 +44,18 @@ Plugin.install = function (Vue, options) {
     }
     return newFormat;
   };
+  /** 金钱格式化 **/
+  Vue.prototype.$formatMoney = (money, num = 2) => {
+    num = num > 0 && num <= 20 ? num : 2;
+    money = parseFloat((money + '').replace(/[^\d\\.-]/g, '')).toFixed(num) + '';
+    let l = money.split('.')[0].split('').reverse();
+    let r = money.split('.')[1];
+    let t = '';
+    for (let i = 0; i < l.length; i++) {
+      t += l[i] + ((i + 1) % 3 === 0 && (i + 1) !== l.length ? ',' : '');
+    }
+    return t.split('').reverse().join('') + '.' + r;
+  };
 };
 
 export default Plugin;

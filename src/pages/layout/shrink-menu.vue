@@ -2,13 +2,13 @@
 <template>
   <Menu ref="sideMenu" :active-name="$route.name" :open-names="openNames" :theme="menuTheme" width="auto" accordion>
     <template v-for="(item, index) in menuList">
-      <MenuItem v-if="item.children.length <= 1" :name="item.name" :key="item.path">
+      <MenuItem v-if="item.children.length == 0" :name="item.name" :key="item.path">
         <div class="title-box" @click="goTo(item)">
           <Icon :type="item.icon" :size="iconSize"></Icon>
           <span class="layout-text">{{item.title}}</span>
         </div>
       </MenuItem>
-      <Submenu v-if="item.children.length > 1" :name="item.name" :key="item.path">
+      <Submenu v-if="item.children.length > 0" :name="item.name" :key="item.path">
         <template slot="title">
           <Icon :type="item.icon" :size="iconSize"></Icon>
           <span class="layout-text">{{item.title}}</span>
@@ -48,6 +48,7 @@
         //this.$router.push({name: params.name, params: {userId: 123}, query: {plan: 'private'}});
         this.addNavigationTabs(params);
         this.$router.push({name: params.name});
+        //console.log('vuex:', this.$store.state.NavigationTags.listData);
       }
     },
     updated () {

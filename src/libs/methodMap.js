@@ -45,6 +45,8 @@ const methodMap = {
   /** 重置后台用户密码 **/
   RestPassword: {url: '/admin/user/rest_password', method: 'post'},
   /** 清空头像 **/
-  AdminEmptyAvatar: {url: '/admin/user/empty_avatar', method: 'post'}
+  AdminEmptyAvatar: {url: '/admin/user/empty_avatar', method: 'post'},
+  /** 商铺列表 **/
+  ShopList: {url: '/admin/shop/list_data', method: 'post'}
 };
 export default methodMap;
