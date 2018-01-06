@@ -47,6 +47,8 @@ const methodMap = {
   /** 清空头像 **/
   AdminEmptyAvatar: {url: '/admin/user/empty_avatar', method: 'post'},
   /** 商铺列表 **/
-  ShopList: {url: '/admin/shop/list_data', method: 'post'}
+  ShopList: {url: '/admin/shop/list_data', method: 'post'},
+  /** 商铺详情 **/
+  ShopDetail: {url: '/admin/shop/detail', method: 'post'}
 };
 export default methodMap;
