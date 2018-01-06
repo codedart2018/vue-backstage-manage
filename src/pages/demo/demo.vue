@@ -10,16 +10,6 @@
       return {
         msg: 'hello vue'
       };
-    },
-    components: {},
-    methods: {},
-    beforeCreate () {},
-    create () {},
-    beforeMounted () {},
-    mounted () {},
-    beforeUpdate () {},
-    updated () {},
-    beforeDestroy () {},
-    destroyed () {}
+    }
   };
 </script>
