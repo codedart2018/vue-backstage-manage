@@ -75,10 +75,10 @@
           </Col>
         </Row>
         <Form-item label="余额：">
-          {{data.balance}}
+          {{$formatMoney(data.balance)}}
         </Form-item>
         <Form-item label="冻结金额：">
-          {{$formatDate(data.balance)}}
+          {{$formatMoney(data.freezing_amount)}}
         </Form-item>
         </Col>
         <Col span="1">&nbsp;</Col>

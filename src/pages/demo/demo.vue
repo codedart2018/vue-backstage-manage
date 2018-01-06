@@ -6,14 +6,20 @@
 
 <script>
   export default{
-    data() {
+    data () {
       return {
         msg: 'hello vue'
       };
     },
-    mounted() {
-    	console.log(2);
-    },
-    components: {}
+    components: {},
+    methods: {},
+    beforeCreate () {},
+    create () {},
+    beforeMounted () {},
+    mounted () {},
+    beforeUpdate () {},
+    updated () {},
+    beforeDestroy () {},
+    destroyed () {}
   };
 </script>
