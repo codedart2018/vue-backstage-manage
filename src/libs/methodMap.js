@@ -49,6 +49,14 @@ const methodMap = {
   /** 商铺列表 **/
   ShopList: {url: '/admin/shop/list_data', method: 'post'},
   /** 商铺详情 **/
-  ShopDetail: {url: '/admin/shop/detail', method: 'post'}
+  ShopDetail: {url: '/admin/shop/detail', method: 'post'},
+  /** 商铺分类列表 **/
+  ShopCategory: {url: '/admin/shop_category/index', method: 'get'},
+  /** 添加商铺分类 **/
+  ShopCategoryAdd: {url: '/admin/shop_category/add', method: 'post'},
+  /** 修改商铺分类 **/
+  ShopCategoryEdit: {url: '/admin/shop_category/edit', method: 'post'},
+  /** 删除商铺分类 **/
+  ShopCategoryDelete: {url: '/admin/shop_category/delete', method: 'post'}
 };
 export default methodMap;

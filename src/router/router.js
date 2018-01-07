@@ -21,6 +21,17 @@ export const SubRouter = [
     component: Layout,
     children: [
       {
+        path: '/shop/category',
+        name: 'ShopCategory',
+        icon: 'social-buffer-outline',
+        meta: {
+          title: '商铺分类',
+          routeAuth: true
+        },
+        component: resolve => require(['../pages/shop/category'], resolve),
+        children: []
+      },
+      {
         path: '/shop/index',
         name: 'ShopIndex',
         icon: 'grid',
