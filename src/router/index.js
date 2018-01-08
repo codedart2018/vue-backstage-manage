@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 //路由配置
 const RouterConfig = {
-  //mode: 'history',
+  mode: 'history',
   routes: Routers
 };
 export const Router = new VueRouter(RouterConfig);
