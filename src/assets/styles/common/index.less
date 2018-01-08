@@ -11,17 +11,22 @@
 @import "animate.min.css";
 @import '../theme/dark.less';
 
-//登录框背景
-.login-modal {
-  .ivu-modal-content{
-    background-color: rgba(255,255,255,.95)!important;
-  }
-  .ivu-modal-body{
-    padding-bottom: 0
-  }
-}
-
 //商铺详情
 .shop-form .ivu-form-item label.ivu-form-item-label {
   font-weight: 600;
 }
+
+//登录
+.login-form {
+  .ivu-input {
+    padding: 22px 7px!important;
+    font-size: 14px;
+    border-radius: 2px;
+  }
+
+  .ivu-input-group-prepend, .ivu-input-group-append {
+    padding: 4px 15px!important;
+    border-radius: 2px!important;
+  }
+}
+

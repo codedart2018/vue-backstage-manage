@@ -1,30 +1,59 @@
 <style src="@/assets/styles/passport/login.less" lang="less" scoped></style>
 <template>
-  <div class="container merchant-login">
-    <div class="login">
-      <div class="welcome">永川优生活商家总端管理平台</div>
-      <div class="form-box">
-        <Form ref="formLogin" :model="formLogin" :rules="ruleValidate">
+  <div class="container">
+    <header class="login-header">
+      <!--<img class="logo" alt="" src="">-->
+      <div style="height: 100px;"></div>
+      <h1 class="title">永川优生活商家总端管理平台</h1>
+    </header>
+    <main class="login-main-box">
+      <div class="left">
+        <div class="scan-qr-code">
+          <img class="img" alt="" src="../../assets/images/qr-code.jpg">
+          <p class="text">微信扫一扫，即刻登陆</p>
+        </div>
+      </div>
+      <div class="right">
+        <Form ref="formLogin" class="login-form" :model="formLogin" :rules="ruleValidate">
+          <h2 class="title">登录
+            <small>（中心）</small>
+          </h2>
           <FormItem prop="account">
             <Input v-model="formLogin.account" placeholder="帐号 / 手机号" @on-enter="handleSubmit">
-            <span slot="prepend">
-              <Icon :size="16" type="person"></Icon>
-            </span>
+              <span slot="prepend">
+                <Icon :size="20"type="android-person"></Icon>
+              </span>
             </Input>
           </FormItem>
           <FormItem prop="password">
             <Input type="password" v-model="formLogin.password" placeholder="请输入密码" @on-enter="handleSubmit">
-            <span slot="prepend">
-              <Icon :size="14" type="locked"></Icon>
-            </span>
+              <span slot="prepend">
+                <Icon :size="20" type="locked"></Icon>
+              </span>
             </Input>
           </FormItem>
+          <FormItem prop="code" class="verify-code">
+            <Input v-model="formLogin.code" placeholder="请输入验证码" @on-enter="handleSubmit">
+              <span slot="prepend">
+                <Icon :size="20" type="image"></Icon>
+              </span>
+            </Input>
+            <img :src="verifyUrl" @click="refreshVerify()" class="code-img" title="点击切换验证码">
+          </FormItem>
           <FormItem>
-            <Button @click="handleSubmit" type="primary" long :loading="modalLoading">登录</Button>
+            <div class="login-button" @click="handleSubmit">登陆</div>
+            <!--<p class="register">没有账号？<a href="" target="_blank">免费申请</a></p>-->
           </FormItem>
         </Form>
       </div>
-    </div>
+    </main>
+    <footer class="login-footer">
+      <ul class="links">
+        <li><a class="link" href="" target="_blank">官方网站</a></li>
+        <li><a class="link" href="" target="_blank">关于我们</a></li>
+      </ul>
+      <p class="copyright">Copyright © 2009-2018 yongchuan.cc Inc. All rights reserved. 渝ICP备12039470号</p>
+    </footer>
   </div>
 </template>
 <script>
@@ -51,18 +80,18 @@
             {type: 'string', message: '验证码只能英文数字', trigger: 'blur', pattern: /^[a-z0-9A-Z]+$/}
           ]
         },
-        modalLoading: false
+        verifyUrl: ''
       };
+    },
+    components: {
     },
     methods: {
       ...mapActions(['addSideMenu', 'userLogin']),
       handleSubmit () {
         this.$refs.formLogin.validate((valid) => {
-          this.modalLoading = true;
           if (valid) {
             setTimeout(() => {
               this.request('AdminLogin', this.formLogin).then((res) => {
-                this.modalLoading = false;
                 if (res.status) {
                   let data = res.data;
                   let userData = {userInfo: data.userInfo, token: data.token};
@@ -76,7 +105,6 @@
                   this.$Message.error(res.msg);
                 }
               }).catch((e) => {
-                this.modalLoading = false;
                 console.log(e);
               });
             }, 500);
@@ -85,9 +113,21 @@
       },
       handleReset () {
         this.$refs.formLogin.resetFields();
+      },
+      //刷新切换验证码
+      refreshVerify() {
+        this.verifyUrl = '';
+        setTimeout(() => {
+          this.verifyUrl = '/admin/passport/code?v=' + Math.random() * 1000;
+        }, 500);
       }
     },
-    components: {
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        // 通过 `vm` 访问组件实例'
+        //解决进入路由不刷新验证码问题
+        vm.verifyUrl = '/admin/passport/code?v=' + Math.random() * 1000;
+      });
     }
   };
 </script>

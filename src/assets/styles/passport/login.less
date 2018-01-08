@@ -7,58 +7,187 @@
  * 华灯未眠晨未曦,绿荷万丛湖中缀。
  * 闻莹林间自由在,遥望山尖闺梦人。
  */
-body,html,.container{
+body,html,.container {
+  font-size: 16px;
+  line-height: 1;
+  min-width: 1024px;
   height: 100%;
-  background: url(../../images/connect-bg.jpg) top center no-repeat;
-  background-size: cover;
+  margin: 0;
+  padding-right: 20px;
+  padding-left: 20px;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background: #fafafa url("../../images/body-bg.png") top center repeat-x
 }
+
 .container {
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+  .login-header {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    text-align: center;
 
-  .login {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    min-height: 200px;
-    border: 1px solid #E7E7E7;
-    background: #FFFFFF;
-    border-radius: 5px;
-
-    .welcome {
-      text-align: center;
-      height: 60px;
-      line-height: 60px;
-      font-size: 18px;
-      font-weight: bold;
-      border-bottom: 1px solid #e9eaec;
+    .logo {
+      width: 126px;
+      height: 56px;
+      margin-bottom: 8px;
+      vertical-align: bottom
     }
 
-    .form-box {
-      padding: 20px 20px 0;
+    .title {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 22px;
+      letter-spacing: 1.15px;
+      color: #fff
     }
-    .code-img {
+  }
+
+  .login-main-box {
+    position: relative;
+    overflow: hidden;
+    width: 740px;
+    margin: auto;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+
+    .left {
       position: absolute;
       top: 0;
-      right: 0;
-      width: 120px;
-      height: 50px;
-      cursor: pointer;
+      bottom: 0;
+      left: 0;
+      width: 360px;
+      border: none;
+      background: url("../../images/box-left.png") top left no-repeat;
+      background-size: cover;
+
+      .scan-qr-code {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 50%;
+        width: 200px;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        text-align: center;
+
+        .img {
+          width: 160px;
+          margin-bottom: 24px;
+          vertical-align: bottom;
+          opacity: .9;
+          border: 20px solid #fff;
+          border-radius: 4px;
+          background: #fff
+        }
+
+        .text {
+          font-size: 14px;
+          line-height: 20px;
+          color: #fff
+        }
+      }
+
     }
 
-  }
-}
+    .right {
+      float: right;
+      width: 380px;
+      min-height: 456px;
+      padding: 40px 40px 0;
 
-.container {
-  .ivu-form-inline .ivu-form-item {
-    display: block;
-    margin-right: 0;
+      .login-form {
+
+        .title {
+          font-size: 22px;
+          font-weight: 400;
+          line-height: 1;
+          margin-bottom: 35px;
+          color: #333;
+
+          >small {
+            font-size: 14px;
+            color: #828694
+          }
+        }
+
+        .verify-code {
+          position: relative;
+
+          .code-img {
+            position: absolute;
+            z-index: 99;
+            top: 2px;
+            right: 1px;
+            width: 130px;
+            height: 44px;
+            cursor: pointer;
+          }
+        }
+
+        .login-button {
+          font-size: 14px;
+          width: 100%;
+          letter-spacing: 1px;
+          color: #fff;
+          border-radius: 2px;
+          outline: none;
+          transition: background .25s ease-in-out;
+          background: #258ff8;
+          padding: 8px 0;
+          text-align: center;
+          cursor: pointer;
+        }
+
+        .register {
+          font-size: 12px;
+          text-align: center;
+          color: #b3b4b9;
+
+          >a {
+            color: #258ff8
+          }
+        }
+      }
+    }
   }
 
-}
-.icon {
-  width: 30px;
-  padding: 0px;
+  .login-footer {
+    font-size: 12px;
+    line-height: 18px;
+    padding-top: 60px;
+    padding-bottom: 40px;
+    text-align: center;
+
+    .links {
+      margin-bottom: 10px;
+      padding: 0;
+
+      >li {
+        display: inline-block;
+        padding-right: 20px;
+        padding-left: 20px
+      }
+
+      >li:not(:last-child) {
+        border-right: 1px solid #d3dae2
+      }
+
+      .link {
+        color: #4c5265;
+
+        &:hover {
+          color: #258ff8;
+        }
+      }
+    }
+
+    .copyright {
+      color: #b3b4b9
+    }
+  }
 }
