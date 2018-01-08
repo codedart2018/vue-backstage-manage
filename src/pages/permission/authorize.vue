@@ -199,6 +199,10 @@
           this.request('SaveAuth', {id: id, rules: this.rules, name: this.name}).then((res) => {
             if (res.status) {
               this.$Message.success(res.msg);
+              //判断是否有新的权限拉回来
+              if (res.data.menu) {
+                this.$store.commit('ADD_SIDE_MENU', res.data.menu);
+              }
               this.$router.go(-1);
             } else {
               this.$Message.error(res.msg);

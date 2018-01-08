@@ -57,6 +57,14 @@ const methodMap = {
   /** 修改商铺分类 **/
   ShopCategoryEdit: {url: '/admin/shop_category/edit', method: 'post'},
   /** 删除商铺分类 **/
-  ShopCategoryDelete: {url: '/admin/shop_category/delete', method: 'post'}
+  AreaCategoryDelete: {url: '/admin/shop_category/delete', method: 'post'},
+  /** 地区分类列表 **/
+  AreaCategory: {url: '/admin/area/index', method: 'get'},
+  /** 添加地区分类 **/
+  AreaCategoryAdd: {url: '/admin/area/add', method: 'post'},
+  /** 修改地区分类 **/
+  AreaCategoryEdit: {url: '/admin/area/edit', method: 'post'},
+  /** 删除地区分类 **/
+  ShopCategoryDelete: {url: '/admin/area/delete', method: 'post'}
 };
 export default methodMap;

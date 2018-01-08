@@ -8,53 +8,11 @@
  * 留连戏蝶时时舞，自在娇莺恰恰啼。
  */
 import Layout from '@/pages/layout/index.vue';
+
+import {ShopRouter} from './shop';
 //菜单路由
 export const SubRouter = [
-  {
-    path: '/shop/default',
-    name: 'Shop',
-    icon: 'bag',
-    meta: {
-      title: '商铺管理',
-      routeAuth: true
-    },
-    component: Layout,
-    children: [
-      {
-        path: '/shop/category',
-        name: 'ShopCategory',
-        icon: 'social-buffer-outline',
-        meta: {
-          title: '商铺分类',
-          routeAuth: true
-        },
-        component: resolve => require(['../pages/shop/category'], resolve),
-        children: []
-      },
-      {
-        path: '/shop/index',
-        name: 'ShopIndex',
-        icon: 'grid',
-        meta: {
-          title: '商铺列表',
-          routeAuth: true
-        },
-        component: resolve => require(['../pages/shop/index'], resolve),
-        children: []
-      },
-      {
-        path: '/shop/detail/:id?',
-        name: 'ShopDetail',
-        icon: 'grid',
-        meta: {
-          title: '商铺详情',
-          routeAuth: true
-        },
-        component: resolve => require(['../pages/shop/detail'], resolve),
-        children: []
-      }
-    ]
-  },
+  ShopRouter,
   {
     path: '/permission/default',
     name: 'Permission',
