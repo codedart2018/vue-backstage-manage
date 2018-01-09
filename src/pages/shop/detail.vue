@@ -47,10 +47,10 @@
           </Col>
         </Row>
         <Form-item label="区域商圈：">
-          <Cascader :data="areaData" v-model="area"></Cascader>
+          <Cascader :data="areaTree" v-model="data.area_value" @on-change="se"></Cascader>
         </Form-item>
         <Form-item label="商铺类型：">
-          <Cascader :data="shopType" v-model="shop"></Cascader>
+          <Cascader :data="categoryTree" v-model="data.category_value"></Cascader>
         </Form-item>
         <Form-item label="商铺地址：">
           <Input v-model="data.address" placeholder="请填写商铺地址"></Input>
@@ -138,68 +138,8 @@
           time: '',
           desc: ''
         },
-        area: ['jiangsu', 'nanjing'],
-        areaData: [
-          {
-            value: 'beijing',
-            label: '中山路',
-            children: [
-              {
-                value: 'gugong',
-                label: '故宫'
-              },
-              {
-                value: 'tiantan',
-                label: '天坛'
-              },
-              {
-                value: 'wangfujing',
-                label: '王府井'
-              }
-            ]
-          },
-          {
-            value: 'jiangsu',
-            label: '胜利路',
-            children: [
-              {
-                value: 'nanjing',
-                label: '渝西广场'
-              }
-            ]
-          }
-        ],
-        shop: ['beijing', 'gugong'],
-        shopType: [
-          {
-            value: 'beijing',
-            label: '美食',
-            children: [
-              {
-                value: 'gugong',
-                label: '重庆火锅'
-              },
-              {
-                value: 'tiantan',
-                label: '天坛'
-              },
-              {
-                value: 'wangfujing',
-                label: '王府井'
-              }
-            ]
-          },
-          {
-            value: 'jiangsu',
-            label: '胜利路',
-            children: [
-              {
-                value: 'nanjing',
-                label: '渝西广场'
-              }
-            ]
-          }
-        ],
+        categoryTree: [],
+        areaTree: [],
         ruleValidate: {
           mail: [
             {required: true, message: '邮箱不能为空', trigger: 'blur'},
@@ -226,13 +166,20 @@
         this.request('ShopDetail', {id: id}, true).then((res) => {
           if (res.status) {
             //数据
-            this.data = res.data;
+            this.data = res.data.shopData;
+            //店铺分类
+            this.categoryTree = res.data.categoryTree;
+            //区域分类
+            this.areaTree = res.data.areaTree;
           }
         }).catch((response) => {});
       },
       //后退海阔天空
       goBack() {
         this.$router.go(-1);
+      },
+      se (v, d) {
+        console.log(v, d);
       }
     },
     mounted() {

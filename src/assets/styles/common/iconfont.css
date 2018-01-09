@@ -1,4 +1,5 @@
-@font-face {font-family: "iconfont";
+@font-face {
+  font-family: "iconfont";
   src: url('../../font/iconfont.eot?t=1512488163945'); /* IE9*/
   src: url('../../font/iconfont.eot?t=1512488163945#iefix') format('embedded-opentype'), /* IE6-IE8 */
   url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAU4AAsAAAAAB7gAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZXKEfvY21hcAAAAYAAAABhAAABnM64aZpnbHlmAAAB5AAAAUwAAAF0yKUaLGhlYWQAAAMwAAAAMQAAADYPt/9vaGhlYQAAA2QAAAAgAAAAJAfdA4VobXR4AAADhAAAABAAAAAQD+n//2xvY2EAAAOUAAAACgAAAAoBMACYbWF4cAAAA6AAAAAfAAAAIAETAF1uYW1lAAADwAAAAUUAAAJtPlT+fXBvc3QAAAUIAAAALQAAAEY1Q0sOeJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2Bk/sU4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVDxjZm7438AQw9zAsAsozAiSAwAmRQyreJzFkMENgCAMRV8pGmIcxaNxIE+OwMSsgW3lwgR+8kr785MSgAVQ4zAyyIPgus2V8JUt/Mxlc7GT7K6Npr1PnUsiUaJTT8rKb5L/Vs/ao55j8v+uA3ti48P9NiC9+BQPfwAAAHicNY87T8JgGIXf9/toS7kUaekVCpQC1aAkYsXBCIsxURkgTrLJoJMOLiwMDJowGOPqakxMnHXjl5g4ePkFjsZ8tQnpycnJMz3JAQ4g+KBzaoACy7AOu9AHQL6BFYnY6Hh+kzRQdThVz0nUcz1HcCtNuoN6hc9prbZf13mBz6CERdxwWm2vSTzc9DtkG1uajWjmrSO5VpDpHSYMr3jNDsgDqiW3kOmssf3Vbq5VVuLjlCybsnwT5zkuTkgsI+G5romcmODZI5ex1HlphZQwZXpW7zhdzssnM//Cruki4nSKSr4sPXWzVjbsxNIU2RSW0nHDSrvVHI6/k4aSsutfEIaEX/diQAlwkAQQMTQIi8UXdjbCd8YP6GFEWGWXffzEtyGbRAQkCIJn+kNPI4cn4tZiSQ/vR8zF38Hfa0Q4w9s+K7L6EK8i+gdlAE18eJxjYGRgYADiJ209J+L5bb4ycLMwgMA1n7uPYfT////dWBiY04BcDgYmkCgAhiEN7QAAAHicY2BkYGBu+N/AEMPC8P8/AwMLAwNQBAWwAAB12wRrBAAAAAPpAAAEAAAABAD//wAAAAAAdgCYALoAAHicY2BkYGBgYQhkYGUAASYg5gJCBob/YD4DABESAXEAeJxlj01OwzAQhV/6B6QSqqhgh+QFYgEo/RGrblhUavdddN+mTpsqiSPHrdQDcB6OwAk4AtyAO/BIJ5s2lsffvHljTwDc4Acejt8t95E9XDI7cg0XuBeuU38QbpBfhJto41W4Rf1N2MczpsJtdGF5g9e4YvaEd2EPHXwI13CNT+E69S/hBvlbuIk7/Aq30PHqwj7mXle4jUcv9sdWL5xeqeVBxaHJIpM5v4KZXu+Sha3S6pxrW8QmU4OgX0lTnWlb3VPs10PnIhVZk6oJqzpJjMqt2erQBRvn8lGvF4kehCblWGP+tsYCjnEFhSUOjDFCGGSIyujoO1Vm9K+xQ8Jee1Y9zed0WxTU/3OFAQL0z1xTurLSeTpPgT1fG1J1dCtuy56UNJFezUkSskJe1rZUQuoBNmVXjhF6XNGJPyhnSP8ACVpuyAAAAHicY2BigAAuBuyAhZGJkZmRhZGVgbGCqzw1MykzMb8k04IbwTRkYAAAhQMIzAAAAA==') format('woff'),
@@ -7,11 +8,49 @@
 }
 
 .icon-font {
-  font-family:"iconfont" !important;
+  font-family:"iconfont"!important;
   font-style:normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-arrow-right:before { content: "\e603"; }
-.icon-arrow-left:before { content: "\e600"; }
+.icon-weibiaoti8:before { content: "\e603"; }
+.icon-weibiaoti81:before { content: "\e600"; }
+/*叫醒服务*/
+.icon-jiaoxingfuwu:before { content: "\e651"; }
+/*外卖*/
+.icon-waimai:before { content: "\e618"; }
+/*停车服务*/
+.icon-tingche:before { content: "\e610"; }
+/*会议室服务*/
+.icon-huiyishi:before { content: "\e611"; }
+/*支付宝服务*/
+.icon-zhifubao:before { content: "\e629"; }
+/*早餐服务*/
+.icon-zaocan:before { content: "\e6c9"; }
+/*接送机服务*/
+.icon-jiesongji:before { content: "\e888"; }
+/*手机充电服务*/
+.icon-Group-copy:before { content: "\e604"; }
+/*首页*/
+.icon-shouye:before { content: "\e630"; }
+/*淋浴服务*/
+.icon-linyu:before { content: "\e807"; }
+/*汽车充电服务*/
+.icon-chongdian:before { content: "\e623"; }
+/*预约服务*/
+.icon-shafa:before { content: "\e601"; }
+/*吹风机服务*/
+.icon-chuifengji:before { content: "\e699"; }
+/*寄存服务*/
+.icon-jicun:before { content: "\e636"; }
+/*空调服务*/
+.icon-xiaofang:before { content: "\e602"; }
+/*微信支付服务*/
+.icon-weixinzhifu:before { content: "\e65c"; }
+/*电视机服务*/
+.icon-dianshi:before { content: "\e67a"; }
+/*刷卡服务*/
+.icon-SKJYJETJ:before { content: "\e61b"; }
+/*有线上网服务*/
+.icon-youxianwangluo:before { content: "\e606"; }

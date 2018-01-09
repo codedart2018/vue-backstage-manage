@@ -2,7 +2,7 @@
 <template>
   <div class="tabs-menu">
     <div class="leftward">
-      <i class="icon-font icon-arrow-left"></i>
+      <i class="icon-font icon-weibiaoti81"></i>
     </div>
     <div class="center-slide">
       <div ref="scrollDom" class="tags-outer-scroll-con" @DOMMouseScroll="handleScroll" @mousewheel="handleScroll">
@@ -26,7 +26,7 @@
     </div>
     <div class="rightward">
       <div class="arrow-box">
-        <i class="icon-font icon-arrow-right"></i>
+        <i class="icon-font icon-weibiaoti8"></i>
       </div>
       <div class="drop-down" :class="{'drop-down-hover': isOpenMore}" @mouseover="tabsMorePlan"
            @mouseout="tabsMorePlan">
