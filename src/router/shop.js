@@ -20,6 +20,17 @@ export const ShopRouter = {
   component: Layout,
   children: [
     {
+      path: '/service_tag/index',
+      name: 'serviceTagIndex',
+      icon: 'pricetag',
+      meta: {
+        title: '服务标签',
+        routeAuth: true
+      },
+      component: resolve => require(['../pages/service-tag/index'], resolve),
+      children: []
+    },
+    {
       path: '/area/index',
       name: 'AreaIndex',
       icon: 'map',

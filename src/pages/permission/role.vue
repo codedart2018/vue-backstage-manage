@@ -31,8 +31,7 @@
             </Radio-group>
           </Form-item>
           <Form-item label="角色说明" prop="desc">
-            <Input v-model="addForm.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="角色简要说明..."></Input>
+            <Input v-model="addForm.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="角色简要说明..."></Input>
           </Form-item>
         </Form>
       </div>
@@ -58,8 +57,7 @@
             </Radio-group>
           </Form-item>
           <Form-item label="角色说明" prop="desc">
-            <Input v-model="editForm.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="角色说明..."></Input>
+            <Input v-model="editForm.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="角色说明..."></Input>
           </Form-item>
         </Form>
       </div>

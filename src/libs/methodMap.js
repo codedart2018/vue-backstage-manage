@@ -65,6 +65,12 @@ const methodMap = {
   /** 修改地区分类 **/
   AreaCategoryEdit: {url: '/admin/area/edit', method: 'post'},
   /** 删除地区分类 **/
-  ShopCategoryDelete: {url: '/admin/area/delete', method: 'post'}
+  ShopCategoryDelete: {url: '/admin/area/delete', method: 'post'},
+  /** 服务标签 **/
+  ServiceTag: {url: '/admin/service_tag/index', method: 'post'},
+  /** 添加地区分类 **/
+  ServiceTagAdd: {url: '/admin/service_tag/add', method: 'post'},
+  /** 修改地区分类 **/
+  ServiceTagEdit: {url: '/admin/service_tag/edit', method: 'post'}
 };
 export default methodMap;
