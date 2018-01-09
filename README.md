@@ -3,6 +3,8 @@
 ## 大家多扫扫哈！
 ![支付宝红包二维码](./static/alipay.jpg)
 
+[演示地址](https://life.dev.yongchuan.cc)
+
 [PHP框架](https://gitee.com/myxingke/Hphp)
 
 [原项目](https://github.com/myxingke/vueManage)

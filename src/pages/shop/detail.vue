@@ -61,6 +61,42 @@
         <Form-item label="电话2：">
           <Input v-model="data.phone2" placeholder="请填写电话2"></Input>
         </Form-item>
+        <FormItem label="店铺状态：" prop="service_tag">
+          <CheckboxGroup v-model="data.service_tag">
+            <Checkbox label="twitter">
+              <Icon type="social-twitter"></Icon>
+              <span>Twitter</span>
+            </Checkbox>
+            <Checkbox label="facebook">
+              <Icon type="social-facebook"></Icon>
+              <span>Facebook</span>
+            </Checkbox>
+            <Checkbox label="github">
+              <Icon type="social-github"></Icon>
+              <span>Github</span>
+            </Checkbox>
+            <Checkbox label="snapchat">
+              <Icon type="social-snapchat"></Icon>
+              <span>Snapchat</span>
+            </Checkbox>
+            <Checkbox label="twitter">
+              <Icon type="social-twitter"></Icon>
+              <span>Twitter</span>
+            </Checkbox>
+            <Checkbox label="facebook">
+              <Icon type="social-facebook"></Icon>
+              <span>Facebook</span>
+            </Checkbox>
+            <Checkbox label="github">
+              <Icon type="social-github"></Icon>
+              <span>Github</span>
+            </Checkbox>
+            <Checkbox label="snapchat">
+              <Icon type="social-snapchat"></Icon>
+              <span>Snapchat</span>
+            </Checkbox>
+          </CheckboxGroup>
+        </FormItem>
         <FormItem label="店铺状态：" prop="status">
           <RadioGroup v-model="data.status">
             <Radio label="0">锁定</Radio>
