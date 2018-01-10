@@ -130,6 +130,8 @@
               <Option v-for="item in roles" :value="item.id" :key="item.id">{{ item.name }}</Option>
             </Select>
           </Form-item>
+          {{editForm.avatar_url ? 1 : 2}}
+          {{this.editForm.avatar_id}}
           <Form-item label="头像" prop="avatar_id">
             <div class="demo-upload-list">
               <img :src="editForm.avatar_url ? editForm.avatar_url : defaultAvatar">
@@ -588,10 +590,9 @@
         this.visible = true;
       },
       //删除头像
-      handleRemove (id, msg) {
-        //todo 差登陆人身份
-        if (!parseInt(id)) return false;
-        this.request('AdminEmptyAvatar', {id: id}, '删除中...').then((res) => {
+      handleRemove (avatarId, msg) {
+        if (!parseInt(avatarId)) return false;
+        this.request('AdminEmptyAvatar', {uid: this.$store.state.ManageUser.userInfo.uid, avatar_id: avatarId}, '删除中...').then((res) => {
           if (res.status) {
             if (msg) {
               this.$Message.success(msg);
@@ -632,9 +633,8 @@
         if (this.uploadType === 'edit') {
           avatar = parseInt(this.editForm.avatar_id);
         } else {
-          avatar = parseInt(this.editForm.avatar_id);
+          avatar = parseInt(this.addForm.avatar_id);
         }
-        //判断原来是否有 如果有删除掉
         if (avatar > 0) {
           this.handleRemove(avatar, '替换成功...');
         } else {
@@ -660,6 +660,22 @@
         } else {
         }
       });
+      let sleep = (time) => {
+        let t = this;
+        return new Promise(function (resolve) {
+          t.$Message.success('上传成功...');
+          setTimeout(function () {
+            console.log('await');
+            resolve();
+          }, time);
+        });
+      };
+      let start = async () => {
+        console.log('start');
+        await sleep(3000);
+        console.log('end');
+      };
+      start();
     },
     components: {},
     watch: {
