@@ -150,7 +150,7 @@
               :on-format-error="handleFormatError"
               :on-exceeded-size="handleMaxSize"
               :before-upload="handleBeforeUpload"
-              action="//up-z2.qiniu.com"
+              action="https://upload-z2.qiniup.com"
               :data="uploadAvatarParams"
               style="display: inline-block;width:58px;">
               <div style="width: 58px;height:58px;line-height: 58px;" @click="uploadType = 'edit'">
