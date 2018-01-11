@@ -66,7 +66,7 @@
               <img :src="addForm.avatar_url ? addForm.avatar_url : defaultAvatar">
               <div class="demo-upload-list-cover">
                 <Icon type="ios-eye-outline" @click.native="handleView(addForm.avatar_url)"></Icon>
-                <Icon type="ios-trash-outline" @click.native="handleRemove(addForm.avatar_id)"></Icon>
+                <Icon type="ios-trash-outline" @click.native="handleRemove(addForm.avatar_id, '删除成功')"></Icon>
               </div>
             </div>
             <Upload
@@ -130,14 +130,12 @@
               <Option v-for="item in roles" :value="item.id" :key="item.id">{{ item.name }}</Option>
             </Select>
           </Form-item>
-          {{editForm.avatar_url ? 1 : 2}}
-          {{this.editForm.avatar_id}}
           <Form-item label="头像" prop="avatar_id">
             <div class="demo-upload-list">
               <img :src="editForm.avatar_url ? editForm.avatar_url : defaultAvatar">
               <div class="demo-upload-list-cover">
                 <Icon type="ios-eye-outline" @click.native="handleView(editForm.avatar_url)"></Icon>
-                <Icon type="ios-trash-outline" @click.native="handleRemove(editForm.avatar_id)"></Icon>
+                <Icon type="ios-trash-outline" @click.native="handleRemove(editForm.avatar_id, '删除成功')"></Icon>
               </div>
             </div>
             <Upload
@@ -469,6 +467,7 @@
         editModal: false,
         //上传参数
         uploadAvatarParams: {
+          uploadUrl: '', //上传url
           domain: '', //访问域名
           token: '', //授权token
           key: '', //上传目录
@@ -590,17 +589,19 @@
         this.visible = true;
       },
       //删除头像
-      handleRemove (avatarId, msg) {
+      handleRemove (avatarId, msg, empty = true) {
         if (!parseInt(avatarId)) return false;
         this.request('AdminEmptyAvatar', {uid: this.$store.state.ManageUser.userInfo.uid, avatar_id: avatarId}, '删除中...').then((res) => {
           if (res.status) {
+            if (empty) {
+              this.editForm.avatar_id = 0;
+              this.editForm.avatar_url = '';
+            }
             if (msg) {
               this.$Message.success(msg);
             } else {
               this.$Message.success(res.msg);
             }
-            this.editForm.avatar_id = 0;
-            this.editForm.avatar_url = '';
           } else {
             this.$Message.error(res.msg);
           }
@@ -632,20 +633,17 @@
         let avatar = 0;
         if (this.uploadType === 'edit') {
           avatar = parseInt(this.editForm.avatar_id);
-        } else {
-          avatar = parseInt(this.addForm.avatar_id);
-        }
-        if (avatar > 0) {
-          this.handleRemove(avatar, '替换成功...');
-        } else {
-          this.$Message.success('上传成功...');
-        }
-        if (this.uploadType === 'edit') {
           this.editForm.avatar_id = res.data.id;
           this.editForm.avatar_url = this.uploadAvatarParams.domain + this.uploadAvatarParams.key;
         } else {
+          avatar = parseInt(this.addForm.avatar_id);
           this.addForm.avatar_id = res.data.id;
           this.addForm.avatar_url = this.uploadAvatarParams.domain + this.uploadAvatarParams.key;
+        }
+        if (avatar > 0) {
+          this.handleRemove(avatar, '替换成功...', false);
+        } else {
+          this.$Message.success('上传成功...');
         }
       }
     },
@@ -657,25 +655,12 @@
         if (res.status) {
           this.uploadAvatarParams.token = res.data.token;
           this.uploadAvatarParams.domain = res.data.domain;
+          this.uploadAvatarParams.uploadUrl = res.data.uploadUrl;
+
         } else {
+          this.$Message.error('上传初始化失败,请重试!');
         }
       });
-      let sleep = (time) => {
-        let t = this;
-        return new Promise(function (resolve) {
-          t.$Message.success('上传成功...');
-          setTimeout(function () {
-            console.log('await');
-            resolve();
-          }, time);
-        });
-      };
-      let start = async () => {
-        console.log('start');
-        await sleep(3000);
-        console.log('end');
-      };
-      start();
     },
     components: {},
     watch: {
