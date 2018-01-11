@@ -4,7 +4,7 @@
     <Form ref="data" :model="data" :rules="ruleValidate" :label-width="110" class="shop-form">
       <Row>
         <Col span="8">
-        <Row style="margin-bottom: 24px;">
+        <Row style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px dashed #dedede">
           <Col span="24">
           <span class="card-form-title">基本信息</span>
           </Col>
@@ -22,7 +22,18 @@
         <Form-item label="创建时间：">
           <div>{{$formatDate(data.create_time, 'yyyy-MM-dd h:m')}}</div>
         </Form-item>
-        <Row style="margin-bottom: 24px;">
+        <Row style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px dashed #dedede">
+          <Col span="24">
+          <span class="card-form-title">财务信息</span>
+          </Col>
+        </Row>
+        <Form-item label="余额：">
+          {{$formatMoney(data.balance)}}
+        </Form-item>
+        <Form-item label="冻结金额：">
+          {{$formatMoney(data.freezing_amount)}}
+        </Form-item>
+        <Row style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px dashed #dedede">
           <Col span="24">
           <span class="card-form-title">联系信息</span></Col>
         </Row>
@@ -41,7 +52,7 @@
         </Col>
         <Col span="1">&nbsp;</Col>
         <Col span="8">
-        <Row style="margin-bottom: 24px;">
+        <Row style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px dashed #dedede">
           <Col span="24">
           <span class="card-form-title">商铺信息</span>
           </Col>
@@ -61,39 +72,11 @@
         <Form-item label="电话2：">
           <Input v-model="data.phone2" placeholder="请填写电话2"></Input>
         </Form-item>
-        <FormItem label="店铺状态：" prop="service_tag">
+        <FormItem label="商家服务：" prop="service_tag">
           <CheckboxGroup v-model="data.service_tag">
-            <Checkbox label="twitter">
-              <Icon type="social-twitter"></Icon>
-              <span>Twitter</span>
-            </Checkbox>
-            <Checkbox label="facebook">
-              <Icon type="social-facebook"></Icon>
-              <span>Facebook</span>
-            </Checkbox>
-            <Checkbox label="github">
-              <Icon type="social-github"></Icon>
-              <span>Github</span>
-            </Checkbox>
-            <Checkbox label="snapchat">
-              <Icon type="social-snapchat"></Icon>
-              <span>Snapchat</span>
-            </Checkbox>
-            <Checkbox label="twitter">
-              <Icon type="social-twitter"></Icon>
-              <span>Twitter</span>
-            </Checkbox>
-            <Checkbox label="facebook">
-              <Icon type="social-facebook"></Icon>
-              <span>Facebook</span>
-            </Checkbox>
-            <Checkbox label="github">
-              <Icon type="social-github"></Icon>
-              <span>Github</span>
-            </Checkbox>
-            <Checkbox label="snapchat">
-              <Icon type="social-snapchat"></Icon>
-              <span>Snapchat</span>
+            <Checkbox label="twitter" v-for="(item, index) in serviceTag" :key="item.icon">
+              <i :class="'icon-font ' + item.icon" style="font-size: 13px;"></i>
+              <span>{{item.name}}</span>
             </Checkbox>
           </CheckboxGroup>
         </FormItem>
@@ -105,21 +88,10 @@
             <Radio label="3">关闭</Radio>
           </RadioGroup>
         </FormItem>
-        <Row style="margin-bottom: 24px;">
-          <Col span="24">
-          <span class="card-form-title">财务信息</span>
-          </Col>
-        </Row>
-        <Form-item label="余额：">
-          {{$formatMoney(data.balance)}}
-        </Form-item>
-        <Form-item label="冻结金额：">
-          {{$formatMoney(data.freezing_amount)}}
-        </Form-item>
         </Col>
         <Col span="1">&nbsp;</Col>
         <Col span="6">
-        <Row style="margin-bottom: 24px;">
+        <Row style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px dashed #dedede">
           <Col span="24">
           <span class="card-form-title">快捷面板</span></Col>
         </Row>
@@ -176,6 +148,7 @@
         },
         categoryTree: [],
         areaTree: [],
+        serviceTag: [],
         ruleValidate: {
           mail: [
             {required: true, message: '邮箱不能为空', trigger: 'blur'},
@@ -207,6 +180,8 @@
             this.categoryTree = res.data.categoryTree;
             //区域分类
             this.areaTree = res.data.areaTree;
+            //服务标签
+            this.serviceTag = res.data.serviceTag;
           }
         }).catch((response) => {});
       },
