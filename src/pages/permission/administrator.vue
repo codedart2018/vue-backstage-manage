@@ -656,7 +656,6 @@
           this.uploadAvatarParams.token = res.data.token;
           this.uploadAvatarParams.domain = res.data.domain;
           this.uploadAvatarParams.uploadUrl = res.data.uploadUrl;
-
         } else {
           this.$Message.error('上传初始化失败,请重试!');
         }
