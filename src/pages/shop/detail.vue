@@ -74,11 +74,37 @@
         </Form-item>
         <FormItem label="商家服务：" prop="service_tag">
           <CheckboxGroup v-model="data.service_tag">
-            <Checkbox label="twitter" v-for="(item, index) in serviceTag" :key="item.icon">
+            <Checkbox :label="item.id" v-for="(item, index) in serviceTag" :key="index">
               <i :class="'icon-font ' + item.icon" style="font-size: 13px;"></i>
               <span>{{item.name}}</span>
             </Checkbox>
           </CheckboxGroup>
+        </FormItem>
+        <FormItem label="营业时间：" prop="interest">
+          <CheckboxGroup v-model="data.interest">
+            <Checkbox label="Eat">周一</Checkbox>
+            <Checkbox label="Sleep">周二</Checkbox>
+            <Checkbox label="Run">周三</Checkbox>
+            <Checkbox label="Movie">周四</Checkbox>
+            <Checkbox label="Movie">周五</Checkbox>
+            <Checkbox label="Movie">周六</Checkbox>
+            <Checkbox label="Movie">周天</Checkbox>
+          </CheckboxGroup>
+        </FormItem>
+        <FormItem label="">
+          <Row>
+            <Col span="11">
+            <FormItem prop="time">
+              <TimePicker type="time" placeholder="Select date" v-model="data.time"></TimePicker>
+            </FormItem>
+            </Col>
+            <Col span="2" style="text-align: center">至</Col>
+            <Col span="11">
+            <FormItem prop="time">
+              <TimePicker type="time" placeholder="Select time" v-model="data.time"></TimePicker>
+            </FormItem>
+            </Col>
+          </Row>
         </FormItem>
         <FormItem label="店铺状态：" prop="status">
           <RadioGroup v-model="data.status">
@@ -149,6 +175,7 @@
         categoryTree: [],
         areaTree: [],
         serviceTag: [],
+        businessHours: [],
         ruleValidate: {
           mail: [
             {required: true, message: '邮箱不能为空', trigger: 'blur'},
