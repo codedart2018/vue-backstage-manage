@@ -392,9 +392,6 @@
       }
     },
     async created () {
-      let dom = document.createElement('div');
-      dom.className = 'helloWorld';
-      document.body.appendChild(dom);
       // 已载入高德地图API，则直接初始化地图
       if (window.AMap) {
         this.initMap();

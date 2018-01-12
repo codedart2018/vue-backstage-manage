@@ -15,6 +15,9 @@ export default function autoLoad (url, hasCallback) {
    * @returns {Promise}
    */
   function createScript (url) {
+    let dom = document.createElement('div');
+    dom.className = 'helloWorld';
+    document.body.appendChild(dom);
     let scriptElement = document.createElement('script');
     document.body.appendChild(scriptElement);
     let promise = new Promise((resolve, reject) => {
