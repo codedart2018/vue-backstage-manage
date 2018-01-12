@@ -60,13 +60,13 @@
           },
           {
             title: '点评人数',
-            key: 'comment_number',
+            key: 'commentNumber',
             align: 'center',
             width: 100
           },
           {
             title: '喜欢人数',
-            key: 'like_number',
+            key: 'likeNumber',
             align: 'center',
             width: 100
           },
@@ -81,11 +81,11 @@
           },
           {
             title: '冻结金额',
-            key: 'freezing_amount',
+            key: 'freezingAmount',
             align: 'center',
             width: 120,
             render: (h, params) => {
-              return h('div', this.$formatMoney(params.row.freezing_amount, 2));
+              return h('div', this.$formatMoney(params.row.freezingAmount, 2));
             }
           },
           {
@@ -123,11 +123,11 @@
           },
           {
             title: '添加时间',
-            key: 'create_time',
+            key: 'createTime',
             width: 135,
             align: 'center',
             render: (h, params) => {
-              return h('div', this.$formatDate(params.row.create_time, 'yyyy-MM-dd h:m'));
+              return h('div', this.$formatDate(params.row.createTime, 'yyyy-MM-dd h:m'));
             }
           },
           {

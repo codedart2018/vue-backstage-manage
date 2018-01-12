@@ -22,7 +22,13 @@ Vue.use(Http);
 Vue.use(Plugin);
 window.Util = Util;
 Vue.config.productionTip = false;
-
+//高德地图
+window.DMap = {
+  resizeEnable: true,
+  zoom: 13,
+  center: [105.926828, 29.356573],
+  key: 'f582bf3f0ed6a17340eae1c54b475833'
+};
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
