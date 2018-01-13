@@ -125,11 +125,12 @@
           </Form-item>
           <Form-item label="地图坐标：">
             <Button type="info" icon="map" @click="mapModal = true">地图标注</Button>
+            <span>（{{shopData.longitude}} - {{shopData.latitude}}）</span>
           </Form-item>
           <Form-item label="特色标签：" style="margin-bottom: 5px;">
             <Row>
               <Col span="14">
-                <Input v-model="shopData.featureTag" placeholder="回车添加或点击添加(最多5个字符)" @on-enter="addFeatureTag"></Input>
+                <Input v-model="featureTag" placeholder="回车添加或点击添加(最多5个字符)" @on-enter="addFeatureTag"></Input>
               </Col>
               <Col span="1">&nbsp;</Col>
               <Col span="9">
@@ -333,6 +334,7 @@
         categoryTree: [],
         areaTree: [],
         serviceTags: [],
+        featureTag: '',
         featureTags: [],
         businessHours: [],
         ruleValidate: {
@@ -400,7 +402,7 @@
           this.$Message.error('标签最多6个字符');
           return false;
         }
-        if (this.featureTags.length >= 3) {
+        if (this.featureTags.length >= 10) {
           this.$Message.error('最多只能添加10组标签');
           return false;
         }
