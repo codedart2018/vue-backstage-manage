@@ -278,7 +278,7 @@
           </Row>
           <Row style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px dashed #dedede">
             <Col span="24">
-            <!--<div id="map-container" class="map" style="width: 100%; height: 300px;"></div>-->
+
             </Col>
           </Row>
 
@@ -295,7 +295,7 @@
       </Form>
     </Card>
     <Modal v-model="mapModal" width="700">
-      <div slot="header">地图标注</div>
+      <div slot="header" class="ivu-modal-header-inner">地图标注</div>
       <div id="map-container" class="map" style="width: 100%; height: 400px;"></div>
       <div slot="footer">
       </div>
@@ -305,7 +305,8 @@
 
 <script>
   import infoCard from '@/components/info-card.vue';
-  import autoLoad from '@/libs/autoLoad';
+  import {createScript, removeScript} from '@/libs/autoLoad';
+  let map;
   export default {
     name: 'shopDetail',
     data () {
@@ -378,7 +379,7 @@
       },
       initMap() {
         let AMap = this.AMap = window.AMap;
-        let map = new AMap.Map('map-container', {
+        map = new AMap.Map('map-container', {
           resizeEnable: window.DMap.resizeEnable,
           zoom: window.DMap.zoom,
           center: window.DMap.center
@@ -391,15 +392,16 @@
         });
       }
     },
-    async created () {
-      // 已载入高德地图API，则直接初始化地图
-      if (window.AMap) {
-        this.initMap();
-        // 未载入高德地图API，则先载入API再初始化
-      } else {
-        await autoLoad(`http://webapi.amap.com/maps?v=1.3&key=${window.DMap.key}`);
-        this.initMap();
-      }
+    created () {
+      let url = `http://webapi.amap.com/maps?v=1.3&key=${window.DMap.key}`;
+      let t = this;
+      createScript(url, 'mapDom').then(function () {
+        setTimeout(() => {
+          t.initMap();
+        }, 100);
+      }).catch(function (error) {
+        console.log('发生错误！', error);
+      });
     },
     mounted () {
       //debugger;
@@ -407,6 +409,7 @@
       this.getData();
     },
     destroyed () {
+      removeScript('mapDom');
     }
   };
 </script>

@@ -323,8 +323,8 @@
       }
     },
     beforeCreate () {},
-    create () {},
-    beforeMounted () {},
+    created () {},
+    beforeMount () {},
     mounted () {
       //服务端获取数据
       this.getData();

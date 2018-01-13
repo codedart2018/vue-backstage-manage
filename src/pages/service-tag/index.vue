@@ -185,8 +185,8 @@
       }
     },
     beforeCreate () {},
-    create () {},
-    beforeMounted () {},
+    created () {},
+    beforeMount () {},
     mounted () {
       this.getData();
     },

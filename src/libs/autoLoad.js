@@ -7,51 +7,47 @@
  * 黄四娘家花满蹊，千朵万朵压枝低。
  * 留连戏蝶时时舞，自在娇莺恰恰啼。
  */
-export default function autoLoad (url, hasCallback) {
-  return createScript(url);
-  /**
-   * 创建script
-   * @param url
-   * @returns {Promise}
-   */
-  function createScript (url) {
-    let dom = document.createElement('div');
-    dom.className = 'helloWorld';
-    document.body.appendChild(dom);
-    let scriptElement = document.createElement('script');
-    document.body.appendChild(scriptElement);
-    let promise = new Promise((resolve, reject) => {
-      scriptElement.addEventListener('load', e => {
-        removeScript(scriptElement);
-        if (!hasCallback) {
-          resolve(e);
-        }
-      }, false);
-      scriptElement.addEventListener('error', e => {
-        removeScript(scriptElement);
-        reject(e);
-      }, false);
-      if (hasCallback) {
-        window.____callback____ = function () {
-          resolve();
-          window.____callback____ = null;
-        };
-      }
-    });
-    if (hasCallback) {
-      url += '&callback=____callback____';
+/**
+ * 删除script标签节点
+ * @param id
+ * @param position
+ */
+export const removeScript = (id = 'customizeDom', position = 'body') => {
+  let findDom = document.getElementById(id);
+  if (findDom) {
+    if (position === 'head') {
+      document.head.removeChild(findDom);
+    } else if (position === 'body') {
+      document.body.removeChild(findDom);
     }
-    scriptElement.src = url;
-    return promise;
-  }
-  /**
-   * 移除script标签
-   * @param scriptElement script dom
-   */
-  function removeScript (scriptElement) {
-    document.body.removeChild(scriptElement);
   }
 };
-//
-// export function removeScript () {
-// }
+/**
+ * 创建script标签节点
+ * @param url
+ * @param id
+ * @param position
+ * @returns {Promise}
+ */
+export const createScript = (url, id = 'customizeDom', position = 'body') => {
+  //let findDom = document.getElementById('mapDom');
+  //findDom.appendChild(script);
+  const promise = new Promise(function (resolve, reject) {
+    let scriptElement = document.createElement('script');
+    scriptElement.src = url;
+    scriptElement.type = 'text/javascript';
+    scriptElement.charset = 'utf-8';
+    scriptElement.id = id;
+    if (position === 'head') {
+      document.head.appendChild(scriptElement);
+    } else if (position === 'body') {
+      document.body.appendChild(scriptElement);
+    }
+    if (scriptElement.nodeName === 'SCRIPT') {
+      resolve();
+    } else {
+      reject(new Error('Could not script image at ' + scriptElement.src));
+    }
+  });
+  return promise;
+};
