@@ -95,7 +95,7 @@
             <Input v-model="shopData.email" placeholder="请填写邮箱地址"></Input>
           </Form-item>
           <Form-item label="商铺备注：" prop="desc">
-            <Input v-model="shopData.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="商铺200字简要说明(后台备注,前台无法浏览)..."></Input>
+            <Input v-model="shopData.desc" type="textarea" :rows="4" placeholder="商铺200字简要说明(后台备注,前台无法浏览)..."></Input>
           </Form-item>
           </Col>
           <Col span="1">&nbsp;</Col>
