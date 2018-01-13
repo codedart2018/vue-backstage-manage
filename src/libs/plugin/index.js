@@ -56,6 +56,21 @@ Plugin.install = function (Vue, options) {
     }
     return t.split('').reverse().join('') + '.' + r;
   };
+  /**
+   * 判断获取字符串长度
+   * @param str
+   * @returns {number}
+   */
+  Vue.prototype.$strLen = (str) => {
+    let len = 0;
+    for (let i = 0; i < str.length; i++) {
+      if (str.charCodeAt(i) > 127 || str.charCodeAt(i) === 94) {
+        len += 1;
+      } else {
+        len++;
+      }
+    }
+    return len;
+  };
 };
-
 export default Plugin;

@@ -111,6 +111,12 @@
           <Form-item label="商铺类型：">
             <Cascader :data="categoryTree" v-model="shopData.categoryValue"></Cascader>
           </Form-item>
+          <Form-item label="电话1：">
+            <Input v-model="shopData.phone1" placeholder="请填写电话1"></Input>
+          </Form-item>
+          <Form-item label="电话2：">
+            <Input v-model="shopData.phone2" placeholder="请填写电话2"></Input>
+          </Form-item>
           <Form-item label="商铺地址：">
             <Input v-model="shopData.address" placeholder="请填写商铺地址"></Input>
           </Form-item>
@@ -120,15 +126,23 @@
           <Form-item label="地图坐标：">
             <Button type="info" icon="map" @click="mapModal = true">地图标注</Button>
           </Form-item>
-          <Form-item label="电话1：">
-            <Input v-model="shopData.phone1" placeholder="请填写电话1"></Input>
+          <Form-item label="特色标签：" style="margin-bottom: 5px;">
+            <Row>
+              <Col span="14">
+                <Input v-model="shopData.featureTag" placeholder="回车添加或点击添加(最多5个字符)" @on-enter="addFeatureTag"></Input>
+              </Col>
+              <Col span="1">&nbsp;</Col>
+              <Col span="9">
+                <Button type="primary" @click="addFeatureTag">添加</Button>
+              </Col>
+            </Row>
           </Form-item>
-          <Form-item label="电话2：">
-            <Input v-model="shopData.phone2" placeholder="请填写电话2"></Input>
+          <Form-item label="" style="margin-bottom: 10px;">
+            <Tag v-for="item in featureTags" :key="item" :name="item" closable @on-close="handleCloseTag">{{item}}</Tag>
           </Form-item>
           <FormItem label="商家服务：" prop="serviceTag">
             <CheckboxGroup v-model="shopData.serviceTag">
-              <Checkbox :label="item.id" v-for="(item, index) in serviceTag" :key="index">
+              <Checkbox :label="item.id" v-for="(item, index) in serviceTags" :key="index">
                 <i :class="'icon-font ' + item.icon" style="font-size: 13px;"></i>
                 <span>{{item.name}}</span>
               </Checkbox>
@@ -149,12 +163,10 @@
             <Row>
               <Col span="11">
               <FormItem prop="businessTimeStart">
-                <TimePicker type="time" format="HH:mm" :steps="[1, 15]" placeholder="营业开始时间" v-model="shopData.businessTimeStart"
-                            @on-change></TimePicker>
+                <TimePicker type="time" format="HH:mm" :steps="[1, 15]" placeholder="营业开始时间" v-model="shopData.businessTimeStart" @on-change></TimePicker>
               </FormItem>
               </Col>
-              <Col span="2" style="text-align: center">
-              至</Col>
+              <Col span="2" style="text-align: center">至</Col>
               <Col span="11">
               <FormItem prop="businessTimeEnd">
                 <TimePicker type="time" format="HH:mm" :steps="[1, 15]" placeholder="营业结束时间" v-model="shopData.businessTimeEnd"></TimePicker>
@@ -320,7 +332,8 @@
         },
         categoryTree: [],
         areaTree: [],
-        serviceTag: [],
+        serviceTags: [],
+        featureTags: [],
         businessHours: [],
         ruleValidate: {
           mail: [
@@ -366,13 +379,33 @@
             //区域分类
             this.areaTree = res.data.areaTree;
             //服务标签
-            this.serviceTag = res.data.serviceTag;
+            this.serviceTags = res.data.serviceTags;
+            //特色标签
+            this.featureTags = res.data.featureTags;
           }
         }).catch((response) => {});
       },
       //后退海阔天空
       goBack () {
         this.$router.go(-1);
+      },
+      //关闭移除特色服务标签
+      handleCloseTag (event, name) {
+        const index = this.featureTags.indexOf(name);
+        this.featureTags.splice(index, 1);
+      },
+      //添加标签
+      addFeatureTag() {
+        if (this.$strLen(this.shopData.featureTag) > 6) {
+          this.$Message.error('标签最多6个字符');
+          return false;
+        }
+        if (this.featureTags.length >= 3) {
+          this.$Message.error('最多只能添加10组标签');
+          return false;
+        }
+        this.featureTags.push(this.shopData.featureTag);
+        this.shopData.featureTag = '';
       },
       se (v, d) {
         console.log(v, d);
@@ -398,7 +431,7 @@
       createScript(url, 'mapDom').then(function () {
         setTimeout(() => {
           t.initMap();
-        }, 100);
+        }, 500);
       }).catch(function (error) {
         console.log('发生错误！', error);
       });
