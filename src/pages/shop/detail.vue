@@ -393,7 +393,7 @@
       }
     },
     created () {
-      let url = `//webapi.amap.com/maps?v=1.3&key=${window.DMap.key}`;
+      let url = `https://webapi.amap.com/maps?v=1.3&key=${window.DMap.key}`;
       let t = this;
       createScript(url, 'mapDom').then(function () {
         setTimeout(() => {
