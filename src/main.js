@@ -30,10 +30,11 @@ window.DMap = {
   key: 'f582bf3f0ed6a17340eae1c54b475833'
 };
 /* eslint-disable no-new */
-new Vue({
+const Instance = new Vue({
   el: '#app',
   router: Router,
   store: Store,
   template: '<App/>',
   components: { App }
 });
+console.log(Instance.$mount().$el);

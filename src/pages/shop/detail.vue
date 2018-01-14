@@ -188,6 +188,19 @@
           <Col span="6">
           <Row style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px dashed #dedede">
             <Col span="24">
+            <span class="card-form-title">相册</span>
+            </Col>
+          </Row>
+          <Row>
+            <Col span="24">
+              <Button type="ghost">封面</Button>
+              <Button type="ghost">环境</Button>
+              <Button type="ghost">周边</Button>
+            </Col>
+          </Row>
+          <br>
+          <Row style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px dashed #dedede">
+            <Col span="24">
             <span class="card-form-title">运维数据</span>
             </Col>
           </Row>
@@ -351,7 +364,9 @@
         },
         //高德地图对象
         AMap: null,
-        mapModal: false
+        mapModal: false,
+        //临时跑马灯数据
+        value1: 0
       };
     },
     components: {
@@ -398,7 +413,11 @@
       },
       //添加标签
       addFeatureTag() {
-        if (this.$strLen(this.shopData.featureTag) > 6) {
+        if (!this.featureTag) {
+          this.$Message.error('请先填写标签');
+          return;
+        }
+        if (this.$strLen(this.featureTag) > 6) {
           this.$Message.error('标签最多6个字符');
           return false;
         }
@@ -424,6 +443,24 @@
           map.addControl(new AMap.ToolBar({
             position: 'RB'
           }));
+        });
+        //地图点击事件
+        map.on('click', (e) => {
+          //清除地图覆盖物
+          map.clearMap();
+          //添加点标记，并使用自己的icon
+          /* eslint-disable no-new */
+          new AMap.Marker({
+            map: map,
+            position: [e.lnglat.getLng(), e.lnglat.getLat()],
+            icon: new AMap.Icon({
+              size: new AMap.Size(32, 32),  //图标大小
+              image: '/static/images/mark.png',
+              imageOffset: new AMap.Pixel(0, 0)
+            })
+          });
+          this.shopData.longitude = e.lnglat.getLng();
+          this.shopData.latitude = e.lnglat.getLat();
         });
       }
     },
