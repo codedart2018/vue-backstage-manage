@@ -193,9 +193,9 @@
           </Row>
           <Row>
             <Col span="24">
-              <Button type="ghost">封面</Button>
-              <Button type="ghost">环境</Button>
-              <Button type="ghost">周边</Button>
+              <Button type="ghost" @click="showShopAlbumModal('封面')">封面</Button>
+              <Button type="ghost" @click="showShopAlbumModal('环境')">环境</Button>
+              <Button type="ghost" @click="showShopAlbumModal('周边')">周边</Button>
             </Col>
           </Row>
           <br>
@@ -320,9 +320,23 @@
         </Row>
       </Form>
     </Card>
+    <!--地图标注-->
     <Modal v-model="mapModal" width="700">
       <div slot="header" class="ivu-modal-header-inner">地图标注</div>
       <div id="map-container" class="map" style="width: 100%; height: 400px;"></div>
+      <div slot="footer">
+      </div>
+    </Modal>
+    <!--相册-->
+    <Modal v-model="shopAlbumModal" width="730" class="album-modal">
+      <div slot="header" class="ivu-modal-header-inner">{{shopAlbumTitle}}</div>
+      <div class="album-box">
+        <ul>
+          <li v-for="(item, index) in img">
+            <img :src="item" alt="">
+          </li>
+        </ul>
+      </div>
       <div slot="footer">
       </div>
     </Modal>
@@ -365,8 +379,20 @@
         //高德地图对象
         AMap: null,
         mapModal: false,
-        //临时跑马灯数据
-        value1: 0
+        shopAlbumModal: false,
+        shopAlbumTitle: '',
+        img: [
+          'http://p0.meituan.net/dpmerchantalbum/9926b969f6560f1ccd51894f7ff169993667376.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
+          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
+          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
+          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
+          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
+          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
+          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
+          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
+          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
+          'http://p1.meituan.net/dpmerchantalbum/c9afcd82df3f5a4ff0bc768b89f3c8d32385196.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20'
+        ]
       };
     },
     components: {
@@ -462,6 +488,10 @@
           this.shopData.longitude = e.lnglat.getLng();
           this.shopData.latitude = e.lnglat.getLat();
         });
+      },
+      showShopAlbumModal (title) {
+        this.shopAlbumModal = true;
+        this.shopAlbumTitle = title;
       }
     },
     created () {

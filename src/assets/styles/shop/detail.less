@@ -39,3 +39,37 @@
 .padding-left-15 {
   padding-left: 15px;
 }
+
+.album-modal {
+  .album-box {
+    width: 100%;
+    height: 500px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      -moz-appearance: none !important;
+      width: 0;
+      height: 0;
+    }
+
+    ul {
+      width: 105%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      li {
+        width: 120px;
+        height: 120px;
+        margin: 10px;
+        cursor: pointer;
+
+        img {
+          width: 120px;
+          height: 120px;
+        }
+      }
+    }
+
+  }
+}
