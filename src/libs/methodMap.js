@@ -71,6 +71,10 @@ const methodMap = {
   /** 添加地区分类 **/
   ServiceTagAdd: {url: '/admin/service_tag/add', method: 'post'},
   /** 修改地区分类 **/
-  ServiceTagEdit: {url: '/admin/service_tag/edit', method: 'post'}
+  ServiceTagEdit: {url: '/admin/service_tag/edit', method: 'post'},
+  /** 活动列表 **/
+  ActivityList: {url: '/admin/activity/list', method: 'get'},
+  /** 改变活动状态 **/
+  ActivitySwitchStatus: {url: '/admin/activity/switch_status', method: 'post'}
 };
 export default methodMap;

@@ -382,16 +382,6 @@
         shopAlbumModal: false,
         shopAlbumTitle: '',
         img: [
-          'http://p0.meituan.net/dpmerchantalbum/9926b969f6560f1ccd51894f7ff169993667376.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
-          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
-          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
-          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
-          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
-          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
-          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
-          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
-          'http://p1.meituan.net/dpmerchantalbum/a167318160584c8f8d1a0cfd2b2bb7b02319275.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20',
-          'http://p1.meituan.net/dpmerchantalbum/c9afcd82df3f5a4ff0bc768b89f3c8d32385196.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20'
         ]
       };
     },
