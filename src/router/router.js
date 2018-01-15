@@ -10,9 +10,11 @@
 import Layout from '@/pages/layout/index.vue';
 
 import {ShopRouter} from './shop';
+import {ActivityRouter} from './activity';
 //菜单路由
 export const SubRouter = [
   ShopRouter,
+  ActivityRouter,
   {
     path: '/permission/default',
     name: 'Permission',
@@ -112,7 +114,7 @@ export const MainRouter = {
 //登陆路由
 const Login = {
   path: '/passport/login',
-  name: 'passportLogin',
+  name: 'PassportLogin',
   icon: 'home',
   meta: {
     title: '欢迎登陆',
@@ -124,7 +126,7 @@ const Login = {
 //锁屏路由
 const Lock = {
   path: '/passport/lock',
-  name: 'passportLock',
+  name: 'PassportLock',
   icon: 'locked',
   meta: {
     title: '登陆认证',

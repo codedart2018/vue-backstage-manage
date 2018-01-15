@@ -21,7 +21,7 @@ export const ShopRouter = {
   children: [
     {
       path: '/service_tag/index',
-      name: 'serviceTagIndex',
+      name: 'ServiceTagIndex',
       icon: 'pricetag',
       meta: {
         title: '服务标签',
