@@ -38,7 +38,7 @@ function eachMenu(menu = [], compare = [], routes = []) {
       if (inItem.name === item.name) {
         let arr = {
           path: item.path,
-          icon: item.icon,
+          icon: inItem.icon ? inItem.icon : item.icon,
           name: item.name,
           title: inItem.title ? inItem.title : item.meta.title
         };

@@ -4,19 +4,19 @@
     <template v-for="(item, index) in menuList">
       <MenuItem v-if="item.children.length == 0" :name="item.name" :key="item.path">
         <div class="title-box" @click="goTo(item)">
-          <Icon :type="item.icon" :size="iconSize"></Icon>
+          <i :class="'icon-font ' + item.icon "></i>
           <span class="layout-text">{{item.title}}</span>
         </div>
       </MenuItem>
       <Submenu v-if="item.children.length > 0" :name="item.name" :key="item.path">
         <template slot="title">
-          <Icon :type="item.icon" :size="iconSize"></Icon>
+          <i :class="'icon-font ' + item.icon "></i>
           <span class="layout-text">{{item.title}}</span>
         </template>
         <template v-for="child in item.children">
           <MenuItem :name="child.name" :key="child.name">
             <div class="title-box" @click="goTo(child)">
-              <Icon :type="child.icon" :size="iconSize"></Icon>
+              <i :class="'icon-font ' + child.icon "></i>
               <span class="layout-text">{{child.title}}</span>
             </div>
           </MenuItem>

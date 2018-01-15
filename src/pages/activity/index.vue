@@ -215,7 +215,7 @@
             }
           }
         ]
-      }
+      };
     },
     methods: {
       //查看活动
@@ -224,7 +224,7 @@
           this.$Message.error('查看活动异常');
           return false;
         }
-        this.$router.push({path: '/event/' + type + '/edit/' + id})
+        this.$router.push({path: '/event/' + type + '/edit/' + id});
       },
       //查看详细数据
       data(id, type) {
@@ -232,7 +232,7 @@
           this.$Message.error('查看活动异常');
           return false;
         }
-        this.$router.push({path: '/event/index/data/' + id})
+        this.$router.push({path: '/event/index/data/' + id});
       },
       //活动状态切换
       switchStatus (index, id, status) {
@@ -257,12 +257,12 @@
                 this.$Message.error(res.msg);
                 this.$Modal.remove();
               }
-            }).catch((error) => { error });
+            }).catch((response) => {});
           }
         });
       },
       getData (params = {}) {
-        if (!params) params = {page: 1}
+        if (!params) params = {page: 1};
         this.request('ActivityList', params, true).then((res) => {
           if (res.status) {
             //列表数据
@@ -279,7 +279,7 @@
             //每页多少条数据
             this.pageSize = 0;
           }
-        }).catch((error) => { error });
+        }).catch((response) => {});
       },
       //分页切换页码
       changePage (page) {
@@ -296,5 +296,5 @@
       //服务端获取数据
       this.getData();
     }
-  }
+  };
 </script>

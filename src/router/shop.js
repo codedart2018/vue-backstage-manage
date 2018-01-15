@@ -12,7 +12,7 @@ import Layout from '@/pages/layout/index.vue';
 export const ShopRouter = {
   path: '/shop/default',
   name: 'Shop',
-  icon: 'bag',
+  icon: 'icon-shangjia',
   meta: {
     title: '商铺管理',
     routeAuth: true
