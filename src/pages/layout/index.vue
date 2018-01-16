@@ -72,9 +72,12 @@
         </div>
 
         <div class="common-area">
-          <div style="background: #ffffff; padding: 10px;">
+          <div style="background: #ffffff;">
             <!--公共模板未加-->
-            <router-view></router-view>
+            <!--<div style="height: 48px; border-bottom: 1px dashed #dddee1"></div>-->
+            <div style="padding: 10px;">
+              <router-view></router-view>
+            </div>
           </div>
         </div>
         <div class="copyright-footer">©copyright by codeRabbit</div>

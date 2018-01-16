@@ -491,7 +491,8 @@
         setTimeout(() => {
           t.initMap();
         }, 500);
-      }).catch(function (error) {
+      }).catch((error) => {
+        this.$Message.error('高德地图载入失败,请刷新重试');
         console.log('发生错误！', error);
       });
     },

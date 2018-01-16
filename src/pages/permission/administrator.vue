@@ -151,7 +151,7 @@
               :on-exceeded-size="handleMaxSize"
               :before-upload="handleBeforeUpload"
               action="https://upload-z2.qiniup.com"
-              :data="uploadAvatarParams"
+              :data="{'x:scene': '2'}"
               style="display: inline-block;width:58px;">
               <div style="width: 58px;height:58px;line-height: 58px;" @click="uploadType = 'edit'">
                 <Icon type="camera" size="20"></Icon>
