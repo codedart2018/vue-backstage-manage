@@ -77,7 +77,7 @@ defaultOptions.navigation = {
 		symbolX: 12.5,
 		symbolY: 10.5,
 		align: 'right',
-		buttonSpacing: 3, 
+		buttonSpacing: 3,
 		height: 22,
 		// text: null,
 		theme: {
@@ -96,7 +96,7 @@ defaultOptions.exporting = {
 	//enabled: true,
 	//filename: 'chart',
 	type: 'image/png',
-	url: 'http://export.highcharts.com/',
+	url: 'https://export.highcharts.com/',
 	//width: undefined,
 	//scale: 2
 	buttons: {
@@ -337,7 +337,7 @@ extend(Chart.prototype, {
 			svg = chart.getSVG(merge(
 				{ chart: { borderRadius: 0 } },
 				chartExportingOptions.chartOptions,
-				chartOptions, 
+				chartOptions,
 				{
 					exporting: {
 						sourceWidth: options.sourceWidth || chartExportingOptions.sourceWidth,
@@ -483,7 +483,7 @@ extend(Chart.prototype, {
 			// create the items
 			each(items, function (item) {
 				if (item) {
-					var element = item.separator ? 
+					var element = item.separator ?
 						createElement('hr', null, null, innerMenu) :
 						createElement(DIV, {
 							onmouseover: function () {
@@ -580,11 +580,11 @@ extend(Chart.prototype, {
 		} else if (menuItems) {
 			callback = function () {
 				chart.contextMenu(
-					button.menuClassName, 
-					menuItems, 
-					button.translateX, 
-					button.translateY, 
-					button.width, 
+					button.menuClassName,
+					menuItems,
+					button.translateX,
+					button.translateY,
+					button.width,
 					button.height,
 					button
 				);
@@ -616,7 +616,7 @@ extend(Chart.prototype, {
 					btnOptions.symbol,
 					btnOptions.symbolX - (symbolSize / 2),
 					btnOptions.symbolY - (symbolSize / 2),
-					symbolSize,				
+					symbolSize,
 					symbolSize
 				)
 				.attr(extend(symbolAttr, {
