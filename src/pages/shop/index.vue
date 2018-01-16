@@ -3,8 +3,8 @@
     <Row class="mb-15">
       <Col span="18" class="search">
       <Form :model="formSearch" :label-width="80" inline label-position="right">
-        <Form-item label="节点名称：">
-          <Input v-model="formSearch.keywords" placeholder="请输入节点名称关键词"></Input>
+        <Form-item label="商铺名称：">
+          <Input v-model="formSearch.keywords" placeholder="请输入商铺名称关键词"></Input>
         </Form-item>
         <Form-item label="添加日期：">
           <Date-picker type="date" placeholder="选择日期" v-model="formSearch.date"></Date-picker>
