@@ -6,9 +6,9 @@
 
 <script>
   //主体文件引入
-  import '../../static/ueditor/ueditor.config.js';
-  import '../../static/ueditor/ueditor.all.js';
-  import '../../static/ueditor/lang/zh-cn/zh-cn.js';
+  import '../../static/ueditor/ueditor.config.min.js';
+  import '../../static/ueditor/ueditor.all.min.js';
+  import '../../static/ueditor/lang/zh-cn/zh-cn.min.js';
   //主体文件引入
   /**
    * 有修改自定义配置
