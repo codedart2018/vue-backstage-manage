@@ -450,9 +450,9 @@
       initMap() {
         let AMap = this.AMap = window.AMap;
         map = new AMap.Map('map-container', {
-          resizeEnable: window.DMap.resizeEnable,
-          zoom: window.DMap.zoom,
-          center: window.DMap.center
+          resizeEnable: window.globalVar.GMap.resizeEnable,
+          zoom: window.globalVar.GMap.zoom,
+          center: window.globalVar.GMap.center
         });
         // 启用工具条
         AMap.plugin(['AMap.ToolBar'], function () {
@@ -485,7 +485,7 @@
       }
     },
     created () {
-      let url = `https://webapi.amap.com/maps?v=1.3&key=${window.DMap.key}`;
+      let url = `https://webapi.amap.com/maps?v=1.3&key=${window.globalVar.GMap.key}`;
       let t = this;
       createScript(url, 'mapDom').then(function () {
         setTimeout(() => {

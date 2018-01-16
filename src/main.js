@@ -20,15 +20,19 @@ Vue.use(iView);
 Vue.use(Toast);
 Vue.use(Http);
 Vue.use(Plugin);
-window.Util = Util;
-Vue.config.productionTip = false;
+//全局变量
+/* eslint-disable */
+window.globalVar = window.globalVar || {};
 //高德地图
-window.DMap = {
+window.globalVar.GMap = {
   resizeEnable: true,
   zoom: 13,
   center: [105.926828, 29.356573],
   key: 'f582bf3f0ed6a17340eae1c54b475833'
 };
+/* eslint-enable */
+window.Util = Util;
+Vue.config.productionTip = false;
 /* eslint-disable no-new */
 const Instance = new Vue({
   el: '#app',

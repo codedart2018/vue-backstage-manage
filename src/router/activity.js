@@ -29,6 +29,17 @@ export const ActivityRouter = {
       },
       component: resolve => require(['../pages/activity/index'], resolve),
       children: []
+    },
+    {
+      path: '/activity/add',
+      name: 'ActivityAdd',
+      icon: '',
+      meta: {
+        title: '新增系统活动',
+        routeAuth: true
+      },
+      component: resolve => require(['../pages/activity/add'], resolve),
+      children: []
     }
   ]
 };
