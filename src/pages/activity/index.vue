@@ -31,7 +31,7 @@
       </Col>
       <Col span="6" class="text-align-right">
       <Button type="primary" @click="$router.push({path: '/activity/add'})">
-        <Icon type="plus-round"></Icon>&nbsp;添加商铺
+        <Icon type="plus-round"></Icon>&nbsp;添加活动
       </Button>
       </Col>
     </Row>

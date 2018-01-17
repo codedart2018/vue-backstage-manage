@@ -140,7 +140,7 @@
             width: 135,
             align: 'center',
             render: (h, params) => {
-              return h('div', this.$formatDate(params.row.create_time, 'yyyy-MM-dd h:m'));
+              return h('div', this.$formatDate(params.row.createTime, 'yyyy-MM-dd h:m'));
             }
           },
           {
@@ -148,7 +148,7 @@
             width: 135,
             align: 'center',
             render: (h, params) => {
-              return h('div', this.$formatDate(params.row.update_time, 'yyyy-MM-dd h:m'));
+              return h('div', this.$formatDate(params.row.updateTime, 'yyyy-MM-dd h:m'));
             }
           },
           {

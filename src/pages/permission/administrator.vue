@@ -465,9 +465,10 @@
         addModal: false,
         //编辑 modal
         editModal: false,
+        //上传Url
+        action: '',
         //上传参数
         uploadAvatarParams: {
-          uploadUrl: '', //上传url
           domain: '', //访问域名
           token: '', //授权token
           key: '', //上传目录
@@ -655,7 +656,7 @@
         if (res.status) {
           this.uploadAvatarParams.token = res.data.token;
           this.uploadAvatarParams.domain = res.data.domain;
-          this.uploadAvatarParams.uploadUrl = res.data.uploadUrl;
+          this.action = res.data.action;
         } else {
           this.$Message.error('上传初始化失败,请重试!');
         }

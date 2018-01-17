@@ -22,7 +22,7 @@
             <Upload
               ref="upload"
               name="file"
-              :action="uploadUrl"
+              :action="action"
               :data="uploadCoverParams"
               :on-success="uploadSuccess"
               :on-format-error="handleFormatError"
@@ -90,12 +90,6 @@
             </Radio-group>
             <span>温馨提示：强制关注有可能会被封号哟!</span>
           </Form-item>
-          <Form-item label="是否登记身份" prop="is_register">
-            <Radio-group v-model="formField.is_register">
-              <Radio label="1">是</Radio>
-              <Radio label="0">否</Radio>
-            </Radio-group>
-          </Form-item>
           <Form-item label="活动简介" prop="desc">
             <Input v-model="formField.desc" type="textarea" :rows="4" placeholder="限500字简单说明介绍"></Input>
           </Form-item>
@@ -136,26 +130,16 @@
   export default{
     data() {
       return {
-        uploadUrl: 'https://upload-z2.qiniup.com',
         AMap: null,
         mapModal: false,
         //查看图片
         visible: false,
         //查看图片用的 图片名称
         imgName: '',
-        //上传配置
-        upload: {
-          mch_id: 1,
-          platform_id: 600000,
-          //上传库
-          bucket: 'daimatu',
-          //目录
-          folder: '800000/event/images/'
-        },
-        uploadConfigParams: {},
+        //上传Url
+        action: '',
         //上传参数
         uploadCoverParams: {
-          uploadUrl: '', //上传url
           domain: '', //访问域名
           token: '', //授权token
           key: '', //上传目录
@@ -181,8 +165,7 @@
           maxPeople: '0',
           openSales: '1',
           isFollow: '1',
-          is_share_chance: '1',
-          is_register: '1',
+          link: '',
           startTime: '',
           endTime: '',
           content: ''
@@ -212,17 +195,17 @@
           isFollow: [
             {required: true, message: '请选择是否关注', trigger: 'blur'}
           ],
-          is_register: [
-            {required: true, message: '请选择是否登记中奖信息', trigger: 'blur'}
+          link: [
+            {type: 'url', message: '外链地址不正确', trigger: 'blur'}
           ],
           content: [
             {required: true, message: '请编写活动内容', trigger: 'blur'}
           ],
           startTime: [
-            {required: true, type: 'string', message: '请选择活动开始时间', trigger: 'change'}
+            {required: true, type: 'date', message: '请选择活动开始时间', trigger: 'change'}
           ],
           endTime: [
-            {required: true, type: 'string', message: '请选择活动结束时间', trigger: 'change'}
+            {required: true, type: 'date', message: '请选择活动结束时间', trigger: 'change'}
           ]
         }
       };
@@ -371,7 +354,7 @@
         if (res.status) {
           this.uploadCoverParams.token = res.data.token;
           this.uploadCoverParams.domain = res.data.domain;
-          this.uploadCoverParams.uploadUrl = res.data.uploadUrl;
+          this.action = res.data.action;
         } else {
           this.$Message.error('上传初始化失败,请重试!');
         }
