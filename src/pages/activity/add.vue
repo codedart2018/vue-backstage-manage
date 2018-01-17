@@ -173,6 +173,7 @@
         ruleValidate: {
           name: [
             {required: true, message: '活动名称不能为空', trigger: 'blur'},
+            {type: 'string', min: 5, message: '活动名称最少5个字符', trigger: 'change'},
             {type: 'string', max: 50, message: '活动名称最多50个字符', trigger: 'blur'}
           ],
           keywords: [
@@ -186,7 +187,7 @@
           ],
           maxPeople: [
             {required: true, message: '请填写参与人数', trigger: 'input'},
-            {type: 'string', message: '参与人数只能是0或整数', trigger: 'input', pattern: /^\d*$/}
+            {type: 'string', message: '参与人数只能是0或整数', trigger: 'input', pattern: /^(\d|([1-9]\d+))(\.\d{1,2})?$/}
           ],
           cover: [
             {required: true, message: '请上传活动封面', trigger: 'input'},
