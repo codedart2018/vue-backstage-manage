@@ -19,21 +19,34 @@
             <Input v-model="formField.keywords" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
           </Form-item>
           <Form-item label="活动封面" prop="cover">
-            <Upload
-              ref="upload"
-              name="file"
-              :action="action"
-              :data="uploadCoverParams"
-              :on-success="uploadSuccess"
-              :on-format-error="handleFormatError"
-              :before-upload="handleBeforeUpload"
-              :max-size="1024"
-              :format="['jpg','jpeg','png']"
-              :on-remove="removeCover"
-              :on-preview="coverPreview">
-              <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
-              <span>推荐尺寸：640*280,大小在1M内</span>
-            </Upload>
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; line-height: 0;">
+              <div>
+                <div class="demo-upload-list" v-for="item in defaultList">
+                  <img :src="item.url">
+                  <div class="demo-upload-list-cover">
+                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; margin-left: 10px; width: 200px;">
+                <Upload
+                  ref="upload"
+                  name="file"
+                  :action="action"
+                  :data="uploadCoverParams"
+                  :on-success="uploadSuccess"
+                  :on-format-error="handleFormatError"
+                  :before-upload="handleBeforeUpload"
+                  :max-size="1024"
+                  :format="['jpg','jpeg','png']"
+                  :on-remove="handleRemove"
+                  :on-preview="handleView">
+                  <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
+                </Upload>
+                <div style="height: 18px; line-height: 18px;">推荐尺寸：640*280,大小在1M内</div>
+              </div>
+            </div>
           </Form-item>
           <FormItem label="活动类型" prop="type" style="width: 300px;">
             <Select v-model="formField.type" placeholder="请选择活动类型">
@@ -121,7 +134,44 @@
     <!--查看图片 modal 结束-->
   </div>
 </template>
-
+<style>
+  .demo-upload-list{
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0,0,0,.2);
+    margin-right: 4px;
+  }
+  .demo-upload-list img{
+    width: 100%;
+    height: 100%;
+  }
+  .demo-upload-list-cover{
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,.6);
+  }
+  .demo-upload-list:hover .demo-upload-list-cover{
+    display: block;
+  }
+  .demo-upload-list-cover i{
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 2px;
+  }
+</style>
 <script>
   import Util from '../../libs/util';
   import UEditor from '@/components/editor';
@@ -145,6 +195,29 @@
           key: '', //上传目录
           'x:scene': '2' //上传方式
         },
+        defaultList: [
+          {
+            'name': 'a42bdcc1178e62b4694c830f028db5c0',
+            'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
+          },
+          {
+            'name': 'a42bdcc1178e62b4694c830f028db5c0',
+            'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
+          },
+          {
+            'name': 'a42bdcc1178e62b4694c830f028db5c0',
+            'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
+          },
+          {
+            'name': 'a42bdcc1178e62b4694c830f028db5c0',
+            'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
+          },
+          {
+            'name': 'bc7521e033abdd1e92222d733590f104',
+            'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
+          }
+        ],
+        uploadList: [],
         //编辑器配置
         config: {
           actionUrl: '&server=daimatu&mch_id=1&platform_id=600000',
@@ -271,7 +344,7 @@
         this.$refs.formField.validateField('cover');
       },
       //文件列表移除文件时的钩子
-      removeCover(file) {
+      handleRemove(file) {
         if (typeof file.response !== 'undefined') {
           const id = file.response.data.id;
           this.removeAttachment(id);
@@ -292,7 +365,7 @@
         });
       },
       //查看封面图片
-      coverPreview(file) {
+      handleView(file) {
         this.imgName = file.url;
         this.visible = true;
       },
@@ -360,6 +433,7 @@
           this.$Message.error('上传初始化失败,请重试!');
         }
       });
+      this.uploadList = this.$refs.upload.fileList;
     },
     components: {
       UEditor
