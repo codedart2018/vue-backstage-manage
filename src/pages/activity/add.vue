@@ -21,10 +21,10 @@
           <Form-item label="活动封面" prop="cover">
             <div style="display: flex; flex-direction: row; flex-wrap: wrap; line-height: 0;">
               <div>
-                <div class="demo-upload-list" v-for="item in defaultList">
+                <div class="demo-upload-list" v-for="item in uploadList">
                   <img :src="item.url">
                   <div class="demo-upload-list-cover">
-                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+                    <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
                     <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
                   </div>
                 </div>
@@ -33,6 +33,7 @@
                 <Upload
                   ref="upload"
                   name="file"
+                  :show-upload-list="showUploadList"
                   :action="action"
                   :data="uploadCoverParams"
                   :on-success="uploadSuccess"
@@ -195,6 +196,8 @@
           key: '', //上传目录
           'x:scene': '2' //上传方式
         },
+        //是否显示已上传文件列表
+        showUploadList: false,
         defaultList: [
           {
             'name': 'a42bdcc1178e62b4694c830f028db5c0',
@@ -203,18 +206,6 @@
           {
             'name': 'a42bdcc1178e62b4694c830f028db5c0',
             'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-          },
-          {
-            'name': 'a42bdcc1178e62b4694c830f028db5c0',
-            'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-          },
-          {
-            'name': 'a42bdcc1178e62b4694c830f028db5c0',
-            'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-          },
-          {
-            'name': 'bc7521e033abdd1e92222d733590f104',
-            'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
           }
         ],
         uploadList: [],
@@ -234,7 +225,7 @@
           keywords: '',
           type: '',
           vipLevel: '',
-          cover: '',
+          cover: [],
           maxPeople: '0',
           openSales: '1',
           isFollow: '1',
@@ -263,8 +254,8 @@
             {type: 'string', message: '参与人数只能是0或整数', trigger: 'input', pattern: /^(\d|([1-9]\d+))(\.\d{1,2})?$/}
           ],
           cover: [
-            {required: true, message: '请上传活动封面', trigger: 'input'},
-            {type: 'string', message: '请上传封面图片', trigger: 'input', pattern: /^[1-9]\d*$/}
+            {required: true, type: 'array', min: 1, message: '请上传活动封面', trigger: 'change'},
+            {type: 'array', max: 5, message: '最多只能上传5张封面', trigger: 'change'}
           ],
           isFollow: [
             {required: true, message: '请选择是否关注', trigger: 'blur'}
@@ -319,27 +310,30 @@
       },
       //上传前前置操作
       handleBeforeUpload (file) {
-        this.uploadCoverParams.key = '/manage/activity/cover/' + Util.currentDate() + '/' + file.name;
-        return true;
+        const check = this.uploadList.length < 5;
+        if (!check) {
+          this.$Notice.warning({
+            title: '封面最多上传5张图片'
+          });
+        }
+        //不能加/斜杠的
+        this.uploadCoverParams.key = 'manage/activity/cover/' + Util.currentDate() + '/' + file.name;
+        return check;
       },
       //上传成功回调
       uploadSuccess(res, file, list) {
         if (res.status === false) {
-          list.pop();
           this.$Message.error('上传失败');
           return false;
         }
-        //判断原来是否有 如果有删除掉
-        if (typeof (list) !== 'undefined' && list.length > 1) {
-          const id = list[0].id;
-          this.removeAttachment(id, '替换成功');
-          list.shift();
-          this.formField.cover = '';
-        }
-        this.formField.cover = res.data.id;
-        file.id = res.data.id;
-        file.url = res.data.url;
-        file.name = res.data.name;
+        let obj = {
+          id: res.data.id,
+          url: res.data.url,
+          name: res.data.name
+        };
+        this.formField.cover.push(res.data.id);
+        this.uploadList.push(obj);
+        console.log(this.uploadList, this.formField.cover);
         //重新验证一次表单
         this.$refs.formField.validateField('cover');
       },
@@ -365,8 +359,8 @@
         });
       },
       //查看封面图片
-      handleView(file) {
-        this.imgName = file.url;
+      handleView(url) {
+        this.imgName = url;
         this.visible = true;
       },
       //初始化编辑器
@@ -433,7 +427,7 @@
           this.$Message.error('上传初始化失败,请重试!');
         }
       });
-      this.uploadList = this.$refs.upload.fileList;
+      //this.uploadList = this.$refs.upload.fileList;
     },
     components: {
       UEditor
