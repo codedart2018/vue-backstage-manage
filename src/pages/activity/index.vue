@@ -1,35 +1,40 @@
 <template>
   <div>
     <Row class="mb-15">
-      <Col span="18" class="search">
+      <Col span="20" class="search">
       <Form :model="formSearch" :label-width="80" inline label-position="right">
-        <Form-item label="商铺名称：">
+        <Form-item label="活动名称：">
           <Input v-model="formSearch.keywords" placeholder="请输入商铺名称关键词"></Input>
         </Form-item>
-        <Form-item label="添加日期：">
-          <Date-picker type="date" placeholder="选择日期" v-model="formSearch.date"></Date-picker>
+        <Form-item label="开始日期：">
+          <Date-picker type="date" placeholder="选择日期" v-model="formSearch.startTime"></Date-picker>
         </Form-item>
-        <Form-item label="是否显示：">
-          <Select v-model="formSearch.display" placeholder="请选择">
+        <Form-item label="结束日期：">
+          <Date-picker type="date" placeholder="选择日期" v-model="formSearch.endTime"></Date-picker>
+        </Form-item>
+        <Form-item label="活动类型：">
+          <Select v-model="formSearch.type" placeholder="请选择">
             <Option value="">请选择</Option>
-            <Option value="1">显示</Option>
-            <Option value="0">隐藏</Option>
+            <Option value="1">报名活动</Option>
           </Select>
         </Form-item>
-        <Form-item label="节点状态：">
+        <Form-item label="活动状态：">
           <Select v-model="formSearch.status" placeholder="请选择">
             <Option value="">请选择</Option>
-            <Option value="1">正常</Option>
-            <Option value="0">锁定</Option>
-            <Option value="-1">删除</Option>
+            <Option value="0">未开始</Option>
+            <Option value="1">进行中</Option>
+            <Option value="2">暂停中</Option>
+            <Option value="3">已结束</Option>
+            <Option value="4">过期</Option>
           </Select>
         </Form-item>
         <Form-item :label-width="1">
           <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
+          <Button type="ghost" @click="formSearch = {}; getData()">清除条件</Button>
         </Form-item>
       </Form>
       </Col>
-      <Col span="6" class="text-align-right">
+      <Col span="4" class="text-align-right">
       <Button type="primary" @click="$router.push({path: '/activity/add'})">
         <Icon type="plus-round"></Icon>&nbsp;添加活动
       </Button>
@@ -75,6 +80,17 @@
             }
           },
           {
+            title: '限制人数',
+            width: 100,
+            align: 'center',
+            render: (h, params) => {
+              if (params.row.maxPeople === '0') {
+                return h('span', '不限');
+              }
+              return h('span', params.row.maxPeople);
+            }
+          },
+          {
             title: '参与',
             width: 70,
             align: 'center',
@@ -96,8 +112,8 @@
             align: 'center',
             render: (h, params) => {
               return h('div', [
-                h('p', this.$formatDate(params.row.start_time, 'yyyy-MM-dd hh:mm:ss')),
-                h('p', this.$formatDate(params.row.end_time, 'yyyy-MM-dd hh:mm:ss'))
+                h('p', this.$formatDate(params.row.startTime, 'yyyy-MM-dd hh:mm:ss')),
+                h('p', this.$formatDate(params.row.endTime, 'yyyy-MM-dd hh:mm:ss'))
               ]);
             }
           },
@@ -313,6 +329,9 @@
             this.total = 0;
             //每页多少条数据
             this.pageSize = 0;
+            if (res.msg) {
+              this.$Message.error(res.msg);
+            }
           }
         }).catch((response) => {});
       },
@@ -325,6 +344,13 @@
         this.$router.push({name: this.$router.currentRoute.name, query: query});
         //获取最新数据
         this.getData({page: page, params: search});
+      },
+      //表单搜索
+      search() {
+        let page = 1;
+        this.pageNumber = page;
+        let search = this.formSearch;
+        this.getData({params: search});
       }
     },
     mounted() {
