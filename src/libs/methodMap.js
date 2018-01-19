@@ -75,6 +75,10 @@ const methodMap = {
   /** 活动列表 **/
   ActivityList: {url: '/admin/activity/list', method: 'get'},
   /** 改变活动状态 **/
-  ActivitySwitchStatus: {url: '/admin/activity/switch_status', method: 'post'}
+  ActivitySwitchStatus: {url: '/admin/activity/switch_status', method: 'post'},
+  /** 添加活动 **/
+  ActivityAdd: {url: '/admin/activity/add', method: 'post'},
+  /** 修改活动 **/
+  ActivityEdit: {url: '/admin/activity/edit', method: 'post'}
 };
 export default methodMap;

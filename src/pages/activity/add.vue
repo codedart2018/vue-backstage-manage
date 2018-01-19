@@ -20,20 +20,26 @@
           </Form-item>
           <Form-item label="活动封面" prop="cover">
             <div style="display: flex; flex-direction: row; flex-wrap: wrap; line-height: 0;">
-              <div>
+              <div v-if="uploadList.length > 0" style="margin-right: 8px;">
                 <div class="demo-upload-list" v-for="item in uploadList">
-                  <img :src="item.url">
-                  <div class="demo-upload-list-cover">
-                    <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
-                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                  </div>
+                  <template v-if="item.status === 'finished'">
+                    <img :src="item.url">
+                    <div class="demo-upload-list-cover">
+                      <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
+                      <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+                  </template>
                 </div>
               </div>
-              <div style="display: flex; flex-direction: column; margin-left: 10px; width: 200px;">
+              <div style="display: flex; flex-direction: column; width: 200px;">
                 <Upload
                   ref="upload"
                   name="file"
                   :show-upload-list="showUploadList"
+                  :default-file-list="formField.coverList"
                   :action="action"
                   :data="uploadCoverParams"
                   :on-success="uploadSuccess"
@@ -123,9 +129,11 @@
     </Form>
     <!--地图标注-->
     <Modal v-model="mapModal" width="700">
-      <div slot="header" class="ivu-modal-header-inner">地图标注</div>
+      <div slot="header" class="ivu-modal-header-inner">地图标注1</div>
       <div id="map-container" class="map" style="width: 100%; height: 400px;"></div>
       <div slot="footer">
+        <Button type="ghost" @click="mapModal = false">取消</Button>
+        <Button type="primary" @click="mapModal = false">确认</Button>
       </div>
     </Modal>
     <!--查看图片 modal-->
@@ -198,16 +206,6 @@
         },
         //是否显示已上传文件列表
         showUploadList: false,
-        defaultList: [
-          {
-            'name': 'a42bdcc1178e62b4694c830f028db5c0',
-            'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-          },
-          {
-            'name': 'a42bdcc1178e62b4694c830f028db5c0',
-            'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-          }
-        ],
         uploadList: [],
         //编辑器配置
         config: {
@@ -226,6 +224,7 @@
           type: '',
           vipLevel: '',
           cover: [],
+          coverList: [],
           maxPeople: '0',
           openSales: '1',
           isFollow: '1',
@@ -282,10 +281,12 @@
             this.$Message.error('表单验证失败!');
             return false;
           } else {
-            this.request('JiziAdd', this.formField).then((res) => {
+            console.log(this.formField);
+            return true;
+            this.request('ActivityAdd', this.formField).then((res) => {
               if (res.status) {
                 this.$Message.success(res.msg);
-                this.$router.push({path: '/event/jizi/edit/' + res.data.id});
+                //this.$router.push({path: '/activity/edit/' + res.data.id});
               } else {
                 this.$Message.error(res.msg);
               }
@@ -321,19 +322,16 @@
         return check;
       },
       //上传成功回调
-      uploadSuccess(res, file, list) {
+      uploadSuccess(res, file) {
         if (res.status === false) {
           this.$Message.error('上传失败');
           return false;
         }
-        let obj = {
-          id: res.data.id,
-          url: res.data.url,
-          name: res.data.name
-        };
+        file.id = res.data.id;
+        file.url = res.data.url;
+        file.name = res.data.name;
+        //推入数据到cover数组
         this.formField.cover.push(res.data.id);
-        this.uploadList.push(obj);
-        console.log(this.uploadList, this.formField.cover);
         //重新验证一次表单
         this.$refs.formField.validateField('cover');
       },
@@ -360,6 +358,7 @@
       },
       //查看封面图片
       handleView(url) {
+        console.log(url);
         this.imgName = url;
         this.visible = true;
       },
@@ -399,9 +398,11 @@
               imageOffset: new AMap.Pixel(0, 0)
             })
           });
-          this.shopData.longitude = e.lnglat.getLng();
-          this.shopData.latitude = e.lnglat.getLat();
+          this.formField.longitude = e.lnglat.getLng();
+          this.formField.latitude = e.lnglat.getLat();
         });
+      },
+      confirmLocation() {
       }
     },
     created () {
@@ -427,7 +428,7 @@
           this.$Message.error('上传初始化失败,请重试!');
         }
       });
-      //this.uploadList = this.$refs.upload.fileList;
+      this.uploadList = this.$refs.upload.fileList;
     },
     components: {
       UEditor
