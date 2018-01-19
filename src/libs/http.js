@@ -53,6 +53,7 @@ Http.install = function (Vue) {
    * POST 请求 无提示
    * @param url 请求URL
    * @param data 请求数据
+   * @param toast 是否显示 modal
    * @returns {Promise}
    */
   Vue.prototype.apiPost = function (url, data, toast = false) {

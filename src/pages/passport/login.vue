@@ -52,7 +52,7 @@
         <li><a class="link" href="" target="_blank">官方网站</a></li>
         <li><a class="link" href="" target="_blank">关于我们</a></li>
       </ul>
-      <p class="copyright">Copyright © 2009-2018 yongchuan.cc Inc. All rights reserved. 渝ICP备12039470号</p>
+      <p class="copyright">Copyright © 2009-2018 yongchuan.cc Inc. All rights reserved. {{$store.state.SiteConfig.data.icp}}</p>
     </footer>
   </div>
 </template>
@@ -122,6 +122,7 @@
         }, 500);
       }
     },
+    mounted() {},
     beforeRouteEnter (to, from, next) {
       next(vm => {
         // 通过 `vm` 访问组件实例'

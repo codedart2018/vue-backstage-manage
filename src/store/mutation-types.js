@@ -20,3 +20,5 @@ export const ADD_SIDE_MENU = 'ADD_SIDE_MENU';
 export const GET_SIDE_MENU = 'GET_SIDE_MENU';
 /** 删除所有侧边导航菜单 **/
 export const DEL_SIDE_MENU = 'DEL_SIDE_MENU';
+/** 站点公共配置 **/
+export const SITE_CONFIG = 'SITE_CONFIG';

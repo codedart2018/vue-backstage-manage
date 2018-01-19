@@ -3,7 +3,7 @@
 import 'babel-polyfill'; // 解决恶心的IE6
 import Vue from 'vue';
 import App from './App';
-import {Router} from './router';
+import { Router } from './router';
 import Store from './store/index';
 import iView from 'iview';
 import Toast from './libs/toast/';
@@ -39,6 +39,14 @@ const Instance = new Vue({
   router: Router,
   store: Store,
   template: '<App/>',
-  components: { App }
+  components: {App}
 });
-console.log(Instance.$mount().$el);
+//获取公共配置
+Instance.apiPost('/common/site_config/index').then((res) => {
+  if (res.status) {
+    //默认先改后台的站点名称
+    //Util.title(res.data.siteName);
+    Instance.$store.commit('SITE_CONFIG', res.data);
+  }
+}).catch(response => {});
+//console.log(Instance.$mount().$el);
