@@ -1,3 +1,4 @@
+<style src="@/assets/styles/activity/index.less" lang="less" scoped></style>
 <template>
   <div>
     <Row class="mb-15">
@@ -19,12 +20,12 @@
             <Input v-model="formField.keywords" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
           </Form-item>
           <Form-item label="活动封面" prop="cover">
-            <div style="display: flex; flex-direction: row; flex-wrap: wrap; line-height: 0;">
+            <div class="cover-box">
               <div v-if="uploadList.length > 0" style="margin-right: 8px;">
-                <div class="demo-upload-list" v-for="item in uploadList">
+                <div class="upload-cover-list" v-for="item in uploadList">
                   <template v-if="item.status === 'finished'">
                     <img :src="item.url">
-                    <div class="demo-upload-list-cover">
+                    <div class="list-cover">
                       <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
                       <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
                     </div>
@@ -34,7 +35,7 @@
                   </template>
                 </div>
               </div>
-              <div style="display: flex; flex-direction: column; width: 200px;">
+              <div class="upload-button">
                 <Upload
                   ref="upload"
                   name="file"
@@ -43,6 +44,7 @@
                   :action="action"
                   :data="uploadCoverParams"
                   :on-success="uploadSuccess"
+                  :on-error	="uploadError"
                   :on-format-error="handleFormatError"
                   :before-upload="handleBeforeUpload"
                   :max-size="1024"
@@ -51,7 +53,7 @@
                   :on-preview="handleView">
                   <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
                 </Upload>
-                <div style="height: 18px; line-height: 18px;">推荐尺寸：640*280,大小在1M内</div>
+                <p class="tips">推荐尺寸：640*280,大小在1M内</p>
               </div>
             </div>
           </Form-item>
@@ -74,13 +76,13 @@
             <Row>
               <Col span="8">
               <Form-item prop="startTime">
-                <Date-picker type="datetime" placeholder="开始时间" v-model="formField.startTime"></Date-picker>
+                <Date-picker type="datetime" placeholder="开始时间" v-model="formField.startTime"v @on-change="changeStartTime"></Date-picker>
               </Form-item>
               </Col>
               <Col span="2" style="text-align: center">至</Col>
               <Col span="8">
               <Form-item prop="endTime">
-                <Date-picker type="datetime" placeholder="开始时间" v-model="formField.endTime"></Date-picker>
+                <Date-picker type="datetime" placeholder="结束时间" v-model="formField.endTime" @on-change="changeEndTime"></Date-picker>
               </Form-item>
               </Col>
             </Row>
@@ -143,44 +145,7 @@
     <!--查看图片 modal 结束-->
   </div>
 </template>
-<style>
-  .demo-upload-list{
-    display: inline-block;
-    width: 60px;
-    height: 60px;
-    text-align: center;
-    line-height: 60px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    overflow: hidden;
-    background: #fff;
-    position: relative;
-    box-shadow: 0 1px 1px rgba(0,0,0,.2);
-    margin-right: 4px;
-  }
-  .demo-upload-list img{
-    width: 100%;
-    height: 100%;
-  }
-  .demo-upload-list-cover{
-    display: none;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0,0,0,.6);
-  }
-  .demo-upload-list:hover .demo-upload-list-cover{
-    display: block;
-  }
-  .demo-upload-list-cover i{
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-    margin: 0 2px;
-  }
-</style>
+
 <script>
   import Util from '../../libs/util';
   import UEditor from '@/components/editor';
@@ -209,7 +174,7 @@
         uploadList: [],
         //编辑器配置
         config: {
-          actionUrl: '&server=daimatu&mch_id=1&platform_id=600000',
+          actionUrl: '',
           initialFrameWidth: null,
           initialFrameHeight: 300,
           toolbars: [['undo', 'redo', 'bold', 'italic', 'forecolor', 'backcolor', 'paragraph', 'fontfamily', 'fontsize', 'autotypeset', 'insertorderedlist', 'lineheight', 'inserttable', 'removeformat', 'insertvideo', 'link', 'insertimage', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', 'indent', 'source']],
@@ -231,6 +196,7 @@
           link: '',
           startTime: '',
           endTime: '',
+          desc: '',
           content: ''
         },
         ruleValidate: {
@@ -282,11 +248,10 @@
             return false;
           } else {
             console.log(this.formField);
-            return true;
             this.request('ActivityAdd', this.formField).then((res) => {
               if (res.status) {
                 this.$Message.success(res.msg);
-                //this.$router.push({path: '/activity/edit/' + res.data.id});
+                this.$router.push({path: '/activity/edit/' + res.data.id});
               } else {
                 this.$Message.error(res.msg);
               }
@@ -335,6 +300,9 @@
         //重新验证一次表单
         this.$refs.formField.validateField('cover');
       },
+      uploadError() {
+        this.$Message.error('上传失败,请重新上传');
+      },
       //文件列表移除文件时的钩子
       handleRemove(file) {
         if (typeof file.response !== 'undefined') {
@@ -361,6 +329,26 @@
         console.log(url);
         this.imgName = url;
         this.visible = true;
+      },
+      changeStartTime(v) {
+        let startStamp = Util.getTimestamp(v);
+        let endStamp = Util.getTimestamp(this.formField.endTime);
+        if (endStamp && (startStamp > endStamp)) {
+          this.$Message.error('活动结束时间不能大于开始时间');
+          return false;
+        }
+      },
+      changeEndTime(v) {
+        let startStamp = Util.getTimestamp(this.formField.startTime);
+        let endStamp = Util.getTimestamp(v);
+        if (!this.formField.startTime) {
+          this.$Message.error('请选择活动开始时间');
+          return false;
+        }
+        if (startStamp > endStamp) {
+          this.$Message.error('活动结束时间不能大于开始时间');
+          return false;
+        }
       },
       //初始化编辑器
       editorReady(instance) {

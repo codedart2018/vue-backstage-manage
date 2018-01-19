@@ -137,4 +137,13 @@ Util.currentDate = () => {
   }
   return year + '-' + month + '-' + day;
 };
+/**
+ * 给一个日期返回时间戳
+ * @param date
+ * @returns {number}
+ */
+Util.getTimestamp = (date) => {
+  let stringTime = date;
+  return Date.parse(new Date(stringTime));
+};
 export default Util;
