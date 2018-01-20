@@ -107,11 +107,11 @@
           },
           {
             title: '添加时间',
-            key: 'create_time',
+            key: 'createTime',
             width: 135,
             align: 'center',
             render: (h, params) => {
-              return h('div', this.$formatDate(params.row.create_time, 'yyyy-MM-dd h:m'));
+              return h('div', this.$formatDate(params.row.createTime, 'yyyy-MM-dd h:m'));
             }
           },
           {

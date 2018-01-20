@@ -63,7 +63,7 @@
       }
     },
     beforeCreate () {},
-    create () {},
+    created () {},
     beforeMount () {},
     mounted () {
       this.initEditor();

@@ -16,7 +16,7 @@
           <Input v-model="formSearch.keywords" placeholder="帐号/手机号/姓名/邮箱"></Input>
         </Form-item>
         <Form-item label="所属角色">
-          <Select v-model="formSearch.role_id" placeholder="请选择" style="width:100px">
+          <Select v-model="formSearch.roleId" placeholder="请选择" style="width:100px">
             <Option value="">请选择</Option>
             <Option v-for="item in roles" :value="item.id" :key="item.id">{{ item.name }}</Option>
           </Select>
@@ -55,18 +55,18 @@
           <Form-item label="密码" prop="password">
             <Input type="password" v-model="addForm.password" placeholder="请填写密码(留空将不会修改密码)"></Input>
           </Form-item>
-          <Form-item label="所属角色" prop="role_id">
-            <Select v-model="addForm.role_id" placeholder="请选择">
+          <Form-item label="所属角色" prop="roleId">
+            <Select v-model="addForm.roleId" placeholder="请选择">
               <Option value="">请选择</Option>
               <Option v-for="item in roles" :value="item.id" :key="item.id">{{ item.name }}</Option>
             </Select>
           </Form-item>
-          <Form-item label="头像" prop="avatar_id">
+          <Form-item label="头像" prop="avatarId">
             <div class="demo-upload-list">
-              <img :src="addForm.avatar_url ? addForm.avatar_url : defaultAvatar">
+              <img :src="addForm.avatarUrl ? addForm.avatarUrl : defaultAvatar">
               <div class="demo-upload-list-cover">
-                <Icon type="ios-eye-outline" @click.native="handleView(addForm.avatar_url)"></Icon>
-                <Icon type="ios-trash-outline" @click.native="handleRemove(addForm.avatar_id, '删除成功')"></Icon>
+                <Icon type="ios-eye-outline" @click.native="handleView(addForm.avatarUrl)"></Icon>
+                <Icon type="ios-trash-outline" @click.native="handleRemove(addForm.avatarId, '删除成功')"></Icon>
               </div>
             </div>
             <Upload
@@ -89,8 +89,8 @@
               </div>
             </Upload>
           </Form-item>
-          <Form-item label="姓名" prop="real_name">
-            <Input v-model="addForm.real_name" placeholder="请填写姓名"></Input>
+          <Form-item label="姓名" prop="realName">
+            <Input v-model="addForm.realName" placeholder="请填写姓名"></Input>
           </Form-item>
           <Form-item label="手机号" prop="mobile">
             <Input v-model="addForm.mobile" placeholder="请填写手机号"></Input>
@@ -124,18 +124,18 @@
           <Form-item label="密码" prop="password">
             <Input type="password" v-model="editForm.password" placeholder="请填写密码"></Input>
           </Form-item>
-          <Form-item label="所属角色" prop="role_id">
-            <Select v-model="editForm.role_id" placeholder="请选择">
+          <Form-item label="所属角色" prop="roleId">
+            <Select v-model="editForm.roleId" placeholder="请选择">
               <Option value="">请选择</Option>
               <Option v-for="item in roles" :value="item.id" :key="item.id">{{ item.name }}</Option>
             </Select>
           </Form-item>
-          <Form-item label="头像" prop="avatar_id">
+          <Form-item label="头像" prop="avatarId">
             <div class="demo-upload-list">
-              <img :src="editForm.avatar_url ? editForm.avatar_url : defaultAvatar">
+              <img :src="editForm.avatarUrl ? editForm.avatarUrl : defaultAvatar">
               <div class="demo-upload-list-cover">
-                <Icon type="ios-eye-outline" @click.native="handleView(editForm.avatar_url)"></Icon>
-                <Icon type="ios-trash-outline" @click.native="handleRemove(editForm.avatar_id, '删除成功')"></Icon>
+                <Icon type="ios-eye-outline" @click.native="handleView(editForm.avatarUrl)"></Icon>
+                <Icon type="ios-trash-outline" @click.native="handleRemove(editForm.avatarId, '删除成功')"></Icon>
               </div>
             </div>
             <Upload
@@ -158,8 +158,8 @@
               </div>
             </Upload>
           </Form-item>
-          <Form-item label="姓名" prop="real_name">
-            <Input v-model="editForm.real_name" placeholder="请填写姓名"></Input>
+          <Form-item label="姓名" prop="realName">
+            <Input v-model="editForm.realName" placeholder="请填写姓名"></Input>
           </Form-item>
           <Form-item label="手机号" prop="mobile">
             <Input v-model="editForm.mobile" placeholder="请填写手机号"></Input>
@@ -271,11 +271,11 @@
           },
           {
             title: '用户角色',
-            key: 'role_name'
+            key: 'roleName'
           },
           {
             title: '联系人',
-            key: 'real_name',
+            key: 'realName',
             width: 130
           },
           {
@@ -309,43 +309,43 @@
           },
           {
             title: '登陆次数',
-            key: 'login_count',
+            key: 'loginCount',
             align: 'center'
           },
           {
             title: '最后登陆',
-            key: 'last_login_time',
+            key: 'lastLoginTime',
             width: 135,
             align: 'center',
             render: (h, params) => {
-              if (params.row.last_login_time === '0') {
+              if (params.row.lastLoginTime === '0') {
                 return h('Tag', '从未登陆');
               }
-              return h('div', this.$formatDate(params.row.create_time, 'yyyy-MM-dd h:m'));
+              return h('div', this.$formatDate(params.row.createTime, 'yyyy-MM-dd h:m'));
             }
           },
           {
             title: '最后登陆IP',
-            key: 'last_login_ip',
+            key: 'lastLoginIp',
             width: 135,
             align: 'center'
           },
           {
             title: '添加时间',
-            key: 'create_time',
+            key: 'createTime',
             width: 135,
             align: 'center',
             render: (h, params) => {
-              return h('span', this.$formatDate(params.row.create_time, 'yyyy-MM-dd h:m'));
+              return h('span', this.$formatDate(params.row.createTime, 'yyyy-MM-dd h:m'));
             }
           },
           {
             title: '最后更新',
-            key: 'update_time',
+            key: 'updateTime',
             align: 'center',
             width: 135,
             render: (h, params) => {
-              return h('span', this.$formatDate(params.row.update_time, 'yyyy-MM-dd h:m'));
+              return h('span', this.$formatDate(params.row.updateTime, 'yyyy-MM-dd h:m'));
             }
           },
           {
@@ -397,14 +397,14 @@
         addForm: {
           account: '',
           password: '',
-          role_id: '',
+          roleId: '',
           mobile: '',
           email: '',
           status: 1,
-          real_name: '',
+          realName: '',
           desc: '',
-          avatar_id: '',
-          avatar_url: ''
+          avatarId: '',
+          avatarUrl: ''
         },
         //验证规则
         ruleValidate: {
@@ -416,10 +416,10 @@
             {required: true, message: '密码不能为空', trigger: 'blur'},
             {validator: validatePassword, trigger: 'blur'}
           ],
-          role_id: [
+          roleId: [
             {required: true, message: '请选择所属角色', trigger: 'change'}
           ],
-          real_name: [
+          realName: [
             {type: 'string', min: 2, max: 6, message: '姓名2-6个字符', trigger: 'blur'}
           ],
           mobile: [
@@ -441,10 +441,10 @@
           password: [
             {validator: validatePassword, trigger: 'blur'}
           ],
-          role_id: [
+          roleId: [
             {required: true, message: '请选择所属角色', trigger: 'change'}
           ],
-          real_name: [
+          realName: [
             {type: 'string', min: 2, max: 6, message: '姓名2-6个字符', trigger: 'blur'}
           ],
           mobile: [
@@ -592,11 +592,11 @@
       //删除头像
       handleRemove (avatarId, msg, empty = true) {
         if (!parseInt(avatarId)) return false;
-        this.request('AdminEmptyAvatar', {uid: this.$store.state.ManageUser.userInfo.uid, avatar_id: avatarId}, '删除中...').then((res) => {
+        this.request('AdminEmptyAvatar', {uid: this.$store.state.ManageUser.userInfo.uid, avatarId: avatarId}, '删除中...').then((res) => {
           if (res.status) {
             if (empty) {
-              this.editForm.avatar_id = 0;
-              this.editForm.avatar_url = '';
+              this.editForm.avatarId = 0;
+              this.editForm.avatarUrl = '';
             }
             if (msg) {
               this.$Message.success(msg);
@@ -633,13 +633,13 @@
         }
         let avatar = 0;
         if (this.uploadType === 'edit') {
-          avatar = parseInt(this.editForm.avatar_id);
-          this.editForm.avatar_id = res.data.id;
-          this.editForm.avatar_url = this.uploadAvatarParams.domain + this.uploadAvatarParams.key;
+          avatar = parseInt(this.editForm.avatarId);
+          this.editForm.avatarId = res.data.id;
+          this.editForm.avatarUrl = this.uploadAvatarParams.domain + this.uploadAvatarParams.key;
         } else {
-          avatar = parseInt(this.addForm.avatar_id);
-          this.addForm.avatar_id = res.data.id;
-          this.addForm.avatar_url = this.uploadAvatarParams.domain + this.uploadAvatarParams.key;
+          avatar = parseInt(this.addForm.avatarId);
+          this.addForm.avatarId = res.data.id;
+          this.addForm.avatarUrl = this.uploadAvatarParams.domain + this.uploadAvatarParams.key;
         }
         if (avatar > 0) {
           this.handleRemove(avatar, '替换成功...', false);

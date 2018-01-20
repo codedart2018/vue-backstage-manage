@@ -79,6 +79,8 @@ const methodMap = {
   /** 添加活动 **/
   ActivityAdd: {url: '/admin/activity/add', method: 'post'},
   /** 修改活动 **/
-  ActivityEdit: {url: '/admin/activity/edit', method: 'post'}
+  ActivityEdit: {url: '/admin/activity/edit', method: 'post'},
+  /** 活动详情 **/
+  ActivityDetail: {url: '/admin/activity/detail', method: 'post'}
 };
 export default methodMap;

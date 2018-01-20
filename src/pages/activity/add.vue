@@ -59,7 +59,7 @@
           </Form-item>
           <FormItem label="活动类型" prop="type" style="width: 300px;">
             <Select v-model="formField.type" placeholder="请选择活动类型">
-              <Option value="1">报名活动</Option>
+              <Option value="sign_up">报名活动</Option>
             </Select>
           </FormItem>
           <FormItem label="参与等级" prop="vipLevel" style="width: 300px;">
@@ -131,7 +131,7 @@
     </Form>
     <!--地图标注-->
     <Modal v-model="mapModal" width="700">
-      <div slot="header" class="ivu-modal-header-inner">地图标注1</div>
+      <div slot="header" class="ivu-modal-header-inner">地图标注</div>
       <div id="map-container" class="map" style="width: 100%; height: 400px;"></div>
       <div slot="footer">
         <Button type="ghost" @click="mapModal = false">取消</Button>
@@ -147,11 +147,14 @@
 </template>
 
 <script>
-  import Util from '../../libs/util';
+  import Util from '@/libs/util';
   import UEditor from '@/components/editor';
   import {createScript, removeScript} from '@/libs/autoLoad';
   let map;
   export default{
+    components: {
+      UEditor
+    },
     data() {
       return {
         AMap: null,
@@ -247,7 +250,6 @@
             this.$Message.error('表单验证失败!');
             return false;
           } else {
-            console.log(this.formField);
             this.request('ActivityAdd', this.formField).then((res) => {
               if (res.status) {
                 this.$Message.success(res.msg);
@@ -326,7 +328,6 @@
       },
       //查看封面图片
       handleView(url) {
-        console.log(url);
         this.imgName = url;
         this.visible = true;
       },
@@ -417,9 +418,6 @@
         }
       });
       this.uploadList = this.$refs.upload.fileList;
-    },
-    components: {
-      UEditor
     },
     destroyed () {
       removeScript('mapDom');
