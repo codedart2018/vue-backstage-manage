@@ -1,7 +1,7 @@
 <style src="@/assets/styles/activity/index.less" lang="less" scoped></style>
 <template>
   <div>
-    <Tabs value="base" :animated="false">
+    <Tabs value="form" :animated="false">
       <Tab-pane label="基础设置" name="base">
         <Form ref="formField" :model="formField" :rules="ruleValidate" :label-width="110">
           <Row>
@@ -37,7 +37,7 @@
                     :action="action"
                     :data="uploadCoverParams"
                     :on-success="uploadSuccess"
-                    :on-error	="uploadError"
+                    :on-error="uploadError"
                     :on-format-error="handleFormatError"
                     :before-upload="handleBeforeUpload"
                     :max-size="1024"
@@ -69,10 +69,11 @@
               <Row>
                 <Col span="8">
                 <Form-item prop="startTime">
-                  <Date-picker type="datetime" placeholder="开始时间" v-model="formField.startTime"v @on-change="changeStartTime"></Date-picker>
+                  <Date-picker type="datetime" placeholder="开始时间" v-model="formField.startTime" v @on-change="changeStartTime"></Date-picker>
                 </Form-item>
                 </Col>
-                <Col span="2" style="text-align: center">至</Col>
+                <Col span="2" style="text-align: center">
+                至</Col>
                 <Col span="8">
                 <Form-item prop="endTime">
                   <Date-picker type="datetime" placeholder="结束时间" v-model="formField.endTime" @on-change="changeEndTime"></Date-picker>
@@ -123,9 +124,121 @@
           </Row>
         </Form>
       </Tab-pane>
-      <Tab-pane label="报名信息" name="word">
+      <Tab-pane label="报名信息" name="form">
+        <Form ref="formWords" :model="formWords">
+          <Row>
+            <Col span="24">
+            <div v-for="(item, index) in formWords.field" :key="index">
+              <Row>
+                <!--<Col span="2">-->
+                <!--<Form-item-->
+                  <!--:label-width="50"-->
+                  <!--label="类型：">-->
+                  <!--<div v-if="item.type === 'input'">表单</div>-->
+                  <!--<div v-if="item.type === 'textarea'">文本域</div>-->
+                  <!--<div v-if="item.type === 'radio'">单选</div>-->
+                  <!--<div v-if="item.type === 'checkbox'">多选</div>-->
+                <!--</Form-item>-->
+                <!--</Col>-->
+                <Col span="4">
+                  <Form-item
+                    :label-width="100"
+                    :label="'表单名称' + (index + 1) + '：'"
+                    :prop="'field.' + index + '.name'"
+                    :rules="[{required: true, message: '表单名称' + (index + 1) +'不能为空', trigger: 'blur'}]">
+                    <Input type="text" v-model="item.name" placeholder="请填写表单名称..."></Input>
+                  </Form-item>
+                </Col>
+                <Col span="6">
+                  <Form-item
+                    :label-width="110"
+                    :label="'选项内容' + (index + 1) + '：'"
+                    :prop="'field.' + index + '.name'"
+                    :rules="[{required: true, message: '表单名称' + (index + 1) +'不能为空', trigger: 'blur'}]">
+                    <Input type="text" v-model="item.name" placeholder="请填写表单名称..."></Input>
+                  </Form-item>
+                </Col>
+                <Col span="3">
+                <FormItem
+                  :label-width="30"
+                  prop="required">
+                  <CheckboxGroup v-model="item.required">
+                    <Checkbox label="必填" value="1"></Checkbox>
+                  </CheckboxGroup>
+                </FormItem>
+                </Col>
+              </Row>
+              <!--表单域-->
+              <template v-if="item.type === 'input'">
+
+              </template>
+            </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col span="4">
+            <Form-item
+              v-for="(item, index) in formWords.word"
+              :key="index"
+              :label="'表单名称' + (index + 1)"
+              :prop="'word.' + index + '.value'"
+              :rules="[
+                {required: true, message: '表单名称' + (index + 1) +'不能为空', trigger: 'blur'}
+              ]">
+              <Input type="text" v-model="item.value" :disabled="formField.status > 0" placeholder="请填写表单名称..."></Input>
+            </Form-item>
+            </Col>
+            <Col span="4">
+            <Form-item
+              v-for="(item, index) in formWords.number"
+              :key="index"
+              :label="'数量' + (index + 1)"
+              :prop="'number.' + index + '.value'"
+              :rules="[
+                {required: true, message: '数量' + (index + 1) +'不能为空', trigger: 'blur'},
+                {type: 'string', message: '数量' + (index + 1) +'只能是正整数', trigger: 'blur', pattern: /^[1-9]\d*$/}
+              ]">
+              <Input type="text" v-model="item.value" placeholder="请填写正整数数量..."></Input>
+            </Form-item>
+            </Col>
+            <Col span="10">
+            <Form-item
+              v-for="(item, index) in formWords.chance"
+              :key="index"
+              :label="'概率' + (index + 1)"
+              :prop="'chance.' + index + '.value'"
+              :rules="[
+                {required: true, message: '概率' + (index + 1) +'不能为空', trigger: 'blur'},
+                {type: 'string', message: '概率' + (index + 1) +'只能1-100区间', trigger: 'blur', pattern: /^(([1-9]\d?)|100)$/}
+              ]">
+              <Row>
+                <Col span="16">
+                <Input type="text" v-model="item.value" placeholder="请填1-100之间的整数"></Input>
+                </Col>
+                <Col span="2" offset="1">
+                <Button type="ghost" @click="handleRemove(index)" v-show="formField.status == 0">删除</Button>
+                </Col>
+              </Row>
+            </Form-item>
+            </Col>
+          </Row>
+
+          <Form-item>
+            <Row style="margin-top: 15px;">
+              <Col span="21">
+              <Button type="dashed" @click="handleAddInput" icon="plus-round" v-show="formField.status == 0">新增文本表单</Button>
+              <!--<Button type="dashed" @click="handleAdd" icon="plus-round" v-show="formField.status == 0">新增文本域表单</Button>-->
+              <!--<Button type="dashed" @click="handleAdd" icon="plus-round" v-show="formField.status == 0">新增单选表单</Button>-->
+              <!--<Button type="dashed" @click="handleAdd" icon="plus-round" v-show="formField.status == 0">新增多选表单</Button>-->
+              </Col>
+            </Row>
+          </Form-item>
+          <Form-item>
+            <Button type="primary" @click="saveWord('formWords')">保存</Button>
+          </Form-item>
+        </Form>
       </Tab-pane>
-      <Tab-pane label="奖品管理" name="prize">
+      <Tab-pane label="产品管理" name="prize">
       </Tab-pane>
     </Tabs>
     <!--地图标注-->
@@ -148,7 +261,7 @@
 <script>
   import Util from '@/libs/util';
   import UEditor from '@/components/editor';
-  import {createScript, removeScript} from '@/libs/autoLoad';
+  import { createScript, removeScript } from '@/libs/autoLoad';
   let map;
   export default{
     components: {
@@ -211,10 +324,10 @@
             {required: true, message: '活动关键词不能为空', trigger: 'blur'}
           ],
           type: [
-            { required: true, message: '请选择活动类型', trigger: 'change' }
+            {required: true, message: '请选择活动类型', trigger: 'change'}
           ],
           vipLevel: [
-            { required: true, message: '请选择参与等级', trigger: 'change' }
+            {required: true, message: '请选择参与等级', trigger: 'change'}
           ],
           maxPeople: [
             {required: true, message: '请填写参与人数', trigger: 'input'},
@@ -251,6 +364,22 @@
         //奖品数量文字提示
         prizeNumberMsg: '数量',
         formWords: {
+          field: [
+            {
+              'name': '姓名',
+              'required': '1',
+              'type': 'input',
+              'option': [],
+              'value': ''
+            },
+            {
+              'name': '爱好',
+              'required': '1',
+              'type': 'checkbox',
+              'option': [],
+              'value': ''
+            }
+          ],
           word: [],
           number: [],
           chance: []
@@ -390,12 +519,8 @@
         this.$refs[name].resetFields();
         this.coverList = [];
       },
-      //添加集字
-      handleAdd() {
-        if (this.formWords.word.length >= 12) {
-          this.$Message.error('最多只能添加12个集哦!');
-          return false;
-        }
+      //添加文本表单
+      handleAddInput() {
         this.formWords.word.push({value: ''});
         this.formWords.number.push({value: ''});
         this.formWords.chance.push({value: ''});
@@ -421,14 +546,6 @@
         this.formPrizes.conditions.splice(index, 1);
         this.formPrizes.prize_quantity.splice(index, 1);
         this.formPrizes.deadline.splice(index, 1);
-      },
-      //点击切换是否增加机会
-      onChangeChance(v) {
-        if (v === '0') {
-          this.isChanceShow = false;
-        } else {
-          this.isChanceShow = true;
-        }
       },
       //奖品类型切换
       prizesType(v) {
@@ -481,7 +598,6 @@
       },
       //查看封面图片
       handleView(url) {
-        console.log(url);
         this.imgName = url;
         this.visible = true;
       },
@@ -541,7 +657,6 @@
               this.formField.content = instance.getContent();
               this.$refs.formField.validateField('content');
             });
-            console.log(this.uploadList, this.$refs.upload.fileList);
 //            if (typeof (data.att) !== 'undefined') {
 //              this.coverList = [
 //                {
