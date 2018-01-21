@@ -65,3 +65,41 @@
     }
   }
 }
+
+.draggable-list{
+  height: 100%;
+}
+.draggable-list li{
+  border: 0 solid #e7ebee;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  position: relative;
+  transition: all .2s;
+}
+.draggable-list li:hover{
+  border-color: #87b4ee;
+  transition: all .2s;
+}
+.draggable-delete{
+  height: 100%;
+  position: absolute;
+  right: -8px;
+  top: 0px;
+  display: none;
+}
+.draggable-list li:hover .draggable-delete{
+  display: block;
+}
+.placeholder-style{
+  display: block !important;
+  color: transparent;
+  border-style: dashed !important;
+}
+.delete-item-animation{
+  opacity: 0;
+  transition: all .2s;
+}
+.draggable-list{
+  overflow: auto
+}

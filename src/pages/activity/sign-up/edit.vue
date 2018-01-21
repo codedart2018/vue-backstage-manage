@@ -125,116 +125,95 @@
         </Form>
       </Tab-pane>
       <Tab-pane label="报名信息" name="form">
-        <Form ref="formWords" :model="formWords">
+        <Form ref="formDynamic" :model="formDynamic">
           <Row>
             <Col span="24">
-            <div v-for="(item, index) in formWords.field" :key="index">
-              <Row>
-                <!--<Col span="2">-->
-                <!--<Form-item-->
-                  <!--:label-width="50"-->
-                  <!--label="类型：">-->
-                  <!--<div v-if="item.type === 'input'">表单</div>-->
-                  <!--<div v-if="item.type === 'textarea'">文本域</div>-->
-                  <!--<div v-if="item.type === 'radio'">单选</div>-->
-                  <!--<div v-if="item.type === 'checkbox'">多选</div>-->
-                <!--</Form-item>-->
-                <!--</Col>-->
-                <Col span="4">
+            <ul id="fieldList" class="draggable-list">
+              <li v-for="(item, index) in formDynamic.signUpField" :key="index" class="notwrap todolist-item" :data-index="index">
+                <Row>
+                  <Col span="2">
+                  <Form-item
+                    :label-width="50"
+                    label="类型：">
+                    <div v-if="item.type === 'input'">表单</div>
+                    <div v-if="item.type === 'textarea'">文本域</div>
+                    <div v-if="item.type === 'radio'">单选</div>
+                    <div v-if="item.type === 'checkbox'">多选</div>
+                  </Form-item>
+                  </Col>
+                  <Col span="5">
                   <Form-item
                     :label-width="100"
                     :label="'表单名称' + (index + 1) + '：'"
-                    :prop="'field.' + index + '.name'"
+                    :prop="'signUpField.' + index + '.name'"
                     :rules="[{required: true, message: '表单名称' + (index + 1) +'不能为空', trigger: 'blur'}]">
                     <Input type="text" v-model="item.name" placeholder="请填写表单名称..."></Input>
                   </Form-item>
-                </Col>
-                <Col span="6">
-                  <Form-item
-                    :label-width="110"
-                    :label="'选项内容' + (index + 1) + '：'"
-                    :prop="'field.' + index + '.name'"
-                    :rules="[{required: true, message: '表单名称' + (index + 1) +'不能为空', trigger: 'blur'}]">
-                    <Input type="text" v-model="item.name" placeholder="请填写表单名称..."></Input>
-                  </Form-item>
-                </Col>
-                <Col span="3">
-                <FormItem
-                  :label-width="30"
-                  prop="required">
-                  <CheckboxGroup v-model="item.required">
-                    <Checkbox label="必填" value="1"></Checkbox>
-                  </CheckboxGroup>
-                </FormItem>
-                </Col>
-              </Row>
-              <!--表单域-->
-              <template v-if="item.type === 'input'">
+                  </Col>
+                  <Col span="6">
+                  <template v-if="item.type === 'input'">
+                    <Form-item
+                      :label-width="110"
+                      :label="'验证表达式' + (index + 1) + '：'">
+                      <Input type="text" v-model="item.option" placeholder="请填写正则验证表达式，如果不会正则请勿乱填"></Input>
+                    </Form-item>
+                  </template>
+                  <template v-else-if="item.type === 'checkbox'">
+                    <Form-item
+                      :label-width="110"
+                      :label="'多选内容' + (index + 1) + '：'"
+                      :prop="'signUpField.' + index + '.option'"
+                      :rules="[{required: true, message: '多选' + (index + 1) +'不能为空', trigger: 'blur'}]">
+                      <Input type="text" v-model="item.option" placeholder="多个选项请用,逗号分隔..."></Input>
+                    </Form-item>
+                  </template>
+                  <template v-else-if="item.type === 'radio'">
+                    <Form-item
+                      :label-width="110"
+                      :label="'单选内容' + (index + 1) + '：'"
+                      :prop="'signUpField.' + index + '.option'"
+                      :rules="[{required: true, message: '单选' + (index + 1) +'不能为空', trigger: 'blur'}]">
+                      <Input type="text" v-model="item.option" placeholder="多个选项请用,逗号分隔..."></Input>
+                    </Form-item>
+                  </template>
 
-              </template>
-            </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col span="4">
-            <Form-item
-              v-for="(item, index) in formWords.word"
-              :key="index"
-              :label="'表单名称' + (index + 1)"
-              :prop="'word.' + index + '.value'"
-              :rules="[
-                {required: true, message: '表单名称' + (index + 1) +'不能为空', trigger: 'blur'}
-              ]">
-              <Input type="text" v-model="item.value" :disabled="formField.status > 0" placeholder="请填写表单名称..."></Input>
-            </Form-item>
-            </Col>
-            <Col span="4">
-            <Form-item
-              v-for="(item, index) in formWords.number"
-              :key="index"
-              :label="'数量' + (index + 1)"
-              :prop="'number.' + index + '.value'"
-              :rules="[
-                {required: true, message: '数量' + (index + 1) +'不能为空', trigger: 'blur'},
-                {type: 'string', message: '数量' + (index + 1) +'只能是正整数', trigger: 'blur', pattern: /^[1-9]\d*$/}
-              ]">
-              <Input type="text" v-model="item.value" placeholder="请填写正整数数量..."></Input>
-            </Form-item>
-            </Col>
-            <Col span="10">
-            <Form-item
-              v-for="(item, index) in formWords.chance"
-              :key="index"
-              :label="'概率' + (index + 1)"
-              :prop="'chance.' + index + '.value'"
-              :rules="[
-                {required: true, message: '概率' + (index + 1) +'不能为空', trigger: 'blur'},
-                {type: 'string', message: '概率' + (index + 1) +'只能1-100区间', trigger: 'blur', pattern: /^(([1-9]\d?)|100)$/}
-              ]">
-              <Row>
-                <Col span="16">
-                <Input type="text" v-model="item.value" placeholder="请填1-100之间的整数"></Input>
-                </Col>
-                <Col span="2" offset="1">
-                <Button type="ghost" @click="handleRemove(index)" v-show="formField.status == 0">删除</Button>
-                </Col>
-              </Row>
-            </Form-item>
+                  </Col>
+                  <Col span="6">
+                  <div style="display: flex; margin-left: 10px;">
+                    <div style="width: 60px; padding: 5px 0px 5px 0px;">
+                      <CheckboxGroup v-model="item.display">
+                        <Checkbox label="1">展示</Checkbox>
+                      </CheckboxGroup>
+                    </div>
+                    <div style="width: 60px; padding: 5px 0px 5px 0px;">
+                      <CheckboxGroup v-model="item.required">
+                        <Checkbox label="1">必填</Checkbox>
+                      </CheckboxGroup>
+                    </div>
+                    <div style="flex: 1;">
+                      <Button type="warning" icon="trash-a">删除</Button>
+                      <Button type="info" icon="arrow-swap">拖动换行</Button>
+                    </div>
+                  </div>
+                  </Col>
+                </Row>
+              </li>
+            </ul>
             </Col>
           </Row>
 
           <Form-item>
             <Row style="margin-top: 15px;">
               <Col span="21">
-              <Button type="dashed" @click="handleAddInput" icon="plus-round" v-show="formField.status == 0">新增文本表单</Button>
-              <!--<Button type="dashed" @click="handleAdd" icon="plus-round" v-show="formField.status == 0">新增文本域表单</Button>-->
-              <!--<Button type="dashed" @click="handleAdd" icon="plus-round" v-show="formField.status == 0">新增单选表单</Button>-->
-              <!--<Button type="dashed" @click="handleAdd" icon="plus-round" v-show="formField.status == 0">新增多选表单</Button>-->
+              <Button type="dashed" @click="handleAddField('input')" icon="plus-round">新增文本表单</Button>
+              <Button type="dashed" @click="handleAddField('textarea')" icon="plus-round">新增文本域表单</Button>
+              <Button type="dashed" @click="handleAddField('radio')" icon="plus-round">新增单选表单</Button>
+              <Button type="dashed" @click="handleAddField('checkbox')" icon="plus-round">新增多选表单</Button>
               </Col>
             </Row>
           </Form-item>
           <Form-item>
-            <Button type="primary" @click="saveWord('formWords')">保存</Button>
+            <Button type="primary" @click="saveWord('formDynamic')">保存</Button>
           </Form-item>
         </Form>
       </Tab-pane>
@@ -257,11 +236,11 @@
     <!--查看图片 modal 结束-->
   </div>
 </template>
-
 <script>
   import Util from '@/libs/util';
   import UEditor from '@/components/editor';
   import { createScript, removeScript } from '@/libs/autoLoad';
+  import Sortable from 'sortablejs';
   let map;
   export default{
     components: {
@@ -355,34 +334,33 @@
         },
         //提交状态
         subStart: true,
-        //起始日期限制
-        limitDate: {
-          disabledDate (date) {
-            return date && date.valueOf() < Date.now() - 86400000;
-          }
-        },
-        //奖品数量文字提示
-        prizeNumberMsg: '数量',
-        formWords: {
-          field: [
+        formDynamic: {
+          signUpField: [
             {
-              'name': '姓名',
-              'required': '1',
-              'type': 'input',
-              'option': [],
-              'value': ''
+              name: '姓名',
+              required: ['1'],
+              type: 'input',
+              option: '',
+              display: ['0'],
+              value: ''
             },
             {
-              'name': '爱好',
-              'required': '1',
-              'type': 'checkbox',
-              'option': [],
-              'value': ''
+              name: '爱好',
+              required: ['1'],
+              type: 'checkbox',
+              option: '足球,蓝球',
+              display: ['0'],
+              value: ''
+            },
+            {
+              name: '工作',
+              required: ['1'],
+              type: 'radio',
+              option: 'PHP,JAVA',
+              display: ['0'],
+              value: ''
             }
-          ],
-          word: [],
-          number: [],
-          chance: []
+          ]
         },
         formPrizes: {
           prize_name: [],
@@ -454,7 +432,7 @@
           this.$Message.error('请先完成基础设置');
           return false;
         }
-        if (this.formWords.word.length < 3 || this.formWords.number.length < 3 || this.formWords.chance.length < 3) {
+        if (this.formDynamic.word.length < 3 || this.formDynamic.number.length < 3 || this.formDynamic.chance.length < 3) {
           this.$Message.error('最少3组集字');
           return false;
         }
@@ -468,7 +446,7 @@
               return false;
             }
             this.subStart = false;
-            let params = Object.assign({tabs: 'word', id: this.formField.id}, this.formWords);
+            let params = Object.assign({tabs: 'word', id: this.formField.id}, this.formDynamic);
             this.request('JiziEdit', params).then((res) => {
               if (res.status) {
                 this.$Message.success(res.msg);
@@ -520,40 +498,32 @@
         this.coverList = [];
       },
       //添加文本表单
-      handleAddInput() {
-        this.formWords.word.push({value: ''});
-        this.formWords.number.push({value: ''});
-        this.formWords.chance.push({value: ''});
-      },
-      //移除集字
-      handleRemoveA(index) {
-        this.formWords.word.splice(index, 1);
-        this.formWords.number.splice(index, 1);
-        this.formWords.chance.splice(index, 1);
-      },
-      //新增加奖品
-      prizesAdd() {
-        this.formPrizes.prize_name.push({value: ''});
-        this.formPrizes.type.push({value: ''});
-        this.formPrizes.conditions.push({value: ''});
-        this.formPrizes.prize_quantity.push({value: ''});
-        this.formPrizes.deadline.push({value: ''});
-      },
-      //移除奖品
-      prizesRemove(index) {
-        this.formPrizes.prize_name.splice(index, 1);
-        this.formPrizes.type.splice(index, 1);
-        this.formPrizes.conditions.splice(index, 1);
-        this.formPrizes.prize_quantity.splice(index, 1);
-        this.formPrizes.deadline.splice(index, 1);
-      },
-      //奖品类型切换
-      prizesType(v) {
-        if (v === '3') {
-          this.prizeNumberMsg = '红包';
-        } else {
-          this.prizeNumberMsg = '数量';
+      handleAddField(type) {
+        let obj = {
+          name: '',
+          required: [],
+          option: '',
+          display: ['1'],
+          value: ''
+        };
+        /* eslint-disable */
+        switch (type) {
+          case 'input':
+            obj['type'] = 'input';
+            break;
+          case 'radio':
+            obj['type'] = 'radio';
+            break;
+          case 'checkbox':
+            obj['type'] = 'checkbox';
+            break;
+          case 'textarea':
+            obj['type'] = 'textarea';
+            break;
         }
+        /* eslint-enable */
+        //console.log(obj, this.formDynamic.signUpField);
+        this.formDynamic.signUpField.push(obj);
       },
       handleFormatError (file) {
         this.$Notice.warning({
@@ -564,7 +534,7 @@
       handleMaxSize (file) {
         this.$Notice.warning({
           title: '超出文件大小限制',
-          desc: '文件 ' + file.name + ' 太大，不能超过 512KB。'
+          desc: '文件 ' + file.name + ' 太大，不能超过 1M。'
         });
       },
       //上传前前置操作
@@ -645,6 +615,11 @@
       //获取数据 并初始化编辑器
       editorReady(instance) {
         let id = this.$route.params.id;
+        document.body.ondrop = function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        };
+        let vm = this;
         this.request('ActivityDetail', {id: id}).then((res) => {
           if (res.status) {
             const data = res.data;
@@ -669,9 +644,9 @@
 //            //处理后台返回的集字数据
 //            if (typeof (res.data.words) !== 'undefined') {
 //              for (let item of res.data.words) {
-//                this.formWords.word.push({'value': item.word});
-//                this.formWords.number.push({'value': item.number});
-//                this.formWords.chance.push({'value': item.chance});
+//                this.formDynamic.word.push({'value': item.word});
+//                this.formDynamic.number.push({'value': item.number});
+//                this.formDynamic.chance.push({'value': item.chance});
 //              }
 //            }
 //            //处理后台返回的奖品数据
@@ -687,6 +662,27 @@
             //重新处理日期 必须处理不然会报错
             this.formField.startTime = new Date(data.startTime);
             this.formField.endTime = new Date(data.endTime);
+            //处理拖动
+            this.$nextTick(() => {
+              let todoList = document.getElementById('fieldList');
+              Sortable.create(todoList, {
+                group: {
+                  name: 'list',
+                  pull: true
+                },
+                animation: 120,
+                ghostClass: 'placeholder-style',
+                fallbackClass: 'fallback-style',
+                onEnd(e) {
+                  let newArr = Util.swapPosition(vm.formDynamic.signUpField, e.oldIndex, e.newIndex);
+                  vm.formDynamic.signUpField = [];
+                  setTimeout(() => {
+                    vm.formDynamic.signUpField = newArr;
+                    //console.log(newArr);
+                  }, 0);
+                }
+              });
+            });
             this.$forceUpdate();
           } else {
             this.$Message.error(res.msg);
@@ -728,9 +724,20 @@
         }
       });
       //this.uploadList = this.$refs.upload.fileList;
+      let a = [1, 4, 6, 43, 5, 9, 0, 23, 45];
+//      function change (arr, k, j) {
+//        let c = arr[k];
+//        arr[k] = arr[j];
+//        arr[j] = c;
+//        console.log(arr);
+//      }
+      console.log(a);
+      //change(a, 3, 7);
+      console.log(Util.swapPosition(a, 3, 7));
     },
     beforeUpdate () {},
-    updated () {},
+    updated () {
+    },
     beforeDestroy () {},
     destroyed () {
       removeScript('mapDom');

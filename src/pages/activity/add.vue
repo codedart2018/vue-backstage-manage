@@ -273,7 +273,7 @@
       handleMaxSize (file) {
         this.$Notice.warning({
           title: '超出文件大小限制',
-          desc: '文件 ' + file.name + ' 太大，不能超过 512KB。'
+          desc: '文件 ' + file.name + ' 太大，不能超过 1M。'
         });
       },
       //上传前前置操作

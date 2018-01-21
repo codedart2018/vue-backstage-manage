@@ -146,4 +146,17 @@ Util.getTimestamp = (date) => {
   let stringTime = date;
   return Date.parse(new Date(stringTime));
 };
+/**
+ * 交换数组内元素位置
+ * @param arr
+ * @param oldIndex
+ * @param newIndex
+ * @returns {*}
+ */
+Util.swapPosition = (arr, oldIndex, newIndex) => {
+  let c = arr[oldIndex];
+  arr[oldIndex] = arr[newIndex];
+  arr[newIndex] = c;
+  return arr;
+};
 export default Util;
