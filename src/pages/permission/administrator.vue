@@ -652,7 +652,7 @@
       //服务端获取数据
       this.getData();
       //请求token
-      this.request('QiNiuToken', {bucket: 'yc-life-dev', callback: true}).then((res) => {
+      this.request('QiNiuToken', {callback: true}).then((res) => {
         if (res.status) {
           this.uploadAvatarParams.token = res.data.token;
           this.uploadAvatarParams.domain = res.data.domain;

@@ -407,8 +407,8 @@
       });
     },
     mounted() {
-      //请求七牛token todo bucket 还不能这样写在这里
-      this.request('QiNiuToken', {bucket: 'yc-life-dev', callback: true}).then((res) => {
+      //请求七牛token
+      this.request('QiNiuToken', {callback: true}).then((res) => {
         if (res.status) {
           this.uploadCoverParams.token = res.data.token;
           this.uploadCoverParams.domain = res.data.domain;

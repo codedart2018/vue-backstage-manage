@@ -131,17 +131,7 @@
             <ul id="fieldList" class="draggable-list">
               <li v-for="(item, index) in formDynamic.signUpField" :key="index" class="notwrap todolist-item" :data-index="index">
                 <Row>
-                  <Col span="2">
-                  <Form-item
-                    :label-width="50"
-                    label="类型：">
-                    <div v-if="item.type === 'input'">表单</div>
-                    <div v-if="item.type === 'textarea'">文本域</div>
-                    <div v-if="item.type === 'radio'">单选</div>
-                    <div v-if="item.type === 'checkbox'">多选</div>
-                  </Form-item>
-                  </Col>
-                  <Col span="5">
+                  <Col span="4">
                   <Form-item
                     :label-width="100"
                     :label="'表单名称' + (index + 1) + '：'"
@@ -151,6 +141,15 @@
                   </Form-item>
                   </Col>
                   <Col span="6">
+                  <FormItem
+                    :label-width="120"
+                    :label="'placeholder' + (index + 1) + '：'"
+                    :prop="'signUpField.' + index + '.placeholder'"
+                    :rules="[{required: true, message: '表单placeholder提示说明' + (index + 1) +'不能为空', trigger: 'blur'}]">
+                    <Input type="text" v-model="item.placeholder" placeholder="表单placeholder提示说明..."></Input>
+                  </FormItem>
+                  </Col>
+                  <Col span="8">
                   <template v-if="item.type === 'input'">
                     <Form-item
                       :label-width="110"
@@ -176,16 +175,20 @@
                       <Input type="text" v-model="item.option" placeholder="多个选项请用,逗号分隔..."></Input>
                     </Form-item>
                   </template>
-
+                  <template v-else-if="item.type === 'textarea'">
+                    <Form-item
+                      :label-width="110">
+                    </Form-item>
+                  </template>
                   </Col>
                   <Col span="6">
                   <div style="display: flex; margin-left: 10px;">
-                    <div style="width: 60px; padding: 5px 0px 5px 0px;">
+                    <div style="width: 60px; padding: 6px 0 5px 0;">
                       <CheckboxGroup v-model="item.display">
                         <Checkbox label="1">展示</Checkbox>
                       </CheckboxGroup>
                     </div>
-                    <div style="width: 60px; padding: 5px 0px 5px 0px;">
+                    <div style="width: 60px; padding: 6px 0 5px 0;">
                       <CheckboxGroup v-model="item.required">
                         <Checkbox label="1">必填</Checkbox>
                       </CheckboxGroup>
@@ -213,7 +216,7 @@
             </Row>
           </Form-item>
           <Form-item>
-            <Button type="primary" @click="saveWord('formDynamic')">保存</Button>
+            <Button type="primary" @click="saveSignUpField('formDynamic')">保存</Button>
           </Form-item>
         </Form>
       </Tab-pane>
@@ -338,6 +341,7 @@
           signUpField: [
             {
               name: '姓名',
+              placeholder: '',
               required: ['1'],
               type: 'input',
               option: '',
@@ -347,6 +351,7 @@
             {
               name: '爱好',
               required: ['1'],
+              placeholder: '',
               type: 'checkbox',
               option: '足球,蓝球',
               display: ['0'],
@@ -355,6 +360,7 @@
             {
               name: '工作',
               required: ['1'],
+              placeholder: '',
               type: 'radio',
               option: 'PHP,JAVA',
               display: ['0'],
@@ -415,7 +421,8 @@
               return false;
             }
             this.subStart = false;
-            this.request('ActivityEdit', this.formField).then((res) => {
+            let params = Object.assign({tabs: 'base'}, this.formField);
+            this.request('ActivityEdit', params).then((res) => {
               if (res.status) {
                 this.$Message.success(res.msg);
               } else {
@@ -426,19 +433,19 @@
           }
         });
       },
-      //保存集字
-      saveWord(name) {
+      //保存报名字段
+      saveSignUpField(name) {
         if (!this.formField.id) {
           this.$Message.error('请先完成基础设置');
           return false;
         }
-        if (this.formDynamic.word.length < 3 || this.formDynamic.number.length < 3 || this.formDynamic.chance.length < 3) {
-          this.$Message.error('最少3组集字');
+        if (this.formDynamic.signUpField.length < 1) {
+          this.$Message.error('最少应该有一组报名数据字段');
           return false;
         }
         this.$refs[name].validate((valid) => {
           if (!valid) {
-            this.$Message.error('请检查集字管理表单!');
+            this.$Message.error('请检查报名表单!');
             return false;
           } else {
             if (!this.subStart) {
@@ -446,8 +453,8 @@
               return false;
             }
             this.subStart = false;
-            let params = Object.assign({tabs: 'word', id: this.formField.id}, this.formDynamic);
-            this.request('JiziEdit', params).then((res) => {
+            let params = {tabs: 'signUpField', id: this.formField.id, signUpField: this.formDynamic.signUpField};
+            this.request('ActivityEdit', params).then((res) => {
               if (res.status) {
                 this.$Message.success(res.msg);
               } else {
@@ -632,33 +639,10 @@
               this.formField.content = instance.getContent();
               this.$refs.formField.validateField('content');
             });
-//            if (typeof (data.att) !== 'undefined') {
-//              this.coverList = [
-//                {
-//                  'id': res.data.cover,
-//                  'name': data.att.file_name,
-//                  'url': '//daimatu.oss-cn-shenzhen.aliyuncs.com/' + data.att.original
-//                }
-//              ];
-//            }
-//            //处理后台返回的集字数据
-//            if (typeof (res.data.words) !== 'undefined') {
-//              for (let item of res.data.words) {
-//                this.formDynamic.word.push({'value': item.word});
-//                this.formDynamic.number.push({'value': item.number});
-//                this.formDynamic.chance.push({'value': item.chance});
-//              }
-//            }
-//            //处理后台返回的奖品数据
-//            if (typeof (res.data.prizes) !== 'undefined') {
-//              for (let item of res.data.prizes) {
-//                this.formPrizes.prize_name.push({'value': item.prize_name});
-//                this.formPrizes.type.push({'value': item.type});
-//                this.formPrizes.conditions.push({'value': item.conditions});
-//                this.formPrizes.prize_quantity.push({'value': item.prize_quantity});
-//                this.formPrizes.deadline.push({'value': new Date(item.deadline)});
-//              }
-//            }
+            //处理后台返回的报名字段数据
+            if (typeof (res.data.signUpField) !== 'undefined') {
+              this.formDynamic.signUpField = res.data.signUpField;
+            }
             //重新处理日期 必须处理不然会报错
             this.formField.startTime = new Date(data.startTime);
             this.formField.endTime = new Date(data.endTime);
@@ -678,7 +662,6 @@
                   vm.formDynamic.signUpField = [];
                   setTimeout(() => {
                     vm.formDynamic.signUpField = newArr;
-                    //console.log(newArr);
                   }, 0);
                 }
               });
@@ -713,8 +696,8 @@
     },
     beforeMount () {},
     mounted () {
-      //请求七牛token todo bucket 还不能这样写在这里
-      this.request('QiNiuToken', {bucket: 'yc-life-dev', callback: true}).then((res) => {
+      //请求七牛token
+      this.request('QiNiuToken', {callback: true}).then((res) => {
         if (res.status) {
           this.uploadCoverParams.token = res.data.token;
           this.uploadCoverParams.domain = res.data.domain;
@@ -724,16 +707,6 @@
         }
       });
       //this.uploadList = this.$refs.upload.fileList;
-      let a = [1, 4, 6, 43, 5, 9, 0, 23, 45];
-//      function change (arr, k, j) {
-//        let c = arr[k];
-//        arr[k] = arr[j];
-//        arr[j] = c;
-//        console.log(arr);
-//      }
-      console.log(a);
-      //change(a, 3, 7);
-      console.log(Util.swapPosition(a, 3, 7));
     },
     beforeUpdate () {},
     updated () {
