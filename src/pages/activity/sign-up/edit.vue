@@ -238,10 +238,9 @@
           </Col>
           <Col span="18">
           <div @click.native="le">
-            <div class="ivu-tag ivu-tag-default ivu-tag-closable ivu-tag-checked" v-for="item in attribute" :key="item" :name="item">
-              <span class="ivu-tag-text">{{item}}</span> <i class="ivu-icon ivu-icon-ios-close-empty" @click="handleClose2(index)"></i>
+            <div class="ivu-tag ivu-tag-default ivu-tag-closable ivu-tag-checked" v-for="(item, index) in attribute" :key="item" :name="item" @click.stop="le">
+              <span class="ivu-tag-text">{{item}}</span> <i class="ivu-icon ivu-icon-ios-close-empty" @click.stop="handleClose2(index)"></i>
             </div>
-            <!--<Tag v-for="item in attribute" :key="item" :name="item" closable @on-close="handleClose2">{{item}}</Tag>-->
           </div>
           </Col>
         </Row>
