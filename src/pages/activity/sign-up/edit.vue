@@ -1,7 +1,7 @@
 <style src="@/assets/styles/activity/index.less" lang="less" scoped></style>
 <template>
   <div>
-    <Tabs value="form" :animated="false">
+    <Tabs value="goods" :animated="false">
       <Tab-pane label="基础设置" name="base">
         <Form ref="formField" :model="formField" :rules="ruleValidate" :label-width="110">
           <Row>
@@ -220,7 +220,121 @@
           </Form-item>
         </Form>
       </Tab-pane>
-      <Tab-pane label="产品管理" name="prize">
+      <Tab-pane label="产品管理" name="goods">
+        <Row class="mb-15">
+          <Col span="24">
+          <Alert type="warning" show-icon>1.最多只能添加5个规格属性,每个规格属性下最多只能添加10个属性!<br><br>2.删除规格属性会导致属性设置的数量价格一并被删除!请谨慎操作!</Alert>
+          </Col>
+          <Col span="6">
+            <Row>
+              <Col span="14">
+              <Input v-model="goodsAttribute" placeholder="请填写属性规格名称" @on-enter="handleAddAttribute"></Input>
+              </Col>
+              <Col span="1">&nbsp;</Col>
+              <Col span="9">
+              <Button icon="ios-plus-empty" type="info" @click="handleAddAttribute">添加属性规格</Button>
+              </Col>
+            </Row>
+          </Col>
+          <Col span="18">
+          <div @click.native="le">
+            <div class="ivu-tag ivu-tag-default ivu-tag-closable ivu-tag-checked" v-for="item in attribute" :key="item" :name="item">
+              <span class="ivu-tag-text">{{item}}</span> <i class="ivu-icon ivu-icon-ios-close-empty" @click="handleClose2(index)"></i>
+            </div>
+            <!--<Tag v-for="item in attribute" :key="item" :name="item" closable @on-close="handleClose2">{{item}}</Tag>-->
+          </div>
+          </Col>
+        </Row>
+        <Form ref="formDynamic" :model="formDynamic">
+          <Row>
+            <Col span="24">
+            <Row v-for="(item, index) in formDynamic.signUpField" :key="index">
+              <Col span="4">
+              <Form-item
+                :label-width="100"
+                :label="'商品规格' + (index + 1) + '：'"
+                :prop="'signUpField.' + index + '.name'"
+                :rules="[{required: true, message: '表单名称' + (index + 1) +'不能为空', trigger: 'blur'}]">
+                <Input type="text" v-model="item.name" placeholder="请填写表单名称..."></Input>
+              </Form-item>
+              </Col>
+              <Col span="6">
+              <FormItem
+                :label-width="120"
+                :label="'placeholder' + (index + 1) + '：'"
+                :prop="'signUpField.' + index + '.placeholder'"
+                :rules="[{required: true, message: '表单placeholder提示说明' + (index + 1) +'不能为空', trigger: 'blur'}]">
+                <Input type="text" v-model="item.placeholder" placeholder="表单placeholder提示说明..."></Input>
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <template v-if="item.type === 'input'">
+                <Form-item
+                  :label-width="110"
+                  :label="'验证表达式' + (index + 1) + '：'">
+                  <Input type="text" v-model="item.option" placeholder="请填写正则验证表达式，如果不会正则请勿乱填"></Input>
+                </Form-item>
+              </template>
+              <template v-else-if="item.type === 'checkbox'">
+                <Form-item
+                  :label-width="110"
+                  :label="'多选内容' + (index + 1) + '：'"
+                  :prop="'signUpField.' + index + '.option'"
+                  :rules="[{required: true, message: '多选' + (index + 1) +'不能为空', trigger: 'blur'}]">
+                  <Input type="text" v-model="item.option" placeholder="多个选项请用,逗号分隔..."></Input>
+                </Form-item>
+              </template>
+              <template v-else-if="item.type === 'radio'">
+                <Form-item
+                  :label-width="110"
+                  :label="'单选内容' + (index + 1) + '：'"
+                  :prop="'signUpField.' + index + '.option'"
+                  :rules="[{required: true, message: '单选' + (index + 1) +'不能为空', trigger: 'blur'}]">
+                  <Input type="text" v-model="item.option" placeholder="多个选项请用,逗号分隔..."></Input>
+                </Form-item>
+              </template>
+              <template v-else-if="item.type === 'textarea'">
+                <Form-item
+                  :label-width="110">
+                </Form-item>
+              </template>
+              </Col>
+              <Col span="6">
+              <div style="display: flex; margin-left: 10px;">
+                <div style="width: 60px; padding: 6px 0 5px 0;">
+                  <CheckboxGroup v-model="item.display">
+                    <Checkbox label="1">展示</Checkbox>
+                  </CheckboxGroup>
+                </div>
+                <div style="width: 60px; padding: 6px 0 5px 0;">
+                  <CheckboxGroup v-model="item.required">
+                    <Checkbox label="1">必填</Checkbox>
+                  </CheckboxGroup>
+                </div>
+                <div style="flex: 1;">
+                  <Button type="warning" icon="trash-a">删除</Button>
+                  <Button type="info" icon="arrow-swap">拖动换行</Button>
+                </div>
+              </div>
+              </Col>
+            </Row>
+            </Col>
+          </Row>
+
+          <Form-item>
+            <Row style="margin-top: 15px;">
+              <Col span="21">
+              <Button type="dashed" @click="handleAddField('input')" icon="plus-round">新增文本表单</Button>
+              <Button type="dashed" @click="handleAddField('textarea')" icon="plus-round">新增文本域表单</Button>
+              <Button type="dashed" @click="handleAddField('radio')" icon="plus-round">新增单选表单</Button>
+              <Button type="dashed" @click="handleAddField('checkbox')" icon="plus-round">新增多选表单</Button>
+              </Col>
+            </Row>
+          </Form-item>
+          <Form-item>
+            <Button type="primary" @click="saveSignUpField('formDynamic')">保存</Button>
+          </Form-item>
+        </Form>
       </Tab-pane>
     </Tabs>
     <!--地图标注-->
@@ -251,6 +365,8 @@
     },
     data () {
       return {
+        goodsAttribute: '',
+        attribute: [],
         AMap: null,
         mapModal: false,
         //查看图片
@@ -378,6 +494,32 @@
       };
     },
     methods: {
+      le () {
+        alert(321);
+      },
+      //添加规格属性
+      handleAddAttribute () {
+        if (!this.goodsAttribute) {
+          this.$Message.error('请先填写属性规格');
+          return;
+        }
+        if (this.$strLen(this.goodsAttribute) > 20) {
+          this.$Message.error('属性规格最多20个字符');
+          return false;
+        }
+        if (this.goodsAttribute.length >= 10) {
+          this.$Message.error('最多只能添加10组属性规格');
+          return false;
+        }
+        console.log(this.attribute);
+        this.attribute.push(this.goodsAttribute);
+        this.goodsAttribute = '';
+      },
+      //移除属性规格
+      handleClose2 (index) {
+        //const index = this.attribute.indexOf(name);
+        this.attribute.splice(index, 1);
+      },
       initMap() {
         let AMap = this.AMap = window.AMap;
         map = new AMap.Map('map-container', {
