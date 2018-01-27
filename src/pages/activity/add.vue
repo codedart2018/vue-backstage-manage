@@ -218,8 +218,8 @@
             { required: true, message: '请选择参与等级', trigger: 'change' }
           ],
           maxPeople: [
-            {required: true, message: '请填写参与人数', trigger: 'input'},
-            {type: 'string', message: '参与人数只能是0或整数', trigger: 'input', pattern: /^(\d|([1-9]\d+))(\.\d{1,2})?$/}
+            {required: true, message: '请填写参与人数', trigger: 'blur'},
+            {type: 'regexp', message: '参与人数只能是0或整数', trigger: 'blur', pattern: /^(\d|([1-9]\d+))(\.\d{1,2})?$/}
           ],
           cover: [
             {required: true, type: 'array', min: 1, message: '请上传活动封面', trigger: 'change'},

@@ -221,117 +221,83 @@
         </Form>
       </Tab-pane>
       <Tab-pane label="产品管理" name="goods">
-        <Row class="mb-15">
+        <Row class="mb-15 pb-15" style="border-bottom: 1px dashed #dedede;">
           <Col span="24">
           <Alert type="warning" show-icon>1.最多只能添加5个规格属性,每个规格属性下最多只能添加10个属性!<br><br>2.删除规格属性会导致属性设置的数量价格一并被删除!请谨慎操作!</Alert>
           </Col>
-          <Col span="6">
+          <Col span="8">
             <Row>
-              <Col span="14">
-              <Input v-model="goodsAttribute" placeholder="请填写属性规格名称" @on-enter="handleAddAttribute"></Input>
+              <Col span="9">
+              <Input v-model="goodsAttributeName" placeholder="请填写属性名称" @on-enter="handleAddAttribute"></Input>
               </Col>
               <Col span="1">&nbsp;</Col>
               <Col span="9">
-              <Button icon="ios-plus-empty" type="info" @click="handleAddAttribute">添加属性规格</Button>
+              <Input v-model="goodsAttributeType" placeholder="请填写属性值" @on-enter="handleAddAttribute"></Input>
+              </Col>
+              <Col span="1">&nbsp;</Col>
+              <Col span="4">
+              <Button type="info" @click="handleAddAttribute">添加属性</Button>
               </Col>
             </Row>
           </Col>
-          <Col span="18">
-          <div @click.native="le">
-            <div class="ivu-tag ivu-tag-default ivu-tag-closable ivu-tag-checked" v-for="(item, index) in attribute" :key="item" :name="item" @click.stop="le">
-              <span class="ivu-tag-text">{{item}}</span> <i class="ivu-icon ivu-icon-ios-close-empty" @click.stop="handleClose2(index)"></i>
+          <Col span="16">
+            <div class="ivu-tag ivu-tag-default ivu-tag-closable ivu-tag-border ivu-tag-checked" v-for="(item, index) in attribute" :key="index" :name="item" @click.stop="handleAddSpecifications(item.type)">
+              <span class="ivu-tag-text"><Icon type="plus"></Icon>&nbsp;添加{{item.name}}</span><i class="ivu-icon ivu-icon-close" @click.stop="handleCloseAttribute(index)"></i>
             </div>
-          </div>
           </Col>
         </Row>
-        <Form ref="formDynamic" :model="formDynamic">
+        <Form ref="goodsAttribute" :model="goodsAttribute">
           <Row>
-            <Col span="24">
-            <Row v-for="(item, index) in formDynamic.signUpField" :key="index">
-              <Col span="4">
+            <Col span="24" v-for="(item, key) in goodsAttribute" :key="key">
+            <Row v-for="(child, index) in item" :key="index">
+              <!--{{formDynamic.goodsAttribute[key][index]['attributeValue']}}-->
+              <Col span="5">
               <Form-item
-                :label-width="100"
-                :label="'商品规格' + (index + 1) + '：'"
-                :prop="'signUpField.' + index + '.name'"
-                :rules="[{required: true, message: '表单名称' + (index + 1) +'不能为空', trigger: 'blur'}]">
-                <Input type="text" v-model="item.name" placeholder="请填写表单名称..."></Input>
+                :label-width="120"
+                :label="'商品' + child['attributeName'] + (index + 1) + '：'"
+                :prop="key + '.' + index + '.attributeValue'"
+                :rules="[{type: 'string', required: true, message: '商品' + child['attributeName'] + (index + 1) +'不能为空', trigger: 'blur'}]">
+                <Input type="text" v-model="child.attributeValue" placeholder="请填写商品名称..."></Input>
+              </Form-item>
+              </Col>
+              <Col span="5">
+              <Form-item
+                :label-width="120"
+                :label="child['attributeName'] + '库存' + (index + 1) + '：'"
+                :prop="key + '.' + index + '.inventory'"
+                :rules="[{type: 'number', required: true, message: '商品' + child['attributeName'] + (index + 1) +'不能为空', trigger: 'blur'}]">
+                <InputNumber v-model="child.inventory" :min="0" :max="100000" placeholder="请填写商品库存,库存只能正整数..." style="width: 100%;"></InputNumber>
               </Form-item>
               </Col>
               <Col span="6">
-              <FormItem
-                :label-width="120"
-                :label="'placeholder' + (index + 1) + '：'"
-                :prop="'signUpField.' + index + '.placeholder'"
-                :rules="[{required: true, message: '表单placeholder提示说明' + (index + 1) +'不能为空', trigger: 'blur'}]">
-                <Input type="text" v-model="item.placeholder" placeholder="表单placeholder提示说明..."></Input>
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <template v-if="item.type === 'input'">
-                <Form-item
-                  :label-width="110"
-                  :label="'验证表达式' + (index + 1) + '：'">
-                  <Input type="text" v-model="item.option" placeholder="请填写正则验证表达式，如果不会正则请勿乱填"></Input>
-                </Form-item>
-              </template>
-              <template v-else-if="item.type === 'checkbox'">
-                <Form-item
-                  :label-width="110"
-                  :label="'多选内容' + (index + 1) + '：'"
-                  :prop="'signUpField.' + index + '.option'"
-                  :rules="[{required: true, message: '多选' + (index + 1) +'不能为空', trigger: 'blur'}]">
-                  <Input type="text" v-model="item.option" placeholder="多个选项请用,逗号分隔..."></Input>
-                </Form-item>
-              </template>
-              <template v-else-if="item.type === 'radio'">
-                <Form-item
-                  :label-width="110"
-                  :label="'单选内容' + (index + 1) + '：'"
-                  :prop="'signUpField.' + index + '.option'"
-                  :rules="[{required: true, message: '单选' + (index + 1) +'不能为空', trigger: 'blur'}]">
-                  <Input type="text" v-model="item.option" placeholder="多个选项请用,逗号分隔..."></Input>
-                </Form-item>
-              </template>
-              <template v-else-if="item.type === 'textarea'">
-                <Form-item
-                  :label-width="110">
-                </Form-item>
-              </template>
+              <Form-item
+                :label-width="100"
+                :label="'附加价格' + (index + 1) + '：'"
+                :prop="key + '.' + index + '.additionalPrice'"
+                :rules="[
+                  {type: 'string', required: true, message: child['attributeName'] + '附加价格' + (index + 1) +'不能为空', trigger: 'blur'},
+                  {type: 'string', message: '请填写正确附加价格', trigger: 'blur', pattern: /^\d{0,8}\.{0,1}(\d{1,2})?$/}
+                ]">
+                <Input type="text" v-model="child.additionalPrice" placeholder="请填写附加价格..."></Input>
+              </Form-item>
               </Col>
               <Col span="6">
-              <div style="display: flex; margin-left: 10px;">
-                <div style="width: 60px; padding: 6px 0 5px 0;">
-                  <CheckboxGroup v-model="item.display">
-                    <Checkbox label="1">展示</Checkbox>
-                  </CheckboxGroup>
-                </div>
-                <div style="width: 60px; padding: 6px 0 5px 0;">
-                  <CheckboxGroup v-model="item.required">
-                    <Checkbox label="1">必填</Checkbox>
-                  </CheckboxGroup>
-                </div>
-                <div style="flex: 1;">
-                  <Button type="warning" icon="trash-a">删除</Button>
-                  <Button type="info" icon="arrow-swap">拖动换行</Button>
-                </div>
+              <Form-item
+                :label-width="100"
+                :label="'商品货号' + (index + 1) + '：'">
+                <Input type="text" v-model="child.artNo" placeholder="请填写货号名称..."></Input>
+              </Form-item>
+              </Col>
+              <Col span="2">
+              <div style="margin-left: 10px;">
+                <Button type="warning" icon="trash-a">删除</Button>
               </div>
               </Col>
             </Row>
             </Col>
           </Row>
-
           <Form-item>
-            <Row style="margin-top: 15px;">
-              <Col span="21">
-              <Button type="dashed" @click="handleAddField('input')" icon="plus-round">新增文本表单</Button>
-              <Button type="dashed" @click="handleAddField('textarea')" icon="plus-round">新增文本域表单</Button>
-              <Button type="dashed" @click="handleAddField('radio')" icon="plus-round">新增单选表单</Button>
-              <Button type="dashed" @click="handleAddField('checkbox')" icon="plus-round">新增多选表单</Button>
-              </Col>
-            </Row>
-          </Form-item>
-          <Form-item>
-            <Button type="primary" @click="saveSignUpField('formDynamic')">保存</Button>
+            <Button type="primary" @click="saveGoods('formDynamic')">保存</Button>
           </Form-item>
         </Form>
       </Tab-pane>
@@ -364,7 +330,8 @@
     },
     data () {
       return {
-        goodsAttribute: '',
+        goodsAttributeName: '',
+        goodsAttributeType: '',
         attribute: [],
         AMap: null,
         mapModal: false,
@@ -427,8 +394,8 @@
             {required: true, message: '请选择参与等级', trigger: 'change'}
           ],
           maxPeople: [
-            {required: true, message: '请填写参与人数', trigger: 'input'},
-            {type: 'string', message: '参与人数只能是0或整数', trigger: 'input', pattern: /^(\d|([1-9]\d+))(\.\d{1,2})?$/}
+            {required: true, message: '请填写参与人数', trigger: 'blur'},
+            {type: 'string', message: '参与人数只能是0或整数', trigger: 'blur', pattern: /^(\d|([1-9]\d+))(\.\d{1,2})?$/}
           ],
           cover: [
             {required: true, type: 'array', min: 1, message: '请上传活动封面', trigger: 'change'},
@@ -453,33 +420,42 @@
         //提交状态
         subStart: true,
         formDynamic: {
-          signUpField: [
+          signUpField: []
+        },
+        //商品列表
+        goodsAttribute: {
+          color: [
             {
-              name: '姓名',
-              placeholder: '',
-              required: ['1'],
-              type: 'input',
-              option: '',
-              display: ['0'],
-              value: ''
+              //属性名称
+              attributeName: '颜色',
+              //属性类型
+              attributeType: 'color',
+              //属性值
+              attributeValue: '蓝色',
+              //库存
+              inventory: 100,
+              //附加价格
+              additionalPrice: '100',
+              //货号
+              artNo: 'snvb232332'
             },
             {
-              name: '爱好',
-              required: ['1'],
-              placeholder: '',
-              type: 'checkbox',
-              option: '足球,蓝球',
-              display: ['0'],
-              value: ''
-            },
+              attributeName: '颜色',
+              attributeType: 'color',
+              attributeValue: '黄色',
+              inventory: 10,
+              additionalPrice: '150',
+              artNo: '978232329'
+            }
+          ],
+          size: [
             {
-              name: '工作',
-              required: ['1'],
-              placeholder: '',
-              type: 'radio',
-              option: 'PHP,JAVA',
-              display: ['0'],
-              value: ''
+              attributeName: '容量',
+              attributeType: 'size',
+              attributeValue: '1GB',
+              inventory: 100,
+              additionalPrice: '50',
+              artNo: '97823223329'
             }
           ]
         },
@@ -493,29 +469,38 @@
       };
     },
     methods: {
-      le () {
-        alert(321);
-      },
       //添加规格属性
       handleAddAttribute () {
-        if (!this.goodsAttribute) {
-          this.$Message.error('请先填写属性规格');
+        if (!this.goodsAttributeName) {
+          this.$Message.error('请先填写属性名称');
           return;
         }
-        if (this.$strLen(this.goodsAttribute) > 20) {
-          this.$Message.error('属性规格最多20个字符');
+        if (this.$strLen(this.goodsAttributeName) > 20) {
+          this.$Message.error('属性最多20个字符');
           return false;
         }
-        if (this.goodsAttribute.length >= 10) {
-          this.$Message.error('最多只能添加10组属性规格');
+        if (!this.goodsAttributeType) {
+          this.$Message.error('请填写属性值');
           return false;
         }
-        console.log(this.attribute);
-        this.attribute.push(this.goodsAttribute);
-        this.goodsAttribute = '';
+        if (this.attribute.length > 10) {
+          this.$Message.error('最多只能添加10组属性');
+          return false;
+        }
+        let obj = {
+          name: this.goodsAttributeName,
+          type: this.goodsAttributeType
+        };
+        this.attribute.push(obj);
+        this.goodsAttributeName = '';
+        this.goodsAttributeType = '';
       },
-      //移除属性规格
-      handleClose2 (index) {
+      //添加属性规格
+      handleAddSpecifications (type) {
+        alert(type);
+      },
+      //移除属性
+      handleCloseAttribute (index) {
         //const index = this.attribute.indexOf(name);
         this.attribute.splice(index, 1);
       },
@@ -573,6 +558,14 @@
             setTimeout(() => { this.subStart = true; }, 5000);
           }
         });
+      },
+      //保存Goods表单
+      saveGoods(name) {
+        //先检查是否有属性值
+        if (this.attribute.length === 0) {
+          this.$Message.error('请先增加规格属性');
+          return false;
+        }
       },
       //保存报名字段
       saveSignUpField(name) {
@@ -673,6 +666,7 @@
         //console.log(obj, this.formDynamic.signUpField);
         this.formDynamic.signUpField.push(obj);
       },
+      //上传格式化
       handleFormatError (file) {
         this.$Notice.warning({
           title: '文件格式不正确',
@@ -740,6 +734,7 @@
           }
         });
       },
+      //设置开始时间
       changeStartTime(v) {
         let startStamp = Util.getTimestamp(v);
         let endStamp = Util.getTimestamp(this.formField.endTime);
@@ -748,6 +743,7 @@
           return false;
         }
       },
+      //设置结束时间
       changeEndTime(v) {
         let startStamp = Util.getTimestamp(this.formField.startTime);
         let endStamp = Util.getTimestamp(v);
@@ -848,6 +844,12 @@
         }
       });
       //this.uploadList = this.$refs.upload.fileList;
+//      for (let item in this.formDynamic.goodsAttribute) {
+//        console.log(item);
+//        this.formDynamic.goodsAttribute[item].map((child, index) => {
+//          console.log(child, index);
+//        });
+//      }
     },
     beforeUpdate () {},
     updated () {
