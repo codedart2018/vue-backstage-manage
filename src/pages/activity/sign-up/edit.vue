@@ -1,7 +1,7 @@
 <style src="@/assets/styles/activity/index.less" lang="less" scoped></style>
 <template>
   <div>
-    <Tabs value="goods" :animated="false">
+    <Tabs value="base" :animated="false">
       <Tab-pane label="基础设置" name="base">
         <Form ref="formField" :model="formField" :rules="ruleValidate" :label-width="110">
           <Row>
