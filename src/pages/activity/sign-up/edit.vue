@@ -124,103 +124,7 @@
           </Row>
         </Form>
       </Tab-pane>
-      <Tab-pane label="报名信息" name="form">
-        <Form ref="formDynamic" :model="formDynamic">
-          <Row>
-            <Col span="24">
-            <ul id="fieldList" class="draggable-list">
-              <li v-for="(item, index) in formDynamic.signUpField" :key="index" class="notwrap todolist-item" :data-index="index">
-                <Row>
-                  <Col span="4">
-                  <Form-item
-                    :label-width="100"
-                    :label="'表单名称' + (index + 1) + '：'"
-                    :prop="'signUpField.' + index + '.name'"
-                    :rules="[{required: true, message: '表单名称' + (index + 1) +'不能为空', trigger: 'blur'}]">
-                    <Input type="text" v-model="item.name" placeholder="请填写表单名称..."></Input>
-                  </Form-item>
-                  </Col>
-                  <Col span="6">
-                  <FormItem
-                    :label-width="120"
-                    :label="'placeholder' + (index + 1) + '：'"
-                    :prop="'signUpField.' + index + '.placeholder'"
-                    :rules="[{required: true, message: '表单placeholder提示说明' + (index + 1) +'不能为空', trigger: 'blur'}]">
-                    <Input type="text" v-model="item.placeholder" placeholder="表单placeholder提示说明..."></Input>
-                  </FormItem>
-                  </Col>
-                  <Col span="8">
-                  <template v-if="item.type === 'input'">
-                    <Form-item
-                      :label-width="110"
-                      :label="'验证表达式' + (index + 1) + '：'">
-                      <Input type="text" v-model="item.option" placeholder="请填写正则验证表达式，如果不会正则请勿乱填"></Input>
-                    </Form-item>
-                  </template>
-                  <template v-else-if="item.type === 'checkbox'">
-                    <Form-item
-                      :label-width="110"
-                      :label="'多选内容' + (index + 1) + '：'"
-                      :prop="'signUpField.' + index + '.option'"
-                      :rules="[{required: true, message: '多选' + (index + 1) +'不能为空', trigger: 'blur'}]">
-                      <Input type="text" v-model="item.option" placeholder="多个选项请用,逗号分隔..."></Input>
-                    </Form-item>
-                  </template>
-                  <template v-else-if="item.type === 'radio'">
-                    <Form-item
-                      :label-width="110"
-                      :label="'单选内容' + (index + 1) + '：'"
-                      :prop="'signUpField.' + index + '.option'"
-                      :rules="[{required: true, message: '单选' + (index + 1) +'不能为空', trigger: 'blur'}]">
-                      <Input type="text" v-model="item.option" placeholder="多个选项请用,逗号分隔..."></Input>
-                    </Form-item>
-                  </template>
-                  <template v-else-if="item.type === 'textarea'">
-                    <Form-item
-                      :label-width="110">
-                    </Form-item>
-                  </template>
-                  </Col>
-                  <Col span="6">
-                  <div style="display: flex; margin-left: 10px;">
-                    <div style="width: 60px; padding: 6px 0 5px 0;">
-                      <CheckboxGroup v-model="item.display">
-                        <Checkbox label="1">展示</Checkbox>
-                      </CheckboxGroup>
-                    </div>
-                    <div style="width: 60px; padding: 6px 0 5px 0;">
-                      <CheckboxGroup v-model="item.required">
-                        <Checkbox label="1">必填</Checkbox>
-                      </CheckboxGroup>
-                    </div>
-                    <div style="flex: 1;">
-                      <Button type="warning" icon="trash-a">删除</Button>
-                      <Button type="info" icon="arrow-swap">拖动换行</Button>
-                    </div>
-                  </div>
-                  </Col>
-                </Row>
-              </li>
-            </ul>
-            </Col>
-          </Row>
-
-          <Form-item>
-            <Row style="margin-top: 15px;">
-              <Col span="21">
-              <Button type="dashed" @click="handleAddField('input')" icon="plus-round">新增文本表单</Button>
-              <Button type="dashed" @click="handleAddField('textarea')" icon="plus-round">新增文本域表单</Button>
-              <Button type="dashed" @click="handleAddField('radio')" icon="plus-round">新增单选表单</Button>
-              <Button type="dashed" @click="handleAddField('checkbox')" icon="plus-round">新增多选表单</Button>
-              </Col>
-            </Row>
-          </Form-item>
-          <Form-item>
-            <Button type="primary" @click="saveSignUpField('formDynamic')">保存</Button>
-          </Form-item>
-        </Form>
-      </Tab-pane>
-      <Tab-pane label="产品管理" name="goods">
+      <Tab-pane label="商品管理" name="goods">
         <Row class="mb-15 pb-15" style="border-bottom: 1px dashed #dedede;">
           <Col span="24">
           <Alert type="warning" show-icon>1.最多只能添加5个规格属性,每个规格属性下最多只能添加10个属性!<br><br>2.删除规格属性会导致属性设置的数量价格一并被删除!请谨慎操作!</Alert>
@@ -241,16 +145,17 @@
             </Row>
           </Col>
           <Col span="16">
-            <div class="ivu-tag ivu-tag-default ivu-tag-closable ivu-tag-border ivu-tag-checked" v-for="(item, index) in attribute" :key="index" :name="item" @click.stop="handleAddSpecifications(item.type)">
-              <span class="ivu-tag-text"><Icon type="plus"></Icon>&nbsp;添加{{item.name}}</span><i class="ivu-icon ivu-icon-close" @click.stop="handleCloseAttribute(index)"></i>
+            <div class="tag-button" v-for="(item, index) in attribute" :key="index">
+              <div class="text-box" @click.stop="handleAddSpecifications(item.name, item.type)"><Icon type="plus"></Icon><span>添加{{item.name}}</span></div>
+              <div class="close-box" @click.stop="deleteAttributeModal = true; deleteAttributeIndex = index"><Icon type="close"></Icon></div>
             </div>
           </Col>
         </Row>
-        <Form ref="goodsAttribute" :model="goodsAttribute">
+        <Form ref="goodsList" :model="goodsList">
           <Row>
-            <Col span="24" v-for="(item, key) in goodsAttribute" :key="key">
+            <Col span="24" v-for="(item, key) in goodsList" :key="key">
             <Row v-for="(child, index) in item" :key="index">
-              <!--{{formDynamic.goodsAttribute[key][index]['attributeValue']}}-->
+              <!--{{formDynamic.goodsList[key][index]['attributeValue']}}-->
               <Col span="5">
               <Form-item
                 :label-width="120"
@@ -290,15 +195,25 @@
               </Col>
               <Col span="2">
               <div style="margin-left: 10px;">
-                <Button type="warning" icon="trash-a">删除</Button>
+                <Poptip
+                  confirm
+                  title="您确认删除这条商品数据？"
+                  @on-ok="deleteGoods(key, index)">
+                  <Button>删除</Button>
+                </Poptip>
+                <!--<Button type="warning" icon="trash-a" @click="deleteGoods(key, index)">删除</Button>-->
               </div>
               </Col>
             </Row>
             </Col>
           </Row>
-          <Form-item>
-            <Button type="primary" @click="saveGoods('formDynamic')">保存</Button>
-          </Form-item>
+          <Row>
+            <Col span="1" push="23">
+            <Form-item>
+              <Button type="primary" @click="saveGoods('formDynamic')">保存</Button>
+            </Form-item>
+            </Col>
+          </Row>
         </Form>
       </Tab-pane>
     </Tabs>
@@ -316,13 +231,25 @@
       <img :src="imgName" v-if="visible" style="width: 100%">
     </Modal>
     <!--查看图片 modal 结束-->
+    <!--删除商品属性 modal 提示-->
+    <Modal v-model="deleteAttributeModal" width="380">
+      <p slot="header" style="color:#f60; text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>温馨提示</span>
+      </p>
+      <div style="text-align:center">
+        <p>您确定要删除此属性,属性一旦删除下面商品列表也将会跟随删除!</p>
+      </div>
+      <div slot="footer">
+        <Button type="primary" size="large" @click="handleDeleteAttribute" long style="background: #09C">确认删除</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
   import Util from '@/libs/util';
   import UEditor from '@/components/editor';
   import { createScript, removeScript } from '@/libs/autoLoad';
-  import Sortable from 'sortablejs';
   let map;
   export default{
     components: {
@@ -330,9 +257,6 @@
     },
     data () {
       return {
-        goodsAttributeName: '',
-        goodsAttributeType: '',
-        attribute: [],
         AMap: null,
         mapModal: false,
         //查看图片
@@ -376,7 +300,9 @@
           startTime: '',
           endTime: '',
           desc: '',
-          content: ''
+          content: '',
+          //商品数据
+          goodsData: {}
         },
         ruleValidate: {
           name: [
@@ -419,35 +345,23 @@
         },
         //提交状态
         subStart: true,
-        formDynamic: {
-          signUpField: []
-        },
+        //删除商品属性modal
+        deleteAttributeModal: false,
+        //即将选择删除属性的下标
+        deleteAttributeIndex: -1,
+        //商品属性名称
+        goodsAttributeName: '',
+        //商品属性类型
+        goodsAttributeType: '',
+        //商品属性数组
+        attribute: [
+          {
+            name: '颜色',
+            type: 'color'
+          }
+        ],
         //商品列表
-        goodsAttribute: {
-          color: [
-            {
-              //属性名称
-              attributeName: '颜色',
-              //属性类型
-              attributeType: 'color',
-              //属性值
-              attributeValue: '蓝色',
-              //库存
-              inventory: 100,
-              //附加价格
-              additionalPrice: '100',
-              //货号
-              artNo: 'snvb232332'
-            },
-            {
-              attributeName: '颜色',
-              attributeType: 'color',
-              attributeValue: '黄色',
-              inventory: 10,
-              additionalPrice: '150',
-              artNo: '978232329'
-            }
-          ],
+        goodsList: {
           size: [
             {
               attributeName: '容量',
@@ -458,13 +372,6 @@
               artNo: '97823223329'
             }
           ]
-        },
-        formPrizes: {
-          prize_name: [],
-          type: [],
-          conditions: [],
-          prize_quantity: [],
-          deadline: []
         }
       };
     },
@@ -496,13 +403,66 @@
         this.goodsAttributeType = '';
       },
       //添加属性规格
-      handleAddSpecifications (type) {
-        alert(type);
+      handleAddSpecifications (name, type) {
+        let obj = {
+          attributeName: name,
+          attributeType: type,
+          attributeValue: '',
+          inventory: 100,
+          additionalPrice: '0',
+          artNo: ''
+        };
+        this.goodsList[type].push(obj);
       },
       //移除属性
-      handleCloseAttribute (index) {
-        //const index = this.attribute.indexOf(name);
-        this.attribute.splice(index, 1);
+      handleDeleteAttribute () {
+        if (this.deleteAttributeIndex < 0) {
+          this.$Message.error('请检查要删除的属性');
+          return false;
+        }
+        let key = this.attribute[this.deleteAttributeIndex];
+        this.attribute.splice(this.deleteAttributeIndex, 1);
+        this.deleteAttributeModal = false;
+        this.goodsList[key.type] = [];
+      },
+      //保存Goods表单
+      saveGoods() {
+        //先检查是否有属性值
+        if (this.attribute.length === 0) {
+          this.$Message.error('请先增加规格属性');
+          return false;
+        }
+        //检查商品列表是否大于0
+        if (Object.keys(this.goodsList).length <= 0) {
+          this.$Message.error('请设置一组商品');
+          return false;
+        }
+        //检查表单
+        this.$refs['goodsList'].validate((valid) => {
+          if (!valid) {
+            this.$Message.error('请先完成商品表单!');
+            return false;
+          } else {
+            if (!this.subStart) {
+              this.$Message.error('请勿提交过快!!!');
+              return false;
+            }
+            this.subStart = false;
+            let params = Object.assign({goodsData: this.goodsList}, this.formField);
+            this.request('ActivityEdit', params).then((res) => {
+              if (res.status) {
+                this.$Message.success(res.msg);
+              } else {
+                this.$Message.error(res.msg);
+              }
+            });
+            setTimeout(() => { this.subStart = true; }, 5000);
+          }
+        });
+      },
+      //删除商品
+      deleteGoods (key, index) {
+        this.goodsList[key].splice(index, 1);
       },
       initMap() {
         let AMap = this.AMap = window.AMap;
@@ -547,82 +507,8 @@
               return false;
             }
             this.subStart = false;
-            let params = Object.assign({tabs: 'base'}, this.formField);
-            this.request('ActivityEdit', params).then((res) => {
-              if (res.status) {
-                this.$Message.success(res.msg);
-              } else {
-                this.$Message.error(res.msg);
-              }
-            });
-            setTimeout(() => { this.subStart = true; }, 5000);
-          }
-        });
-      },
-      //保存Goods表单
-      saveGoods(name) {
-        //先检查是否有属性值
-        if (this.attribute.length === 0) {
-          this.$Message.error('请先增加规格属性');
-          return false;
-        }
-      },
-      //保存报名字段
-      saveSignUpField(name) {
-        if (!this.formField.id) {
-          this.$Message.error('请先完成基础设置');
-          return false;
-        }
-        if (this.formDynamic.signUpField.length < 1) {
-          this.$Message.error('最少应该有一组报名数据字段');
-          return false;
-        }
-        this.$refs[name].validate((valid) => {
-          if (!valid) {
-            this.$Message.error('请检查报名表单!');
-            return false;
-          } else {
-            if (!this.subStart) {
-              this.$Message.error('请勿提交过快!!!');
-              return false;
-            }
-            this.subStart = false;
-            let params = {tabs: 'signUpField', id: this.formField.id, signUpField: this.formDynamic.signUpField};
-            this.request('ActivityEdit', params).then((res) => {
-              if (res.status) {
-                this.$Message.success(res.msg);
-              } else {
-                this.$Message.error(res.msg);
-              }
-            });
-            setTimeout(() => { this.subStart = true; }, 5000);
-          }
-        });
-      },
-      //保存奖品
-      savePrize(name) {
-        //检查是否有设置过字集
-        //debugger;
-        if (typeof (this.formField.words) === 'undefined') {
-          this.$Message.error('请先完成集字设置');
-          return false;
-        }
-        if (this.formPrizes.prize_name.length < 1) {
-          this.$Message.error('请先设置一组奖品');
-          return false;
-        }
-        this.$refs[name].validate((valid) => {
-          if (!valid) {
-            this.$Message.error('请先完成奖品表单!');
-            return false;
-          } else {
-            if (!this.subStart) {
-              this.$Message.error('请勿提交过快!!!');
-              return false;
-            }
-            this.subStart = false;
-            let params = Object.assign({tabs: 'prize', id: this.formField.id}, this.formPrizes);
-            this.request('JiziEdit', params).then((res) => {
+            //let params = Object.assign({tabs: 'base'}, this.formField);
+            this.request('ActivityEdit', this.formField).then((res) => {
               if (res.status) {
                 this.$Message.success(res.msg);
               } else {
@@ -637,34 +523,6 @@
       handleReset(name) {
         this.$refs[name].resetFields();
         this.coverList = [];
-      },
-      //添加文本表单
-      handleAddField(type) {
-        let obj = {
-          name: '',
-          required: [],
-          option: '',
-          display: ['1'],
-          value: ''
-        };
-        /* eslint-disable */
-        switch (type) {
-          case 'input':
-            obj['type'] = 'input';
-            break;
-          case 'radio':
-            obj['type'] = 'radio';
-            break;
-          case 'checkbox':
-            obj['type'] = 'checkbox';
-            break;
-          case 'textarea':
-            obj['type'] = 'textarea';
-            break;
-        }
-        /* eslint-enable */
-        //console.log(obj, this.formDynamic.signUpField);
-        this.formDynamic.signUpField.push(obj);
       },
       //上传格式化
       handleFormatError (file) {
@@ -763,7 +621,6 @@
           event.preventDefault();
           event.stopPropagation();
         };
-        let vm = this;
         this.request('ActivityDetail', {id: id}).then((res) => {
           if (res.status) {
             const data = res.data;
@@ -776,33 +633,12 @@
               this.formField.content = instance.getContent();
               this.$refs.formField.validateField('content');
             });
-            //处理后台返回的报名字段数据
-            if (typeof (res.data.signUpField) !== 'undefined') {
-              this.formDynamic.signUpField = res.data.signUpField;
-            }
+            //处理商品数据
+            this.attribute = data.attribute;
+            this.goodsList = data.goodsList;
             //重新处理日期 必须处理不然会报错
             this.formField.startTime = new Date(data.startTime);
             this.formField.endTime = new Date(data.endTime);
-            //处理拖动
-            this.$nextTick(() => {
-              let todoList = document.getElementById('fieldList');
-              Sortable.create(todoList, {
-                group: {
-                  name: 'list',
-                  pull: true
-                },
-                animation: 120,
-                ghostClass: 'placeholder-style',
-                fallbackClass: 'fallback-style',
-                onEnd(e) {
-                  let newArr = Util.swapPosition(vm.formDynamic.signUpField, e.oldIndex, e.newIndex);
-                  vm.formDynamic.signUpField = [];
-                  setTimeout(() => {
-                    vm.formDynamic.signUpField = newArr;
-                  }, 0);
-                }
-              });
-            });
             this.$forceUpdate();
           } else {
             this.$Message.error(res.msg);
@@ -844,12 +680,13 @@
         }
       });
       //this.uploadList = this.$refs.upload.fileList;
-//      for (let item in this.formDynamic.goodsAttribute) {
+//      for (let item in this.formDynamic.goodsList) {
 //        console.log(item);
-//        this.formDynamic.goodsAttribute[item].map((child, index) => {
+//        this.formDynamic.goodsList[item].map((child, index) => {
 //          console.log(child, index);
 //        });
 //      }
+      console.log(Object.keys(this.goodsList).length);
     },
     beforeUpdate () {},
     updated () {

@@ -200,7 +200,9 @@
           startTime: '',
           endTime: '',
           desc: '',
-          content: ''
+          content: '',
+          //商品数据
+          goodsData: {}
         },
         ruleValidate: {
           name: [

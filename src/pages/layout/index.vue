@@ -83,7 +83,6 @@
         <div class="copyright-footer">©copyright by codeRabbit</div>
       </div>
     </div>
-
     <!--modal 提示-->
     <Modal v-model="modal" width="360">
       <p slot="header" style="color:#f60;text-align:center">

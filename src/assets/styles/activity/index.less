@@ -66,10 +66,46 @@
   }
 }
 
-.draggable-list{
+//标签按钮
+.tag-button {
+  border: 1px solid #e9eaec;
+  background: #fff !important;
+  border-radius: 3px;
+  height: 32px;
+  line-height: 32px;
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+  cursor: pointer;
+  margin-right: 8px;
+  .text-box {
+    float: left;
+    border-right: 1px solid #e9eaec;
+    height: 100%;
+    width: auto;
+    padding: 0 8px;
+
+    span {
+      padding: 0 0 0 5px;
+    }
+  }
+  .close-box {
+    float: left;
+    width: 25px;
+    height: 100%;
+    color: #e9eaec;
+    text-align: center;
+    &:hover {
+      color: #c1c2c4;
+    }
+  }
+}
+
+.draggable-list {
   height: 100%;
 }
-.draggable-list li{
+
+.draggable-list li {
   border: 0 solid #e7ebee;
   border-radius: 3px;
   margin-bottom: 5px;
@@ -77,32 +113,39 @@
   position: relative;
   transition: all .2s;
 }
-.draggable-list li:hover{
+
+.draggable-list li:hover {
   border-color: #87b4ee;
   transition: all .2s;
 }
-.draggable-delete{
+
+.draggable-delete {
   height: 100%;
   position: absolute;
   right: -8px;
   top: 0px;
   display: none;
 }
-.draggable-list li:hover .draggable-delete{
+
+.draggable-list li:hover .draggable-delete {
   display: block;
 }
-.placeholder-style{
+
+.placeholder-style {
   display: block !important;
   color: transparent;
   border-style: dashed !important;
 }
-.delete-item-animation{
+
+.delete-item-animation {
   opacity: 0;
   transition: all .2s;
 }
-.draggable-list{
+
+.draggable-list {
   overflow: auto
 }
+
 .ivu-tag {
   height: 32px;
   line-height: 32px;
