@@ -415,7 +415,14 @@
           additionalPrice: '0',
           artNo: ''
         };
+        //检测对象key是否存在
+        if (!this.goodsList.hasOwnProperty(type)) {
+          this.goodsList[type] = [];
+        };
+        //console.log(this.goodsList);
         this.goodsList[type].push(obj);
+        //强制更新页面
+        this.$forceUpdate();
       },
       //移除属性
       handleDeleteAttribute () {
@@ -632,8 +639,8 @@
             this.formField.coverList = data.coverList;
             this.uploadList = data.coverList;
             //处理商品数据
-            this.attribute = data.attribute;
-            this.goodsList = data.goodsList;
+            //this.attribute = data.attribute;
+            //this.goodsList = data.goodsList;
             //重新处理日期 必须处理不然会报错 todo 重置日期有导致活动封面不能正常加载 除非把uploadList 移到下面来，现在取消日期重置看是否报错
             //this.formField.startTime = new Date(data.startTime);
             //this.formField.endTime = new Date(data.endTime);
