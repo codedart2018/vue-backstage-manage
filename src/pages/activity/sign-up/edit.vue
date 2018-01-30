@@ -274,7 +274,10 @@
         },
         //是否显示已上传文件列表
         showUploadList: false,
-        uploadList: [],
+        uploadList: [
+//          {id: 41, name: 'amn1.jpg', url: 'https://oss.life.dev.yongchuan.cc/manage/activity/cover/2018-01-19/amn1.jpg'},
+//          {id: 40, name: 'amn2.jpg', url: 'https://oss.life.dev.yongchuan.cc/manage/activity/cover/2018-01-19/amn2.jpg'}
+        ],
         //编辑器配置
         config: {
           actionUrl: '',
@@ -628,18 +631,19 @@
             this.formField.content = data.content;
             this.formField.coverList = data.coverList;
             this.uploadList = data.coverList;
+            //处理商品数据
+            this.attribute = data.attribute;
+            this.goodsList = data.goodsList;
+            //重新处理日期 必须处理不然会报错 todo 重置日期有导致活动封面不能正常加载 除非把uploadList 移到下面来，现在取消日期重置看是否报错
+            //this.formField.startTime = new Date(data.startTime);
+            //this.formField.endTime = new Date(data.endTime);
             instance.execCommand('insertHtml', res.data.content);
             instance.addListener('contentChange', () => {
               this.formField.content = instance.getContent();
               this.$refs.formField.validateField('content');
             });
-            //处理商品数据
-            this.attribute = data.attribute;
-            this.goodsList = data.goodsList;
-            //重新处理日期 必须处理不然会报错
-            this.formField.startTime = new Date(data.startTime);
-            this.formField.endTime = new Date(data.endTime);
             this.$forceUpdate();
+            //this.$nextTick(() => {});
           } else {
             this.$Message.error(res.msg);
           }
@@ -686,7 +690,6 @@
 //          console.log(child, index);
 //        });
 //      }
-      console.log(Object.keys(this.goodsList).length);
     },
     beforeUpdate () {},
     updated () {

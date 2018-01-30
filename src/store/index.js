@@ -11,7 +11,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import * as actions from './actions';
 import * as getters from './getters';
-import createLogger from 'vuex/dist/logger';
+//import createLogger from 'vuex/dist/logger';
 import NavigationTags from './modules/navigation-tags';
 import SideMenu from './modules/side-menu';
 import ManageUser from './modules/manage-user';
@@ -30,6 +30,6 @@ export default new Vuex.Store({
     ManageUser,
     SiteConfig
   },
-  strict: debug,
-  plugins: [createLogger()]
+  strict: debug
+  // plugins: [createLogger()]
 });
