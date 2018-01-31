@@ -1,6 +1,5 @@
 <template>
   <div>
-
       <Form ref="formField" :model="formField" :rules="ruleValidate" :label-width="80">
       <Row>
         <Col span="12">
@@ -66,7 +65,6 @@
         </Col>
       </Row>
       </Form>
-
   </div>
 </template>
 
