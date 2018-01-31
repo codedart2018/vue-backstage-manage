@@ -93,10 +93,24 @@
           {
             title: '操作',
             key: 'operation',
-            width: 140,
+            width: 170,
             align: 'center',
             render: (h, params) => {
               return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'info',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.$router.push({path: '/article/comment/' + params.row.id, params: {id: params.row.id}});
+                    }
+                  }
+                }, '评论'),
                 h('Button', {
                   props: {
                     type: 'primary',

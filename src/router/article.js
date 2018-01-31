@@ -51,6 +51,17 @@ export const ArticleRouter = {
       },
       component: resolve => require(['../pages/article/category'], resolve),
       children: []
+    },
+    {
+      path: '/article/comment/:id',
+      name: 'ArticleComment',
+      icon: '',
+      meta: {
+        title: '文章评论',
+        routeAuth: true
+      },
+      component: resolve => require(['../pages/article/comment'], resolve),
+      children: []
     }
   ]
 };
