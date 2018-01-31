@@ -34,7 +34,7 @@
           <Form-item label="所属分类" prop="pid">
             <Select v-model="addForm.pid" style="width:200px">
               <Option value="0">顶级分类</Option>
-              <!--<Option v-for="(item, index) in cate" :value="item.id" :key="item.id">{{ item._name }}</Option>-->
+              <Option v-for="(item, index) in cate" :value="item.id" :key="item.id">{{ item._name }}</Option>
             </Select>
           </Form-item>
           <Form-item label="分类排序" prop="sort">
@@ -65,7 +65,7 @@
           <Form-item label="所属分类" prop="pid">
             <Select v-model="editForm.pid" style="width:200px">
               <Option value="0">顶级分类</Option>
-              <!--<Option v-for="(item, index) in cate" :value="item.id" :key="index">{{ item._name }}</Option>-->
+              <Option v-for="(item, index) in cate" :value="item.id" :key="index">{{ item._name }}</Option>
             </Select>
           </Form-item>
           <Form-item label="分类排序" prop="sort">
@@ -114,8 +114,8 @@
             align: 'center',
             render: (h, params) => {
               const row = params.row;
-              const color = row.status === 1 ? 'green' : row.status === 0 ? 'yellow' : 'red';
-              const text = row.status === 1 ? '正常' : row.status === 0 ? '锁定' : '删除';
+              const color = row.status === '1' ? 'green' : row.status === '0' ? 'yellow' : 'red';
+              const text = row.status === '1' ? '正常' : row.status === '0' ? '锁定' : '删除';
               return h('Tag', {
                 props: {
                   type: 'dot',
@@ -129,7 +129,7 @@
             width: 135,
             align: 'center',
             render: (h, params) => {
-              return h('div', this.$formatDate(params.row.create_time, 'yyyy-MM-dd h:m'));
+              return h('div', this.$formatDate(params.row.createTime, 'yyyy-MM-dd h:m'));
             }
           },
           {
@@ -137,7 +137,7 @@
             width: 135,
             align: 'center',
             render: (h, params) => {
-              return h('div', this.$formatDate(params.row.update_time, 'yyyy-MM-dd h:m'));
+              return h('div', this.$formatDate(params.row.updateTime, 'yyyy-MM-dd h:m'));
             }
           },
           {
