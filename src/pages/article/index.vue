@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Row class="mb-15">
+    <Row>
       <Col span="18" class="search">
       <Form :model="formSearch" :label-width="80" inline label-position="right">
         <Form-item label="文章名称：">
@@ -52,7 +52,7 @@
           },
           {
             title: '所属分类',
-            key: 'cate_name',
+            key: 'cateName',
             width: 200
           },
           {
@@ -62,8 +62,8 @@
             align: 'center',
             render: (h, params) => {
               const row = params.row;
-              const color = row.status === 1 ? 'green' : row.status === 0 ? 'yellow' : 'red';
-              const text = row.status === 1 ? '正常' : row.status === 0 ? '锁定' : '删除';
+              const color = row.status === '1' ? 'green' : row.status === '0' ? 'yellow' : 'red';
+              const text = row.status === '1' ? '正常' : row.status === '0' ? '锁定' : '删除';
               return h('Tag', {
                 props: {
                   type: 'dot',

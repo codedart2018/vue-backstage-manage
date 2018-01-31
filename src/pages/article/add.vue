@@ -94,7 +94,7 @@
           link: '',
           sourceUrl: '',
           thumbnail: '',
-          status: "1",
+          status: '1',
           content: '',
           openComment: '1',
           isReview: '1'
@@ -102,27 +102,27 @@
         //验证规则
         ruleValidate: {
           title: [
-            { required: true, message: '文章标题不能为空', trigger: 'blur' },
-            { type: 'string', min: 2, message: '文章名称不能少于2个字符', trigger: 'blur' },
-            { type: 'string', max: 50, message: '文章名称不能大于50个字符', trigger: 'blur' }
+            {required: true, message: '文章标题不能为空', trigger: 'blur'},
+            {type: 'string', min: 2, message: '文章名称不能少于2个字符', trigger: 'blur'},
+            {type: 'string', max: 50, message: '文章名称不能大于50个字符', trigger: 'blur'}
           ],
           link: [
-            { type: 'url', message: '外链地址不正确', trigger: 'blur' }
+            {type: 'url', message: '外链地址不正确', trigger: 'blur'}
           ],
           sourceUrl: [
-            { type: 'url', message: '原文链接地址不正确', trigger: 'blur' }
+            {type: 'url', message: '原文链接地址不正确', trigger: 'blur'}
           ],
           cateId: [
-            { required: true, message: '请选择文章分类', trigger: 'change' }
+            {required: true, message: '请选择文章分类', trigger: 'change'}
           ],
           status: [
-            { required: true, message: '请选择状态', trigger: 'change' }
+            {required: true, message: '请选择状态', trigger: 'change'}
           ],
           content: [
-            { required: true, message: '请编写文章内容', trigger: 'change' }
+            {required: true, message: '请编写文章内容', trigger: 'change'}
           ],
           sort: [
-            { type: 'string', message: '排序只能数字', trigger: 'blur', pattern: /^[0-9]+$/}
+            {type: 'string', message: '排序只能数字', trigger: 'blur', pattern: /^[0-9]+$/}
           ]
         }
       };
@@ -135,17 +135,17 @@
         this.$refs[name].validate((valid) => {
           if (valid) {
             this.request('ArticleAdd', this.formField).then((res) => {
-              if(res.status) {
+              if (res.status) {
                 this.$Message.success(res.msg);
-                this.$router.go(-1)
+                this.$router.go(-1);
               } else {
                 this.$Message.error(res.msg);
               }
-            })
+            });
           } else {
             this.$Message.error('表单验证失败!');
           }
-        })
+        });
       },
       handleReset (name) {
         this.$refs[name].resetFields();
@@ -153,10 +153,10 @@
       //获得分类数据
       getCate() {
         this.request('ArticleCategoryList', {type: 1}, true).then((res) => {
-          if(res.status) {
+          if (res.status) {
             this.cate = res.data;
           }
-        })
+        });
       },
       //初始化编辑器
       editorReady(instance) {
