@@ -192,7 +192,7 @@
               if (res.status) {
                 this.$Message.info(res.msg);
                 this.$Modal.remove();
-                this.list[index].status = -1;
+                this.list[index].status = '2';
               } else {
                 this.$Message.error(res.msg);
                 this.$Modal.remove();
