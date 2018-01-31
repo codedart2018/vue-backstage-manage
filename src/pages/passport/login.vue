@@ -41,7 +41,7 @@
             <img :src="verifyUrl" @click="refreshVerify()" class="code-img" title="点击切换验证码">
           </FormItem>
           <FormItem>
-            <div class="login-button" @click="handleSubmit">登陆</div>
+            <div class="login-button" @click="handleSubmit">立即登陆</div>
             <!--<p class="register">没有账号？<a href="" target="_blank">免费申请</a></p>-->
           </FormItem>
         </Form>
