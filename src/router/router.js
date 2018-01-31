@@ -18,7 +18,7 @@ export const SubRouter = [
   ActivityRouter,
   ArticleRouter,
   {
-    path: '/article/default',
+    path: '/permission/default',
     name: 'Permission',
     icon: 'locked',
     meta: {

@@ -31,14 +31,14 @@ export const ArticleRouter = {
       children: []
     },
     {
-      path: '/article/add',
-      name: 'ArticleAdd',
+      path: '/article_category/index',
+      name: 'ArticleCategory',
       icon: '',
       meta: {
-        title: '添加文章',
+        title: '文章分类',
         routeAuth: true
       },
-      component: resolve => require(['../pages/article/add'], resolve),
+      component: resolve => require(['../pages/article/category'], resolve),
       children: []
     }
   ]

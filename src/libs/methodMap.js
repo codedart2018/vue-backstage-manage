@@ -81,6 +81,22 @@ const methodMap = {
   /** 修改活动 **/
   ActivityEdit: {url: '/admin/activity/edit', method: 'post'},
   /** 活动详情 **/
-  ActivityDetail: {url: '/admin/activity/detail', method: 'post'}
+  ActivityDetail: {url: '/admin/activity/detail', method: 'post'},
+  /** 文章分类列表 **/
+  ArticleCategoryList: {url: '/admin/article_category/list', method: 'get'},
+  /** 添加文章分类 **/
+  ArticleCategoryAdd: {url: '/admin/article_category/add', method: 'post'},
+  /** 修改文章分类 **/
+  ArticleCategoryEdit: {url: '/admin/article_category/edit', method: 'post'},
+  /** 删除文章分类 **/
+  ArticleCategoryDelete: {url: '/admin/article_category/delete', method: 'post'},
+  /** 文章列表 **/
+  ArticleList: {url: '/admin/article/list', method: 'get'},
+  /** 保存文章 **/
+  ArticleAdd: {url: '/admin/article/add', method: 'post'},
+  /** 修改文章 **/
+  ArticleEdit: {url: '/admin/article/edit', method: 'post'},
+  /** 删除文章 **/
+  ArticleDelete: {url: '/admin/article/delete', method: 'post'}
 };
 export default methodMap;
