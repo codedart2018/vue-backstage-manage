@@ -42,7 +42,7 @@ const Instance = new Vue({
   components: {App}
 });
 //获取公共配置
-Instance.apiPost('/common/site_config/index').then((res) => {
+Instance.apiPost('/common/site_config/manage').then((res) => {
   if (res.status) {
     //默认先改后台的站点名称
     //Util.title(res.data.siteName);
