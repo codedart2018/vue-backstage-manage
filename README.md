@@ -5,7 +5,7 @@
 
 [演示地址](https://life.dev.yongchuan.cc)
 
-[前端演示地址](https://f.dev.daimatu.cc)
+[前端演示地址](https://f.dev.daimatu.cn)
 
 [PHP框架](https://gitee.com/myxingke/Hphp)
 
