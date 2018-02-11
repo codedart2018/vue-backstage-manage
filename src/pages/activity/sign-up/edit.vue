@@ -7,10 +7,10 @@
           <Row>
             <i-col span="10">
               <Form-item label="活动名称" prop="name">
-                <Input v-model="formField.name" placeholder="请填写活动名称"></Input>
+                <Input v-model="formField.name" placeholder="请填写活动名称"/>
               </Form-item>
               <Form-item label="活动关键词" prop="keywords">
-                <Input v-model="formField.keywords" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
+                <Input v-model="formField.keywords" placeholder="请填写活动关键词,多个用逗号分隔"/>
               </Form-item>
               <Form-item label="活动封面" prop="cover">
                 <div class="cover-box">
@@ -63,7 +63,7 @@
                 </Select>
               </FormItem>
               <FormItem label="参与人数" prop="maxPeople" style="width: 300px;">
-                <Input v-model="formField.maxPeople" placeholder="限制参与人数,填0为不限制"></Input>
+                <Input v-model="formField.maxPeople" placeholder="限制参与人数,填0为不限制"/>
               </FormItem>
               <Form-item label="活动日期" class="ivu-form-item-required">
                 <Row>
@@ -87,10 +87,10 @@
                 <span>（{{formField.longitude}} - {{formField.latitude}}）</span>
               </Form-item>
               <Form-item label="活动地址" prop="formField">
-                <Input v-model="formField.address" placeholder="请填写活动线下地址"></Input>
+                <Input v-model="formField.address" placeholder="请填写活动线下地址"/>
               </Form-item>
               <Form-item label="活动外接" prop="link">
-                <Input v-model="formField.link" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
+                <Input v-model="formField.link" placeholder="请填写活动关键词,多个用逗号分隔"/>
               </Form-item>
             </i-col>
             <i-col span="14">
@@ -108,7 +108,7 @@
                 <span>温馨提示：强制关注有可能会被封号哟!</span>
               </Form-item>
               <Form-item label="活动简介" prop="desc">
-                <Input v-model="formField.desc" type="textarea" :rows="4" placeholder="限500字简单说明介绍"></Input>
+                <Input v-model="formField.desc" type="textarea" :rows="4" placeholder="限500字简单说明介绍"/>
               </Form-item>
               <Form-item label="活动详情" prop="content">
                 <UEditor ref="editor" @ready="editorReady" v-model="formField.content" :config="config" style="line-height: normal"></UEditor>
