@@ -5,214 +5,212 @@
       <Tab-pane label="基础设置" name="base">
         <Form ref="formField" :model="formField" :rules="ruleValidate" :label-width="110">
           <Row>
-            <Col span="10">
-            <Form-item label="活动名称" prop="name">
-              <Input v-model="formField.name" placeholder="请填写活动名称"></Input>
-            </Form-item>
-            <Form-item label="活动关键词" prop="keywords">
-              <Input v-model="formField.keywords" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
-            </Form-item>
-            <Form-item label="活动封面" prop="cover">
-              <div class="cover-box">
-                <div v-if="uploadList.length > 0" style="margin-right: 8px;">
-                  <div class="upload-cover-list" v-for="(item, index) in uploadList" :key="index">
-                    <template v-if="item.status === 'finished'">
-                      <img :src="item.url + '?imageView2/1/w/64/h/64'">
-                      <div class="list-cover">
-                        <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
-                        <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                      </div>
-                    </template>
-                    <template v-else>
-                      <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-                    </template>
+            <i-col span="10">
+              <Form-item label="活动名称" prop="name">
+                <Input v-model="formField.name" placeholder="请填写活动名称"></Input>
+              </Form-item>
+              <Form-item label="活动关键词" prop="keywords">
+                <Input v-model="formField.keywords" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
+              </Form-item>
+              <Form-item label="活动封面" prop="cover">
+                <div class="cover-box">
+                  <div v-if="uploadList.length > 0" style="margin-right: 8px;">
+                    <div class="upload-cover-list" v-for="(item, index) in uploadList" :key="index">
+                      <template v-if="item.status === 'finished'">
+                        <img :src="item.url + '?imageView2/1/w/64/h/64'">
+                        <div class="list-cover">
+                          <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
+                          <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                        </div>
+                      </template>
+                      <template v-else>
+                        <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+                      </template>
+                    </div>
+                  </div>
+                  <div class="upload-button">
+                    <Upload
+                      ref="upload"
+                      name="file"
+                      :show-upload-list="showUploadList"
+                      :default-file-list="formField.coverList"
+                      :action="action"
+                      :data="uploadCoverParams"
+                      :on-success="uploadSuccess"
+                      :on-error="uploadError"
+                      :on-format-error="handleFormatError"
+                      :before-upload="handleBeforeUpload"
+                      :max-size="1024"
+                      :format="['jpg','jpeg','png']"
+                      :on-remove="handleRemove"
+                      :on-preview="handleView">
+                      <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
+                    </Upload>
+                    <p class="tips">推荐尺寸：640*280,大小在1M内</p>
                   </div>
                 </div>
-                <div class="upload-button">
-                  <Upload
-                    ref="upload"
-                    name="file"
-                    :show-upload-list="showUploadList"
-                    :default-file-list="formField.coverList"
-                    :action="action"
-                    :data="uploadCoverParams"
-                    :on-success="uploadSuccess"
-                    :on-error="uploadError"
-                    :on-format-error="handleFormatError"
-                    :before-upload="handleBeforeUpload"
-                    :max-size="1024"
-                    :format="['jpg','jpeg','png']"
-                    :on-remove="handleRemove"
-                    :on-preview="handleView">
-                    <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
-                  </Upload>
-                  <p class="tips">推荐尺寸：640*280,大小在1M内</p>
-                </div>
-              </div>
-            </Form-item>
-            <FormItem label="活动类型" prop="type" style="width: 300px;">
-              <Select v-model="formField.type" placeholder="请选择活动类型">
-                <Option value="sign_up">报名活动</Option>
-              </Select>
-            </FormItem>
-            <FormItem label="参与等级" prop="vipLevel" style="width: 300px;">
-              <Select v-model="formField.vipLevel" placeholder="请选择参与等级">
-                <Option value="0">不限等级</Option>
-                <Option value="1">VIP1</Option>
-                <Option value="1">VIP2</Option>
-              </Select>
-            </FormItem>
-            <FormItem label="参与人数" prop="maxPeople" style="width: 300px;">
-              <Input v-model="formField.maxPeople" placeholder="限制参与人数,填0为不限制"></Input>
-            </FormItem>
-            <Form-item label="活动日期" class="ivu-form-item-required">
-              <Row>
-                <Col span="8">
-                <Form-item prop="startTime">
-                  <Date-picker type="datetime" placeholder="开始时间" v-model="formField.startTime" v @on-change="changeStartTime"></Date-picker>
-                </Form-item>
-                </Col>
-                <Col span="2" style="text-align: center">
-                至</Col>
-                <Col span="8">
-                <Form-item prop="endTime">
-                  <Date-picker type="datetime" placeholder="结束时间" v-model="formField.endTime" @on-change="changeEndTime"></Date-picker>
-                </Form-item>
-                </Col>
-              </Row>
-            </Form-item>
-            <Form-item label="地图坐标：">
-              <Button type="info" icon="map" @click="mapModal = true">地图标注</Button>
-              <span>（{{formField.longitude}} - {{formField.latitude}}）</span>
-            </Form-item>
-            <Form-item label="活动地址" prop="formField">
-              <Input v-model="formField.address" placeholder="请填写活动线下地址"></Input>
-            </Form-item>
-            <Form-item label="活动外接" prop="link">
-              <Input v-model="formField.link" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
-            </Form-item>
-            </Col>
-            <Col span="14">
-            <Form-item label="是否销售" prop="openSales">
-              <Radio-group v-model="formField.openSales">
-                <Radio label="1">是</Radio>
-                <Radio label="0">否</Radio>
-              </Radio-group>
-            </Form-item>
-            <Form-item label="是否关注" prop="isFollow">
-              <Radio-group v-model="formField.isFollow">
-                <Radio label="1">是</Radio>
-                <Radio label="0">否</Radio>
-              </Radio-group>
-              <span>温馨提示：强制关注有可能会被封号哟!</span>
-            </Form-item>
-            <Form-item label="活动简介" prop="desc">
-              <Input v-model="formField.desc" type="textarea" :rows="4" placeholder="限500字简单说明介绍"></Input>
-            </Form-item>
-            <Form-item label="活动详情" prop="content">
-              <UEditor ref="editor" @ready="editorReady" v-model="formField.content" :config="config" style="line-height: normal"></UEditor>
-            </Form-item>
-            </Col>
+              </Form-item>
+              <FormItem label="活动类型" prop="type" style="width: 300px;">
+                <Select v-model="formField.type" placeholder="请选择活动类型">
+                  <Option value="sign_up">报名活动</Option>
+                </Select>
+              </FormItem>
+              <FormItem label="参与等级" prop="vipLevel" style="width: 300px;">
+                <Select v-model="formField.vipLevel" placeholder="请选择参与等级">
+                  <Option value="0">不限等级</Option>
+                  <Option value="1">VIP1</Option>
+                  <Option value="1">VIP2</Option>
+                </Select>
+              </FormItem>
+              <FormItem label="参与人数" prop="maxPeople" style="width: 300px;">
+                <Input v-model="formField.maxPeople" placeholder="限制参与人数,填0为不限制"></Input>
+              </FormItem>
+              <Form-item label="活动日期" class="ivu-form-item-required">
+                <Row>
+                  <i-col span="8">
+                    <Form-item prop="startTime">
+                      <Date-picker type="datetime" placeholder="开始时间" v-model="formField.startTime" v @on-change="changeStartTime"></Date-picker>
+                    </Form-item>
+                  </i-col>
+                  <i-col span="2" style="text-align: center">
+                    至
+                  </i-col>
+                  <i-col span="8">
+                    <Form-item prop="endTime">
+                      <Date-picker type="datetime" placeholder="结束时间" v-model="formField.endTime" @on-change="changeEndTime"></Date-picker>
+                    </Form-item>
+                  </i-col>
+                </Row>
+              </Form-item>
+              <Form-item label="地图坐标：">
+                <Button type="info" icon="map" @click="mapModal = true">地图标注</Button>
+                <span>（{{formField.longitude}} - {{formField.latitude}}）</span>
+              </Form-item>
+              <Form-item label="活动地址" prop="formField">
+                <Input v-model="formField.address" placeholder="请填写活动线下地址"></Input>
+              </Form-item>
+              <Form-item label="活动外接" prop="link">
+                <Input v-model="formField.link" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
+              </Form-item>
+            </i-col>
+            <i-col span="14">
+              <Form-item label="是否销售" prop="openSales">
+                <Radio-group v-model="formField.openSales">
+                  <Radio label="1">是</Radio>
+                  <Radio label="0">否</Radio>
+                </Radio-group>
+              </Form-item>
+              <Form-item label="是否关注" prop="isFollow">
+                <Radio-group v-model="formField.isFollow">
+                  <Radio label="1">是</Radio>
+                  <Radio label="0">否</Radio>
+                </Radio-group>
+                <span>温馨提示：强制关注有可能会被封号哟!</span>
+              </Form-item>
+              <Form-item label="活动简介" prop="desc">
+                <Input v-model="formField.desc" type="textarea" :rows="4" placeholder="限500字简单说明介绍"></Input>
+              </Form-item>
+              <Form-item label="活动详情" prop="content">
+                <UEditor ref="editor" @ready="editorReady" v-model="formField.content" :config="config" style="line-height: normal"></UEditor>
+              </Form-item>
+            </i-col>
           </Row>
           <Row>
-            <Col span="6" push="18" style="text-align: right">
-            <Form-item>
-              <Button type="primary" @click="handleSubmit('formField')">保存进入下一步</Button>
-              <Button type="ghost" @click="handleReset('formField')" style="margin-left: 8px">重置</Button>
-            </Form-item>
-            </Col>
+            <i-col span="6" push="18" style="text-align: right">
+              <Form-item>
+                <Button type="primary" @click="handleSubmit('formField')">保存进入下一步</Button>
+                <Button type="ghost" @click="handleReset('formField')" style="margin-left: 8px">重置</Button>
+              </Form-item>
+            </i-col>
           </Row>
         </Form>
       </Tab-pane>
       <Tab-pane label="商品管理" name="goods">
         <Row class="mb-15 pb-15" style="border-bottom: 1px dashed #dedede;">
-          <Col span="24">
-          <Alert type="warning" show-icon>1.最多只能添加5个规格属性,每个规格属性下最多只能添加10个属性!<br><br>2.删除规格属性会导致属性设置的数量价格一并被删除!请谨慎操作!</Alert>
-          </Col>
-          <Col span="8">
+          <i-col span="24">
+            <Alert type="warning" show-icon>1.最多只能添加5个规格属性,每个规格属性下最多只能添加10个属性!<br><br>2.删除规格属性会导致属性设置的数量价格一并被删除!请谨慎操作!</Alert>
+          </i-col>
+          <i-col span="8">
             <Row>
-              <Col span="9">
-              <Input v-model="goodsAttributeName" placeholder="请填写属性名称" @on-enter="handleAddAttribute"></Input>
-              </Col>
-              <Col span="1">&nbsp;</Col>
-              <Col span="9">
-              <Input v-model="goodsAttributeType" placeholder="请填写属性值" @on-enter="handleAddAttribute"></Input>
-              </Col>
-              <Col span="1">&nbsp;</Col>
-              <Col span="4">
-              <Button type="info" @click="handleAddAttribute">添加属性</Button>
-              </Col>
+              <i-col span="9">
+                <Input v-model="goodsAttributeName" placeholder="请填写属性名称" @on-enter="handleAddAttribute"></Input>
+              </i-col>
+              <i-col span="1">&nbsp;</i-col>
+              <i-col span="9">
+                <Input v-model="goodsAttributeType" placeholder="请填写属性值" @on-enter="handleAddAttribute"></Input>
+              </i-col>
+              <i-col span="1">&nbsp;</i-col>
+              <i-col span="4">
+                <Button type="info" @click="handleAddAttribute">添加属性</Button>
+              </i-col>
             </Row>
-          </Col>
-          <Col span="16">
+          </i-col>
+          <i-col span="16">
             <div class="tag-button" v-for="(item, index) in attribute" :key="index">
-              <div class="text-box" @click.stop="handleAddSpecifications(item.name, item.type)"><Icon type="plus"></Icon><span>添加{{item.name}}</span></div>
-              <div class="close-box" @click.stop="deleteAttributeModal = true; deleteAttributeIndex = index"><Icon type="close"></Icon></div>
+              <div class="text-box" @click.stop="handleAddSpecifications(item.name, item.type)">
+                <Icon type="plus"></Icon>
+                <span>添加{{item.name}}</span></div>
+              <div class="close-box" @click.stop="deleteAttributeModal = true; deleteAttributeIndex = index">
+                <Icon type="close"></Icon>
+              </div>
             </div>
-          </Col>
+          </i-col>
         </Row>
         <Form ref="goodsList" :model="goodsList">
           <Row>
-            <Col span="24" v-for="(item, key) in goodsList" :key="key">
-            <Row v-for="(child, index) in item" :key="index">
-              <!--{{formDynamic.goodsList[key][index]['attributeValue']}}-->
-              <Col span="5">
-              <Form-item
-                :label-width="120"
-                :label="'商品' + child['attributeName'] + (index + 1) + '：'"
-                :prop="key + '.' + index + '.attributeValue'"
-                :rules="[{type: 'string', required: true, message: '商品' + child['attributeName'] + (index + 1) +'不能为空', trigger: 'blur'}]">
-                <Input type="text" v-model="child.attributeValue" placeholder="请填写商品名称..."></Input>
-              </Form-item>
-              </Col>
-              <Col span="5">
-              <Form-item
-                :label-width="120"
-                :label="child['attributeName'] + '库存' + (index + 1) + '：'"
-                :prop="key + '.' + index + '.inventory'"
-                :rules="[{type: 'number', required: true, message: '商品' + child['attributeName'] + (index + 1) +'不能为空', trigger: 'blur'}]">
-                <InputNumber v-model="child.inventory" :min="0" :max="100000" placeholder="请填写商品库存,库存只能正整数..." style="width: 100%;"></InputNumber>
-              </Form-item>
-              </Col>
-              <Col span="6">
-              <Form-item
-                :label-width="100"
-                :label="'附加价格' + (index + 1) + '：'"
-                :prop="key + '.' + index + '.additionalPrice'"
-                :rules="[
+            <i-col span="24" v-for="(item, key) in goodsList" :key="key">
+              <Row v-for="(child, index) in item" :key="index">
+                <!--{{formDynamic.goodsList[key][index]['attributeValue']}}-->
+                <i-col span="5">
+                  <Form-item
+                    :label-width="120"
+                    :label="'商品' + child['attributeName'] + (index + 1) + '：'"
+                    :prop="key + '.' + index + '.attributeValue'"
+                    :rules="[{type: 'string', required: true, message: '商品' + child['attributeName'] + (index + 1) +'不能为空', trigger: 'blur'}]">
+                    <Input type="text" v-model="child.attributeValue" placeholder="请填写商品名称..."></Input>
+                  </Form-item>
+                </i-col>
+                <i-col span="5">
+                  <Form-item
+                    :label-width="120"
+                    :label="child['attributeName'] + '库存' + (index + 1) + '：'"
+                    :prop="key + '.' + index + '.inventory'"
+                    :rules="[{type: 'number', required: true, message: '商品' + child['attributeName'] + (index + 1) +'不能为空', trigger: 'blur'}]">
+                    <InputNumber v-model="child.inventory" :min="0" :max="100000" placeholder="请填写商品库存,库存只能正整数..." style="width: 100%;"></InputNumber>
+                  </Form-item>
+                </i-col>
+                <i-col span="6">
+                  <Form-item
+                    :label-width="100"
+                    :label="'附加价格' + (index + 1) + '：'"
+                    :prop="key + '.' + index + '.additionalPrice'"
+                    :rules="[
                   {type: 'string', required: true, message: child['attributeName'] + '附加价格' + (index + 1) +'不能为空', trigger: 'blur'},
                   {type: 'string', message: '请填写正确附加价格', trigger: 'blur', pattern: /^\d{0,8}\.{0,1}(\d{1,2})?$/}
                 ]">
-                <Input type="text" v-model="child.additionalPrice" placeholder="请填写附加价格..."></Input>
-              </Form-item>
-              </Col>
-              <Col span="6">
-              <Form-item
-                :label-width="100"
-                :label="'商品货号' + (index + 1) + '：'">
-                <Input type="text" v-model="child.artNo" placeholder="请填写货号名称..."></Input>
-              </Form-item>
-              </Col>
-              <Col span="2">
-              <div style="margin-left: 10px;">
-                <Poptip
-                  confirm
-                  title="您确认删除这条商品数据？"
-                  @on-ok="deleteGoods(key, index)">
-                  <Button>删除</Button>
-                </Poptip>
-                <!--<Button type="warning" icon="trash-a" @click="deleteGoods(key, index)">删除</Button>-->
-              </div>
-              </Col>
-            </Row>
-            </Col>
-          </Row>
-          <Row>
-            <Col span="1" push="23">
-            <Form-item>
-              <Button type="primary" @click="saveGoods('formDynamic')">保存</Button>
-            </Form-item>
-            </Col>
+                    <Input type="text" v-model="child.additionalPrice" placeholder="请填写附加价格..."></Input>
+                  </Form-item>
+                </i-col>
+                <i-col span="6">
+                  <Form-item
+                    :label-width="100"
+                    :label="'商品货号' + (index + 1) + '：'">
+                    <Input type="text" v-model="child.artNo" placeholder="请填写货号名称..."></Input>
+                  </Form-item>
+                </i-col>
+                <i-col span="2">
+                  <div style="margin-left: 10px;">
+                    <Poptip
+                      confirm
+                      title="您确认删除这条商品数据？"
+                      @on-ok="deleteGoods(key, index)">
+                      <Button>删除</Button>
+                    </Poptip>
+                    <!--<Button type="warning" icon="trash-a" @click="deleteGoods(key, index)">删除</Button>-->
+                  </div>
+                </i-col>
+              </Row>
+            </i-col>
           </Row>
         </Form>
       </Tab-pane>
@@ -250,8 +248,9 @@
   import Util from '@/libs/util';
   import UEditor from '@/components/editor';
   import { createScript, removeScript } from '@/libs/autoLoad';
+
   let map;
-  export default{
+  export default {
     components: {
       UEditor
     },
@@ -418,7 +417,8 @@
         //检测对象key是否存在
         if (!this.goodsList.hasOwnProperty(type)) {
           this.goodsList[type] = [];
-        };
+        }
+        ;
         this.goodsList[type].push(obj);
         //强制更新页面
         this.$forceUpdate();
@@ -435,7 +435,7 @@
         this.goodsList[key.type] = [];
       },
       //保存Goods表单
-      saveGoods() {
+      saveGoods () {
         //先检查是否有属性值
         if (this.attribute.length === 0) {
           this.$Message.error('请先增加规格属性');
@@ -473,7 +473,7 @@
       deleteGoods (key, index) {
         this.goodsList[key].splice(index, 1);
       },
-      initMap() {
+      initMap () {
         let AMap = this.AMap = window.AMap;
         map = new AMap.Map('map-container', {
           resizeEnable: window.globalVar.GMap.resizeEnable,
@@ -505,7 +505,7 @@
           this.formField.latitude = e.lnglat.getLat();
         });
       },
-      handleSubmit(name) {
+      handleSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (!valid) {
             this.$Message.error('表单验证失败!');
@@ -529,7 +529,7 @@
         });
       },
       //重置表单
-      handleReset(name) {
+      handleReset (name) {
         this.$refs[name].resetFields();
         this.coverList = [];
       },
@@ -559,7 +559,7 @@
         return check;
       },
       //上传成功回调
-      uploadSuccess(res, file) {
+      uploadSuccess (res, file) {
         if (res.status === false) {
           this.$Message.error('上传失败');
           return false;
@@ -572,23 +572,23 @@
         //重新验证一次表单
         this.$refs.formField.validateField('cover');
       },
-      uploadError() {
+      uploadError () {
         this.$Message.error('上传失败,请重新上传');
       },
       //查看封面图片
-      handleView(url) {
+      handleView (url) {
         this.imgName = url;
         this.visible = true;
       },
       //文件列表移除文件时的钩子
-      handleRemove(file) {
+      handleRemove (file) {
         if (typeof file.response !== 'undefined') {
           const id = file.response.data.id;
           this.removeAttachment(id);
         }
       },
       //移除活动封面
-      removeAttachment(id, msg = '') {
+      removeAttachment (id, msg = '') {
         this.request('CommonRemoveAttachment', {id: id}, '保存中...').then((res) => {
           if (res.status) {
             if (msg) {
@@ -602,7 +602,7 @@
         });
       },
       //设置开始时间
-      changeStartTime(v) {
+      changeStartTime (v) {
         let startStamp = Util.getTimestamp(v);
         let endStamp = Util.getTimestamp(this.formField.endTime);
         if (endStamp && (startStamp > endStamp)) {
@@ -611,7 +611,7 @@
         }
       },
       //设置结束时间
-      changeEndTime(v) {
+      changeEndTime (v) {
         let startStamp = Util.getTimestamp(this.formField.startTime);
         let endStamp = Util.getTimestamp(v);
         if (!this.formField.startTime) {
@@ -624,7 +624,7 @@
         }
       },
       //获取数据 并初始化编辑器
-      editorReady(instance) {
+      editorReady (instance) {
         let id = this.$route.params.id;
         document.body.ondrop = function (event) {
           event.preventDefault();

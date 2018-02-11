@@ -21,12 +21,6 @@ Http.install = function (Vue) {
    * @returns {string}
    */
   Vue.prototype.request = function (method, opts, toast) {
-    //如果有给 toast 参数则显示 loading 加载数据
-    if (toast && typeof (toast) === 'boolean') {
-      Vue.prototype.$loading('加载中...');
-    } else if (toast && typeof (toast) === 'string') {
-      Vue.prototype.$loading(toast);
-    }
     let m = methodMap[method];
     if (m) {
       let optsType = typeof (opts);
@@ -36,6 +30,12 @@ Http.install = function (Vue) {
       if (typeof m.method === 'undefined') {
         console.log('method 错误', '缺少请求 method 方法', '\n');
         return false;
+      }
+      //如果有给 toast 参数则显示 loading 加载数据
+      if (toast && typeof (toast) === 'boolean') {
+        Vue.prototype.$loading('加载中...');
+      } else if (toast && typeof (toast) === 'string') {
+        Vue.prototype.$loading(toast);
       }
       if (m.method === 'get') {
         return Vue.prototype.apiGet(m.url, opts);

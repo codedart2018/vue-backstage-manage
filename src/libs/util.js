@@ -143,8 +143,7 @@ Util.currentDate = () => {
  * @returns {number}
  */
 Util.getTimestamp = (date) => {
-  let stringTime = date;
-  return Date.parse(new Date(stringTime));
+  return Date.parse(new Date(date));
 };
 /**
  * 交换数组内元素位置

@@ -1,15 +1,15 @@
 <template>
   <div>
-      <Form ref="formField" :model="formField" :rules="ruleValidate" :label-width="80">
+    <Form ref="formField" :model="formField" :rules="ruleValidate" :label-width="80">
       <Row>
-        <Col span="12">
+        <i-col span="12">
           <Form-item label="文章标题" prop="title" style="width: 400px;">
             <Input v-model="formField.title" placeholder="请输入姓名"></Input>
           </Form-item>
           <Form-item label="文章分类" prop="cateId" style="width: 400px;">
             <Select v-model="formField.cateId" placeholder="请选择">
               <Option value="">请选择</Option>
-              <div v-for="item in cate" >
+              <div v-for="item in cate">
                 <Option :value="item.id" :key="item.id" v-html="item._name" v-if="item.is_father == 1" disabled></Option>
                 <Option :value="item.id" :key="item.id" v-html="item._name" v-else-if="item.is_father == 0"></Option>
               </div>
@@ -50,27 +50,29 @@
               <Radio label="0">否</Radio>
             </Radio-group>
           </Form-item>
-        </Col>
-        <Col span="12">
-          <Form-item label="文章内容" prop="content">
-            <UEditor ref="editor" @ready="editorReady" v-model="formField.content" :config="config" style="line-height: normal"></UEditor>
-          </Form-item>
+        </i-col>
+        <i-col span="12">
+        <Form-item label="文章内容" prop="content">
+          <UEditor ref="editor" @ready="editorReady" v-model="formField.content" :config="config" style="line-height: normal"></UEditor>
+        </Form-item>
+        <Form-item>
           <Form-item>
-            <Form-item>
-              <Button type="ghost" @click="goBack">返回</Button>
-              <Button type="ghost" @click="handleReset('formField')" style="margin-left: 8px">重置</Button>
-              <Button type="primary" @click="handleSubmit('formField')" style="margin-left: 8px">提交</Button>
-            </Form-item>
+            <Button type="ghost" @click="goBack">返回</Button>
+            <Button type="ghost" @click="handleReset('formField')" style="margin-left: 8px">重置</Button>
+            <Button type="primary" @click="handleSubmit('formField')" style="margin-left: 8px">提交</Button>
           </Form-item>
-        </Col>
+        </Form-item>
+        </i-col>
       </Row>
-      </Form>
+    </Form>
   </div>
 </template>
 
 <script>
   import UEditor from '@/components/editor';
-  export default{
+  import ICol from 'iview/src/components/grid/col';
+
+  export default {
     name: 'articleAdd',
     data () {
       return {
@@ -128,6 +130,7 @@
       };
     },
     components: {
+      ICol,
       UEditor
     },
     methods: {
@@ -151,7 +154,7 @@
         this.$refs[name].resetFields();
       },
       //获得分类数据
-      getCate() {
+      getCate () {
         this.request('ArticleCategoryList', {type: 1}, true).then((res) => {
           if (res.status) {
             this.cate = res.data;
@@ -159,18 +162,18 @@
         });
       },
       //初始化编辑器
-      editorReady(instance) {
+      editorReady (instance) {
         instance.setContent('');
         instance.addListener('contentChange', () => {
           this.formField.content = instance.getContent();
         });
       },
       //后退海阔天空
-      goBack() {
+      goBack () {
         this.$router.go(-1);
       },
       //上传成功要执行的方法
-      uploadSuccess() {
+      uploadSuccess () {
       }
     },
     beforeCreate () {},
