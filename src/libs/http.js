@@ -7,7 +7,7 @@
  * 黄四娘家花满蹊，千朵万朵压枝低。
  * 留连戏蝶时时舞，自在娇莺恰恰啼。
  */
-import methodMap from './methodMap';
+import methodMap from './apiMap';
 import AsInst from './axios';
 import {Message} from 'iview';
 class Http {

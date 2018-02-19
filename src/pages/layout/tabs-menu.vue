@@ -50,7 +50,6 @@
       </div>
     </div>
   </div>
-  </div>
 </template>
 <script>
   export default {
@@ -84,7 +83,7 @@
         this.isOpenMore = !this.isOpenMore;
       },
       //刷新当前页面
-      refresh() {
+      refresh () {
         this.$router.go(0);
       },
       //关闭标签页面
@@ -116,7 +115,7 @@
         }
       },
       //选择关闭
-      closeChose(type) {
+      closeChose (type) {
         if (type === 'all') {
           this.$store.commit('removeAllTag');
           this.$router.push({
@@ -138,7 +137,7 @@
           routerObj.query = item.query;
         }
         if (this.beforePush(item)) {
-        	//编程式导航
+          //编程式导航
           this.$router.push(routerObj);
         }
       },
@@ -155,7 +154,7 @@
         }
       },
       //滚动tabs
-      handleScroll(e) {
+      handleScroll (e) {
         let type = e.type;
         let delta = 0;
         if (type === 'DOMMouseScroll' || type === 'mousewheel') {
@@ -185,7 +184,6 @@
         this.currentPageName = to.name;
       }
     },
-    components: {
-    }
+    components: {}
   };
 </script>

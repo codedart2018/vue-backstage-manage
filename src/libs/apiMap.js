@@ -76,6 +76,14 @@ const methodMap = {
   ActivityList: {url: '/admin/activity/list', method: 'get'},
   /** 改变活动状态 **/
   ActivitySwitchStatus: {url: '/admin/activity/switch_status', method: 'post'},
+  /** 活动分类 **/
+  ActivityCategory: {url: '/admin/activity_category/list', method: 'get'},
+  /** 活动分类添加 **/
+  ActivityCategoryAdd: {url: '/admin/activity_category/add', method: 'post'},
+  /** 活动分类修改 **/
+  ActivityCategoryEdit: {url: '/admin/activity_category/edit', method: 'post'},
+  /** 活动分类修改 **/
+  ActivityCategoryDelete: {url: '/admin/activity_category/delete', method: 'post'},
   /** 添加活动 **/
   ActivityAdd: {url: '/admin/activity/add', method: 'post'},
   /** 修改活动 **/

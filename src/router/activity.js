@@ -20,6 +20,17 @@ export const ActivityRouter = {
   component: Layout,
   children: [
     {
+      path: '/activity/category',
+      name: 'ActivityCategory',
+      icon: '',
+      meta: {
+        title: '活动分类',
+        routeAuth: true
+      },
+      component: resolve => require(['../pages/activity/category'], resolve),
+      children: []
+    },
+    {
       path: '/activity/index',
       name: 'ActivityIndex',
       icon: '',

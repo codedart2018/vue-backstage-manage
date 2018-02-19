@@ -3,8 +3,8 @@
     <Row>
       <i-col span="18" class="search">
         <Form :model="formSearch" :label-width="80" inline label-position="right">
-          <Form-item label="地区名称：">
-            <Input v-model="formSearch.keywords" placeholder="请输入地区名称关键词"></Input>
+          <Form-item label="分类名称：">
+            <Input v-model="formSearch.keywords" placeholder="请输入分类名称关键词"></Input>
           </Form-item>
           <Form-item :label-width="1">
             <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
@@ -14,7 +14,7 @@
       </i-col>
       <i-col span="6" class="text-align-right">
         <Button type="primary" @click="addModal = true">
-          <Icon type="plus-round"></Icon>&nbsp;添加地区
+          <Icon type="plus-round"></Icon>&nbsp;添加分类
         </Button>
       </i-col>
     </Row>
@@ -28,15 +28,6 @@
         <Form ref="addForm" :model="addForm" :rules="ruleValidate" :label-width="80">
           <Form-item label="分类名称" prop="name">
             <Input v-model="addForm.name" placeholder="请填写分类名称"></Input>
-          </Form-item>
-          <Form-item label="所属分类" prop="pid">
-            <Select v-model="addForm.pid">
-              <Option value="0">顶级分类</Option>
-              <Option v-for="(item, index) in cate" :value="item.id" :key="index">{{ item._name }}</Option>
-            </Select>
-          </Form-item>
-          <Form-item label="Icon图标" prop="icon">
-            <Input v-model="addForm.icon" placeholder="请填写icon图标名称"></Input>
           </Form-item>
           <Form-item label="分类排序" prop="sort">
             <Input v-model="addForm.sort" placeholder="数字越大排序越前"></Input>
@@ -54,7 +45,6 @@
         <Button type="ghost" @click="handleReset('addForm')" style="margin-left: 8px">重置</Button>
       </div>
     </Modal>
-
     <!--编辑 Modal 对话框-->
     <Modal v-model="editModal" class-name="customize-modal-center">
       <div slot="header" class="ivu-modal-header-inner">编辑分类</div>
@@ -62,12 +52,6 @@
         <Form ref="editForm" :model="editForm" :rules="ruleValidate" :label-width="80">
           <Form-item label="分类名称" prop="name">
             <Input v-model="editForm.name" placeholder="请填写分类名称"></Input>
-          </Form-item>
-          <Form-item label="所属分类" prop="pid">
-            <Select v-model="editForm.pid">
-              <Option value="0">顶级分类</Option>
-              <Option v-for="(item, index) in cate" :value="item.id" :key="index">{{item._name}}</Option>
-            </Select>
           </Form-item>
           <Form-item label="Icon图标" prop="icon">
             <Input v-model="editForm.icon" placeholder="请填写icon图标名称"></Input>
@@ -113,11 +97,6 @@
               }
               return h('span', row.name);
             }
-          },
-          {
-            title: 'ICON',
-            key: 'icon',
-            width: 100
           },
           {
             title: '状态',
@@ -189,11 +168,8 @@
         ],
         //列表数据
         list: [],
-        //分类数据
-        cate: [],
         addForm: {
           name: '',
-          pid: '',
           status: 1,
           sort: ''
         },
@@ -205,12 +181,6 @@
             {required: true, message: '分类名称不能为空', trigger: 'blur'},
             {type: 'string', min: 2, message: '分类名称不能少于2个字符', trigger: 'blur'}
           ],
-          icon: [
-            {type: 'string', message: 'icon图标只能字母-_数字', trigger: 'blur', pattern: /^[a-z-_0-9]+$/}
-          ],
-          pid: [
-            {required: true, message: '请选择所属分类', trigger: 'blur'}
-          ],
           sort: [
             {type: 'string', message: '排序只能数字', trigger: 'blur', pattern: /^[0-9]+$/}
           ]
@@ -220,9 +190,7 @@
         //添加 modal
         addModal: false,
         //编辑 modal
-        editModal: false,
-        //计数器
-        tally: 0
+        editModal: false
       };
     },
     components: {},
@@ -238,14 +206,10 @@
       //获取数据
       getData (params) {
         if (!params) params = {};
-        this.request('AreaCategory', params, true).then((res) => {
+        this.request('ActivityCategory', params, true).then((res) => {
           if (res.status) {
             //列表数据
-            this.list = res.data;
-            if (this.tally === 0) {
-              this.cate = res.data;
-              this.tally++;
-            }
+            this.list = res.data.list;
           } else {
             //列表数据
             this.list = [];
@@ -256,7 +220,7 @@
       addSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
-            this.save('AreaCategoryAdd', this.addForm);
+            this.save('ActivityCategoryAdd', this.addForm);
           } else {
             this.$Message.error('表单验证失败!');
           }
@@ -266,7 +230,7 @@
       editSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
-            this.save('AreaCategoryEdit', this.editForm);
+            this.save('ActivityCategoryEdit', this.editForm);
           } else {
             this.$Message.error('表单验证失败!');
           }
@@ -286,7 +250,7 @@
           content: '<p>你确定要删除?删除后不可恢复!</p>',
           loading: true,
           onOk: () => {
-            this.request('AreaCategoryDelete', {id: id}).then((res) => {
+            this.request('ActivityCategoryDelete', {id: id}).then((res) => {
               if (res.status) {
                 this.$Message.info(res.msg);
                 this.$Modal.remove();
@@ -322,16 +286,9 @@
         });
       }
     },
-    beforeCreate () {},
-    created () {},
-    beforeMount () {},
     mounted () {
       //服务端获取数据
       this.getData();
-    },
-    beforeUpdate () {},
-    updated () {},
-    beforeDestroy () {},
-    destroyed () {}
+    }
   };
 </script>
