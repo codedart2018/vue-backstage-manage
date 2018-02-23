@@ -13,7 +13,7 @@
         &nbsp;
       </i-col>
       <i-col span="6" class="text-align-right">
-        <Button type="primary" @click="addModal = true">
+        <Button type="primary" @click="addModal = true; uploadList = []">
           <Icon type="plus-round"></Icon>&nbsp;添加分类
         </Button>
       </i-col>
@@ -33,16 +33,11 @@
             <div class="upload-mini-box">
               <div v-if="uploadList.length > 0" style="margin-right: 8px;">
                 <div class="upload-cover-list" v-for="item in uploadList">
-                  <template v-if="item.status === 'finished'">
-                    <img :src="item.url">
-                    <div class="list-cover">
-                      <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
-                      <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                    </div>
-                  </template>
-                  <template v-else>
-                    <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-                  </template>
+                  <img :src="item.url">
+                  <div class="list-cover">
+                    <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
+                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                  </div>
                 </div>
               </div>
               <div class="upload-button">
@@ -57,6 +52,7 @@
                   :on-error="uploadError"
                   :on-format-error="handleFormatError"
                   :before-upload="handleBeforeUpload"
+                  :on-exceeded-size="handleMaxSize"
                   :max-size="512"
                   :format="['jpg','jpeg','png']"
                   :on-remove="handleRemove"
@@ -90,9 +86,39 @@
           <Form-item label="分类名称" prop="name">
             <Input v-model="editForm.name" placeholder="请填写分类名称"></Input>
           </Form-item>
-          <Form-item label="Icon图标" prop="icon">
-            <Input v-model="editForm.icon" placeholder="请填写icon图标名称"></Input>
-          </Form-item>
+          <FormItem label="分类图标" prop="icon">
+            <div class="upload-mini-box">
+              <div v-if="uploadList.length > 0" style="margin-right: 8px;">
+                <div class="upload-cover-list" v-for="item in uploadList">
+                  <img :src="item.url">
+                  <div class="list-cover">
+                    <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
+                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                  </div>
+                </div>
+              </div>
+              <div class="upload-button">
+                <Upload
+                  ref="uploadEdit"
+                  name="file"
+                  :show-upload-list="showUploadList"
+                  :default-file-list="iconList"
+                  :action="action"
+                  :data="uploadCoverParams"
+                  :on-success="uploadSuccess"
+                  :on-error="uploadError"
+                  :on-format-error="handleFormatError"
+                  :before-upload="handleBeforeUpload"
+                  :on-exceeded-size="handleMaxSize"
+                  :max-size="512"
+                  :format="['jpg','jpeg','png']"
+                  :on-remove="handleRemove"
+                  :on-preview="handleView">
+                  <Button type="ghost" icon="ios-cloud-upload-outline">上传图标</Button>
+                </Upload>
+              </div>
+            </div>
+          </FormItem>
           <Form-item label="分类排序" prop="sort">
             <Input v-model="editForm.sort" placeholder="数字越大排序越前"></Input>
           </Form-item>
@@ -214,7 +240,12 @@
           sort: ''
         },
         //编辑表单
-        editForm: {},
+        editForm: {
+          name: '',
+          icon: '',
+          status: 1,
+          sort: ''
+        },
         //验证规则
         ruleValidate: {
           name: [
@@ -234,8 +265,6 @@
         addModal: false,
         //编辑 modal
         editModal: false,
-        //图标数组
-        icon: [],
         //查看图片
         visible: false,
         //查看图片用的 图片名称
@@ -253,12 +282,7 @@
         showUploadList: false,
         uploadList: [],
         //默认列表
-        iconList: [
-          // {
-          //   name: 'img1.jpg',
-          //   url: 'https://oss.life.dev.yongchuan.cc/manage/activity/category/2018-02-23/e8ed9284gy1fi6z2uy8lfj20qo0xe0v9.jpg'
-          // }
-        ]
+        iconList: []
       };
     },
     components: {},
@@ -309,6 +333,14 @@
         this.editModal = true;
         //获取原数据
         this.editForm = this.list[index];
+        this.iconList = this.list[index].iconList;
+        this.uploadList = this.list[index].iconList.map(item => {
+          item.status = 'finished';
+          item.percentage = 100;
+          item.uid = Date.now() + this.tempIndex++;
+          return item;
+        });
+        this.$forceUpdate();
       },
       //删除分类数据
       remove (index, id) {
@@ -353,23 +385,26 @@
           }
         });
       },
+      //上传前前置操作
+      handleBeforeUpload (file) {
+        this.$loading('上传中...');
+        //不能加/斜杠的
+        this.uploadCoverParams.key = 'manage/activity/category/' + Util.currentDate() + '/' + file.name;
+        return true;
+      },
       handleFormatError (file) {
+        this.$loading.close();
         this.$Notice.warning({
           title: '文件格式不正确',
           desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg 或 png 格式的图片。'
         });
       },
       handleMaxSize (file) {
+        this.$loading.close();
         this.$Notice.warning({
           title: '超出文件大小限制',
           desc: '文件 ' + file.name + ' 太大，不能超过 512KB。'
         });
-      },
-      //上传前前置操作
-      handleBeforeUpload (file) {
-        //不能加/斜杠的
-        this.uploadCoverParams.key = 'manage/activity/category/' + Util.currentDate() + '/' + file.name;
-        return true;
       },
       //上传成功回调
       uploadSuccess (res, file, fileList) {
@@ -382,18 +417,24 @@
         file.name = res.data.name;
         //判断是否有有数组 有的话移除掉第一个
         if (fileList.length > 1) {
-          this.icon[0] = res.data.id;
           fileList.shift();
-        } else {
-          this.icon.push(res.data.id);
         }
+        this.uploadList = fileList.map(item => {
+          item.status = 'finished';
+          item.percentage = 100;
+          item.uid = Date.now() + this.tempIndex++;
+          return item;
+        });
         this.addForm.icon = res.data.id;
         this.editForm.icon = res.data.id;
         //重新验证一次表单
         this.$refs.addForm.validateField('icon');
         this.$refs.editForm.validateField('icon');
+        this.$loading.close();
+        this.$forceUpdate();
       },
       uploadError () {
+        this.$loading.close();
         this.$Message.error('上传失败,请重新上传');
       },
       //查看封面图片
@@ -437,7 +478,6 @@
     },
     mounted () {
       this.initQiNiuToken();
-      this.uploadList = this.$refs.upload.fileList;
       //服务端获取数据
       this.getData();
     }

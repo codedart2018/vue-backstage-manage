@@ -40,6 +40,7 @@
                       :on-error="uploadError"
                       :on-format-error="handleFormatError"
                       :before-upload="handleBeforeUpload"
+                      :on-exceeded-size="handleMaxSize"
                       :max-size="1024"
                       :format="['jpg','jpeg','png']"
                       :on-remove="handleRemove"
