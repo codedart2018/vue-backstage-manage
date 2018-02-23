@@ -26,18 +26,55 @@
     <Modal v-model="addModal" title="添加分类" class-name="customize-modal-center" @on-cancel="modalCancel()">
       <div>
         <Form ref="addForm" :model="addForm" :rules="ruleValidate" :label-width="80">
-          <Form-item label="分类名称" prop="name">
+          <FormItem label="分类名称" prop="name">
             <Input v-model="addForm.name" placeholder="请填写分类名称"></Input>
-          </Form-item>
-          <Form-item label="分类排序" prop="sort">
+          </FormItem>
+          <FormItem label="分类图标" prop="icon">
+            <div class="upload-mini-box">
+              <div v-if="uploadList.length > 0" style="margin-right: 8px;">
+                <div class="upload-cover-list" v-for="item in uploadList">
+                  <template v-if="item.status === 'finished'">
+                    <img :src="item.url">
+                    <div class="list-cover">
+                      <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
+                      <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+                  </template>
+                </div>
+              </div>
+              <div class="upload-button">
+                <Upload
+                  ref="upload"
+                  name="file"
+                  :show-upload-list="showUploadList"
+                  :default-file-list="iconList"
+                  :action="action"
+                  :data="uploadCoverParams"
+                  :on-success="uploadSuccess"
+                  :on-error="uploadError"
+                  :on-format-error="handleFormatError"
+                  :before-upload="handleBeforeUpload"
+                  :max-size="512"
+                  :format="['jpg','jpeg','png']"
+                  :on-remove="handleRemove"
+                  :on-preview="handleView">
+                  <Button type="ghost" icon="ios-cloud-upload-outline">上传图标</Button>
+                </Upload>
+              </div>
+            </div>
+          </FormItem>
+          <FormItem label="分类排序" prop="sort">
             <Input v-model="addForm.sort" placeholder="数字越大排序越前"></Input>
-          </Form-item>
-          <Form-item label="分类状态" prop="status">
+          </FormItem>
+          <FormItem label="分类状态" prop="status">
             <Radio-group v-model="addForm.status">
               <Radio label="1">正常</Radio>
               <Radio label="0">锁定</Radio>
             </Radio-group>
-          </Form-item>
+          </FormItem>
         </Form>
       </div>
       <div slot="footer">
@@ -76,6 +113,8 @@
 </template>
 
 <script>
+  import Util from '@/libs/util';
+
   export default {
     data () {
       return {
@@ -170,6 +209,7 @@
         list: [],
         addForm: {
           name: '',
+          icon: '',
           status: 1,
           sort: ''
         },
@@ -181,6 +221,9 @@
             {required: true, message: '分类名称不能为空', trigger: 'blur'},
             {type: 'string', min: 2, message: '分类名称不能少于2个字符', trigger: 'blur'}
           ],
+          icon: [
+            {required: true, type: 'string', message: '请上传分类图标', trigger: 'change'}
+          ],
           sort: [
             {type: 'string', message: '排序只能数字', trigger: 'blur', pattern: /^[0-9]+$/}
           ]
@@ -190,7 +233,32 @@
         //添加 modal
         addModal: false,
         //编辑 modal
-        editModal: false
+        editModal: false,
+        //图标数组
+        icon: [],
+        //查看图片
+        visible: false,
+        //查看图片用的 图片名称
+        imgName: '',
+        //上传Url
+        action: '',
+        //上传参数
+        uploadCoverParams: {
+          domain: '', //访问域名
+          token: '', //授权token
+          key: '', //上传目录
+          'x:scene': '2' //上传方式
+        },
+        //是否显示已上传文件列表
+        showUploadList: false,
+        uploadList: [],
+        //默认列表
+        iconList: [
+          // {
+          //   name: 'img1.jpg',
+          //   url: 'https://oss.life.dev.yongchuan.cc/manage/activity/category/2018-02-23/e8ed9284gy1fi6z2uy8lfj20qo0xe0v9.jpg'
+          // }
+        ]
       };
     },
     components: {},
@@ -284,9 +352,92 @@
             this.$Message.error(res.msg);
           }
         });
+      },
+      handleFormatError (file) {
+        this.$Notice.warning({
+          title: '文件格式不正确',
+          desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg 或 png 格式的图片。'
+        });
+      },
+      handleMaxSize (file) {
+        this.$Notice.warning({
+          title: '超出文件大小限制',
+          desc: '文件 ' + file.name + ' 太大，不能超过 512KB。'
+        });
+      },
+      //上传前前置操作
+      handleBeforeUpload (file) {
+        //不能加/斜杠的
+        this.uploadCoverParams.key = 'manage/activity/category/' + Util.currentDate() + '/' + file.name;
+        return true;
+      },
+      //上传成功回调
+      uploadSuccess (res, file, fileList) {
+        if (res.status === false) {
+          this.$Message.error('上传失败');
+          return false;
+        }
+        file.id = res.data.id;
+        file.url = res.data.url;
+        file.name = res.data.name;
+        //判断是否有有数组 有的话移除掉第一个
+        if (fileList.length > 1) {
+          this.icon[0] = res.data.id;
+          fileList.shift();
+        } else {
+          this.icon.push(res.data.id);
+        }
+        this.addForm.icon = res.data.id;
+        this.editForm.icon = res.data.id;
+        //重新验证一次表单
+        this.$refs.addForm.validateField('icon');
+        this.$refs.editForm.validateField('icon');
+      },
+      uploadError () {
+        this.$Message.error('上传失败,请重新上传');
+      },
+      //查看封面图片
+      handleView (url) {
+        this.imgName = url;
+        this.visible = true;
+      },
+      //文件列表移除文件时的钩子
+      handleRemove (file) {
+        if (typeof file.response !== 'undefined') {
+          const id = file.response.data.id;
+          this.removeAttachment(id);
+        }
+      },
+      //移除活动封面
+      removeAttachment (id, msg = '') {
+        this.request('CommonRemoveAttachment', {id: id}, '保存中...').then((res) => {
+          if (res.status) {
+            if (msg) {
+              this.$Message.success(msg);
+            } else {
+              this.$Message.success(res.msg);
+            }
+          } else {
+            this.$Message.error(res.msg);
+          }
+        });
+      },
+      //请求七牛token
+      initQiNiuToken () {
+        this.request('QiNiuToken', {callback: true}).then((res) => {
+          if (res.status) {
+            this.uploadCoverParams.token = res.data.token;
+            this.uploadCoverParams.domain = res.data.domain;
+            this.action = res.data.action;
+          } else {
+            this.$Message.error('上传初始化失败,请重试!');
+          }
+        });
       }
     },
     mounted () {
+      this.initQiNiuToken();
+      this.uploadList = this.$refs.upload.fileList;
       //服务端获取数据
       this.getData();
     }

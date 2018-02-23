@@ -2,17 +2,17 @@
 <template>
   <div>
     <Row class="mb-15">
-      <Col span="24">
-      <Breadcrumb>
-        <BreadcrumbItem to="/">首页</BreadcrumbItem>
-        <BreadcrumbItem to="/activity/index">系统活动</BreadcrumbItem>
-        <BreadcrumbItem>添加活动</BreadcrumbItem>
-      </Breadcrumb>
-      </Col>
+      <i-col span="24">
+        <Breadcrumb>
+          <BreadcrumbItem to="/">首页</BreadcrumbItem>
+          <BreadcrumbItem to="/activity/index">系统活动</BreadcrumbItem>
+          <BreadcrumbItem>添加活动</BreadcrumbItem>
+        </Breadcrumb>
+      </i-col>
     </Row>
     <Form ref="formField" :model="formField" :rules="ruleValidate" :label-width="110">
       <Row>
-        <Col span="10">
+        <i-col span="10">
           <Form-item label="活动名称" prop="name">
             <Input v-model="formField.name" placeholder="请填写活动名称"></Input>
           </Form-item>
@@ -20,7 +20,7 @@
             <Input v-model="formField.keywords" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
           </Form-item>
           <Form-item label="活动封面" prop="cover">
-            <div class="cover-box">
+            <div class="upload-mini-box">
               <div v-if="uploadList.length > 0" style="margin-right: 8px;">
                 <div class="upload-cover-list" v-for="item in uploadList">
                   <template v-if="item.status === 'finished'">
@@ -44,7 +44,7 @@
                   :action="action"
                   :data="uploadCoverParams"
                   :on-success="uploadSuccess"
-                  :on-error	="uploadError"
+                  :on-error="uploadError"
                   :on-format-error="handleFormatError"
                   :before-upload="handleBeforeUpload"
                   :max-size="1024"
@@ -74,17 +74,17 @@
           </FormItem>
           <Form-item label="活动日期" class="ivu-form-item-required">
             <Row>
-              <Col span="8">
-              <Form-item prop="startTime">
-                <Date-picker type="datetime" placeholder="开始时间" v-model="formField.startTime"v @on-change="changeStartTime"></Date-picker>
-              </Form-item>
-              </Col>
-              <Col span="2" style="text-align: center">至</Col>
-              <Col span="8">
-              <Form-item prop="endTime">
-                <Date-picker type="datetime" placeholder="结束时间" v-model="formField.endTime" @on-change="changeEndTime"></Date-picker>
-              </Form-item>
-              </Col>
+              <i-col span="8">
+                <Form-item prop="startTime">
+                  <Date-picker type="datetime" placeholder="开始时间" v-model="formField.startTime" v @on-change="changeStartTime"></Date-picker>
+                </Form-item>
+              </i-col>
+              <i-col span="2" style="text-align: center">至</i-col>
+              <i-col span="8">
+                <Form-item prop="endTime">
+                  <Date-picker type="datetime" placeholder="结束时间" v-model="formField.endTime" @on-change="changeEndTime"></Date-picker>
+                </Form-item>
+              </i-col>
             </Row>
           </Form-item>
           <Form-item label="地图坐标：">
@@ -97,8 +97,8 @@
           <Form-item label="活动外接" prop="link">
             <Input v-model="formField.link" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
           </Form-item>
-        </Col>
-        <Col span="14">
+        </i-col>
+        <i-col span="14">
           <Form-item label="是否销售" prop="openSales">
             <Radio-group v-model="formField.openSales">
               <Radio label="1">是</Radio>
@@ -118,15 +118,15 @@
           <Form-item label="活动详情" prop="content">
             <UEditor ref="editor" @ready="editorReady" v-model="formField.content" :config="config" style="line-height: normal"></UEditor>
           </Form-item>
-        </Col>
+        </i-col>
       </Row>
       <Row>
-        <Col span="6" push="18" style="text-align: right">
+        <i-col span="6" push="18" style="text-align: right">
           <Form-item>
             <Button type="primary" @click="handleSubmit('formField')">保存进入下一步</Button>
             <Button type="ghost" @click="handleReset('formField')" style="margin-left: 8px">重置</Button>
           </Form-item>
-        </Col>
+        </i-col>
       </Row>
     </Form>
     <!--地图标注-->
@@ -149,13 +149,14 @@
 <script>
   import Util from '@/libs/util';
   import UEditor from '@/components/editor';
-  import {createScript, removeScript} from '@/libs/autoLoad';
+  import { createScript, removeScript } from '@/libs/autoLoad';
+
   let map;
-  export default{
+  export default {
     components: {
       UEditor
     },
-    data() {
+    data () {
       return {
         AMap: null,
         mapModal: false,
@@ -214,10 +215,10 @@
             {required: true, message: '活动关键词不能为空', trigger: 'blur'}
           ],
           type: [
-            { required: true, message: '请选择活动类型', trigger: 'change' }
+            {required: true, message: '请选择活动类型', trigger: 'change'}
           ],
           vipLevel: [
-            { required: true, message: '请选择参与等级', trigger: 'change' }
+            {required: true, message: '请选择参与等级', trigger: 'change'}
           ],
           maxPeople: [
             {required: true, message: '请填写参与人数', trigger: 'blur'},
@@ -246,7 +247,7 @@
       };
     },
     methods: {
-      handleSubmit(name) {
+      handleSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (!valid) {
             this.$Message.error('表单验证失败!');
@@ -263,9 +264,10 @@
           }
         });
       },
-      handleReset(name) {
+      handleReset (name) {
         this.$refs[name].resetFields();
       },
+      //错误提示
       handleFormatError (file) {
         this.$Notice.warning({
           title: '文件格式不正确',
@@ -291,7 +293,7 @@
         return check;
       },
       //上传成功回调
-      uploadSuccess(res, file) {
+      uploadSuccess (res, file) {
         if (res.status === false) {
           this.$Message.error('上传失败');
           return false;
@@ -304,18 +306,18 @@
         //重新验证一次表单
         this.$refs.formField.validateField('cover');
       },
-      uploadError() {
+      uploadError () {
         this.$Message.error('上传失败,请重新上传');
       },
       //文件列表移除文件时的钩子
-      handleRemove(file) {
+      handleRemove (file) {
         if (typeof file.response !== 'undefined') {
           const id = file.response.data.id;
           this.removeAttachment(id);
         }
       },
       //移除活动封面
-      removeAttachment(id, msg = '') {
+      removeAttachment (id, msg = '') {
         this.request('CommonRemoveAttachment', {id: id}, '保存中...').then((res) => {
           if (res.status) {
             if (msg) {
@@ -329,11 +331,11 @@
         });
       },
       //查看封面图片
-      handleView(url) {
+      handleView (url) {
         this.imgName = url;
         this.visible = true;
       },
-      changeStartTime(v) {
+      changeStartTime (v) {
         let startStamp = Util.getTimestamp(v);
         let endStamp = Util.getTimestamp(this.formField.endTime);
         if (endStamp && (startStamp > endStamp)) {
@@ -341,7 +343,7 @@
           return false;
         }
       },
-      changeEndTime(v) {
+      changeEndTime (v) {
         let startStamp = Util.getTimestamp(this.formField.startTime);
         let endStamp = Util.getTimestamp(v);
         if (!this.formField.startTime) {
@@ -354,14 +356,14 @@
         }
       },
       //初始化编辑器
-      editorReady(instance) {
+      editorReady (instance) {
         instance.setContent('');
         instance.addListener('contentChange', () => {
           this.formField.content = instance.getContent();
           this.$refs.formField.validateField('content');
         });
       },
-      initMap() {
+      initMap () {
         let AMap = this.AMap = window.AMap;
         map = new AMap.Map('map-container', {
           resizeEnable: window.globalVar.GMap.resizeEnable,
@@ -393,7 +395,19 @@
           this.formField.latitude = e.lnglat.getLat();
         });
       },
-      confirmLocation() {
+      //请求七牛token
+      initQiNiuToken() {
+        this.request('QiNiuToken', {callback: true}).then((res) => {
+          if (res.status) {
+            this.uploadCoverParams.token = res.data.token;
+            this.uploadCoverParams.domain = res.data.domain;
+            this.action = res.data.action;
+          } else {
+            this.$Message.error('上传初始化失败,请重试!');
+          }
+        });
+      },
+      confirmLocation () {
       }
     },
     created () {
@@ -408,17 +422,9 @@
         console.log('发生错误！', error);
       });
     },
-    mounted() {
-      //请求七牛token
-      this.request('QiNiuToken', {callback: true}).then((res) => {
-        if (res.status) {
-          this.uploadCoverParams.token = res.data.token;
-          this.uploadCoverParams.domain = res.data.domain;
-          this.action = res.data.action;
-        } else {
-          this.$Message.error('上传初始化失败,请重试!');
-        }
-      });
+    mounted () {
+      this.initQiNiuToken();
+      //todo 没用了
       this.uploadList = this.$refs.upload.fileList;
     },
     destroyed () {

@@ -13,7 +13,7 @@
                 <Input v-model="formField.keywords" placeholder="请填写活动关键词,多个用逗号分隔"/>
               </Form-item>
               <Form-item label="活动封面" prop="cover">
-                <div class="cover-box">
+                <div class="upload-mini-box">
                   <div v-if="uploadList.length > 0" style="margin-right: 8px;">
                     <div class="upload-cover-list" v-for="(item, index) in uploadList" :key="index">
                       <template v-if="item.status === 'finished'">
@@ -654,6 +654,18 @@
             this.$Message.error(res.msg);
           }
         });
+      },
+      //请求七牛token
+      initQiNiuToken () {
+        this.request('QiNiuToken', {callback: true}).then((res) => {
+          if (res.status) {
+            this.uploadCoverParams.token = res.data.token;
+            this.uploadCoverParams.domain = res.data.domain;
+            this.action = res.data.action;
+          } else {
+            this.$Message.error('上传初始化失败,请重试!');
+          }
+        });
       }
     },
     beforeCreate () {
@@ -680,15 +692,7 @@
     beforeMount () {},
     mounted () {
       //请求七牛token
-      this.request('QiNiuToken', {callback: true}).then((res) => {
-        if (res.status) {
-          this.uploadCoverParams.token = res.data.token;
-          this.uploadCoverParams.domain = res.data.domain;
-          this.action = res.data.action;
-        } else {
-          this.$Message.error('上传初始化失败,请重试!');
-        }
-      });
+      this.initQiNiuToken();
       //this.uploadList = this.$refs.upload.fileList;
 //      for (let item in this.formDynamic.goodsList) {
 //        console.log(item);

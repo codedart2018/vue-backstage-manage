@@ -34,3 +34,62 @@
   }
 }
 
+//公共上传样式
+.upload-mini-box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  line-height: 0;
+
+  .upload-cover-list {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 60px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+    margin-right: 4px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .list-cover {
+      display: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, .6);
+
+      i {
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 0 2px;
+      }
+    }
+  }
+
+  .upload-cover-list:hover .list-cover {
+    display: block;
+  }
+
+  .upload-button {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+
+    .tips {
+      height: 16px;
+      line-height: 20px;
+    }
+  }
+}
