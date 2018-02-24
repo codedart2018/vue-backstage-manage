@@ -16,6 +16,9 @@
           <Form-item label="活动名称" prop="name">
             <Input v-model="formField.name" placeholder="请填写活动名称"></Input>
           </Form-item>
+          <Form-item label="活动副标题" prop="subtitle">
+            <Input v-model="formField.subtitle" placeholder="请填写活动副标题"></Input>
+          </Form-item>
           <Form-item label="活动关键词" prop="keywords">
             <Input v-model="formField.keywords" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
           </Form-item>

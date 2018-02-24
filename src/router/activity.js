@@ -53,14 +53,14 @@ export const ActivityRouter = {
       children: []
     },
     {
-      path: '/activity/sign_up/edit/:id?', //报名活动编辑
+      path: '/activity/edit/:id?',
       name: 'ActivityEdit',
       icon: '',
       meta: {
         title: '修改系统活动',
         routeAuth: true
       },
-      component: resolve => require(['../pages/activity/sign-up/edit'], resolve),
+      component: resolve => require(['../pages/activity/edit'], resolve),
       children: []
     }
   ]
