@@ -160,7 +160,6 @@
               </div>
             </div>
           </i-col>
-          <!--todo 只有属性后才能显示-->
           <i-col span="24">
             <table class="table2">
               <thead>
@@ -174,19 +173,23 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="(item, index) in goodsList" :key="index">
+              <tr v-for="(item, index) in goodsList" :key="index" v-show="newAttribute.length > 0">
                 <td>{{item.id}}</td>
                 <td v-for="(child, key) in item.attrGroup" :key="key">{{child}}</td>
-                <td>{{item.additionalPrice}}</td>
-                <td>{{item.inventory}}</td>
+                <td>
+                  <InputNumber :min="0" :precision="2" v-model="item.additionalPrice" placeholder="光标移出保存附加价格"></InputNumber>
+                </td>
+                <td>
+                  <InputNumber :min="0" v-model="item.inventory" placeholder="光标移出保存库存"></InputNumber>
+                </td>
                 <td>{{item.artNo}}</td>
                 <td>
-                  <Button type="warning">删除</Button>
+                  <Button type="warning" @click="deleteGoods(index, item.id)">删除商品</Button>
                 </td>
               </tr>
               <tr>
                 <td>添加属性</td>
-                <td v-for="(item, index) in newAttribute" :key="index">
+                <td v-for="(item, index) in newAttribute" :key="index" v-show="newAttribute.length > 0">
                   <Select style="width:200px" :label-in-value="true" v-model="goodsForm[item.name]" @on-change="handleChangeAttribute($event, index)">
                     <Option v-for="(child, key) in item.value" :value="child.id" :key="key">{{child.attributeValue}}</Option>
                   </Select>
@@ -369,17 +372,33 @@
         },
         //商品属性
         newAttribute: [
+          /**
           {
             name: '用餐人数',
             value: [
               {id: 1, attributeValue: '3人餐'},
               {id: 2, attributeValue: '5人餐'}
             ]
+          },
+          {
+            name: '用餐时间',
+            value: [
+              {id: 3, attributeValue: '中午'},
+              {id: 4, attributeValue: '晚上'}
+            ]
+          },
+          {
+            name: '包房',
+            value: [
+              {id: 5, attributeValue: '否'},
+              {id: 6, attributeValue: '是'}
+            ]
           }
+           **/
         ],
         //商品数据
         goodsList: [
-          {id: '20', attrGroup: ['3人餐', '中午', '晚上'], inventory: 10, additionalPrice: 0, artNo: '5454545'}
+          /**{id: '20', attrGroup: ['3人餐', '中午', '晚上'], inventory: 10, additionalPrice: 0, artNo: '5454545'}**/
         ]
       };
     },
@@ -457,9 +476,10 @@
         }
         //往后台提交数据 并且判断数据是否有添加过
         let data = {
-          tabs: 'goods',
+          tabs: 'goodsAdd',
           id: this.id,
           attr: this.goodsForm.attrIds,
+          attrValue: this.goodsForm.attrGroup,
           inventory: this.goodsForm.inventory,
           additionalPrice: this.goodsForm.additionalPrice,
           artNo: this.goodsForm.artNo
@@ -483,7 +503,29 @@
         });
       },
       //删除商品
-      deleteGoods (key, index) {
+      deleteGoods(index, goodsId) {
+        let data = {
+          tabs: 'goodsDelete',
+          id: this.id,
+          goodsId: goodsId
+        };
+        this.$Modal.confirm({
+          title: '温馨提示',
+          width: 300,
+          content: '<p>你确定要删除?删除后不可恢复!</p>',
+          loading: true,
+          onOk: () => {
+            this.request('ActivityEdit', data).then((res) => {
+              if (res.status) {
+                this.$Message.success(res.msg);
+                this.goodsList.splice(index, 1);
+                this.$Modal.remove();
+              } else {
+                this.$Message.error(res.msg);
+              }
+            });
+          }
+        });
       },
       initMap () {
         let AMap = this.AMap = window.AMap;
@@ -652,8 +694,7 @@
             //处理商品数据
             this.attribute = data.attribute;
             this.newAttribute = data.attribute;
-            console.log(data.attribute);
-            //this.goodsList = data.goodsData;
+            this.goodsList = data.goodsList;
             //重新处理日期 必须处理不然会报错 todo 重置日期有导致活动封面不能正常加载 除非把uploadList 移到下面来，现在取消日期重置看是否报错
             //this.formField.startTime = new Date(data.startTime);
             //this.formField.endTime = new Date(data.endTime);
@@ -663,7 +704,6 @@
               this.$refs.formField.validateField('content');
             });
             this.$forceUpdate();
-            //this.$nextTick(() => {});
           } else {
             this.$Message.error(res.msg);
           }

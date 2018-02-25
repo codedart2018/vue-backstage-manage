@@ -275,7 +275,8 @@
           this.$Message.error('查看活动异常');
           return false;
         }
-        this.$router.push({path: '/activity/' + type + '/edit/' + id});
+        //this.$router.push({path: '/activity/' + type + '/edit/' + id});
+        this.$router.push({path: '/activity/edit/' + id});
       },
       //查看详细数据
       data(id, type) {
