@@ -169,6 +169,7 @@
                 <td width="150">附加价格</td>
                 <td width="150">库存</td>
                 <td width="150">货号</td>
+                <td width="90">已售</td>
                 <td width="90">操作</td>
               </tr>
               </thead>
@@ -177,12 +178,13 @@
                 <td>{{item.id}}</td>
                 <td v-for="(child, key) in item.attrGroup" :key="key">{{child}}</td>
                 <td>
-                  <InputNumber :min="0" :precision="2" v-model="item.additionalPrice" placeholder="光标移出保存附加价格"></InputNumber>
+                  <InputNumber :min="0" :precision="2" v-model="item.additionalPrice" placeholder="光标移出保存附加价格" @on-change="editGoods($event, item.id, 'additionalPrice')"></InputNumber>
                 </td>
                 <td>
-                  <InputNumber :min="0" v-model="item.inventory" placeholder="光标移出保存库存"></InputNumber>
+                  <InputNumber :min="0" v-model="item.inventory" placeholder="光标移出保存库存" @on-change="editGoods($event, item.id, 'inventory')"></InputNumber>
                 </td>
                 <td>{{item.artNo}}</td>
+                <td>{{item.sales}}</td>
                 <td>
                   <Button type="warning" @click="deleteGoods(index, item.id)">删除商品</Button>
                 </td>
@@ -203,6 +205,7 @@
                 <td>
                   <Input v-model="goodsForm.artNo" placeholder="请填写货号"></Input>
                 </td>
+                <td>0</td>
                 <td width="90">
                   <Button type="primary" @click="saveGoods">保存添加</Button>
                 </td>
@@ -524,6 +527,25 @@
                 this.$Message.error(res.msg);
               }
             });
+          }
+        });
+      },
+      //修改商品
+      editGoods (value, id, type) {
+        let data = {
+          id: this.id,
+          goodsId: id,
+          tabs: 'goodsEdit',
+          type: type,
+          value: value
+        }
+        this.request('ActivityEdit', data).then((res) => {
+          if (res.status) {
+            this.$Message.success(res.msg);
+            this.goodsList.splice(index, 1);
+            this.$Modal.remove();
+          } else {
+            this.$Message.error(res.msg);
           }
         });
       },
