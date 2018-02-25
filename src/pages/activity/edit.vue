@@ -178,10 +178,12 @@
                 <td>{{item.id}}</td>
                 <td v-for="(child, key) in item.attrGroup" :key="key">{{child}}</td>
                 <td>
-                  <InputNumber :min="0" :precision="2" v-model="item.additionalPrice" placeholder="光标移出保存附加价格" @on-change="editGoods($event, item.id, 'additionalPrice')"></InputNumber>
+                  <InputNumber :min="0" :precision="2" v-model="item.additionalPrice" placeholder="光标移出保存附加价格"
+                               @on-change="editGoods($event, item.id, 'additionalPrice')"></InputNumber>
                 </td>
                 <td>
-                  <InputNumber :min="0" v-model="item.inventory" placeholder="光标移出保存库存" @on-change="editGoods($event, item.id, 'inventory')"></InputNumber>
+                  <InputNumber :min="0" v-model="item.inventory" placeholder="光标移出保存库存"
+                               @on-change="editGoods($event, item.id, 'inventory')"></InputNumber>
                 </td>
                 <td>{{item.artNo}}</td>
                 <td>{{item.sales}}</td>
@@ -376,27 +378,27 @@
         //商品属性
         newAttribute: [
           /**
-          {
-            name: '用餐人数',
-            value: [
-              {id: 1, attributeValue: '3人餐'},
-              {id: 2, attributeValue: '5人餐'}
-            ]
-          },
-          {
-            name: '用餐时间',
-            value: [
-              {id: 3, attributeValue: '中午'},
-              {id: 4, attributeValue: '晚上'}
-            ]
-          },
-          {
-            name: '包房',
-            value: [
-              {id: 5, attributeValue: '否'},
-              {id: 6, attributeValue: '是'}
-            ]
-          }
+           {
+			 name: '用餐人数',
+			 value: [
+			   {id: 1, attributeValue: '3人餐'},
+			   {id: 2, attributeValue: '5人餐'}
+			 ]
+		   },
+           {
+			 name: '用餐时间',
+			 value: [
+			   {id: 3, attributeValue: '中午'},
+			   {id: 4, attributeValue: '晚上'}
+			 ]
+		   },
+           {
+			 name: '包房',
+			 value: [
+			   {id: 5, attributeValue: '否'},
+			   {id: 6, attributeValue: '是'}
+			 ]
+		   }
            **/
         ],
         //商品数据
@@ -447,6 +449,7 @@
         this.attribute.splice(this.deleteAttributeIndex, 1);
         this.deleteAttributeModal = false;
       },
+      //select值变化时
       handleChangeAttribute (value, index) {
         this.goodsForm.attrIds[index] = value.value;
         this.goodsForm.attrGroup[index] = value.label;
@@ -473,10 +476,10 @@
           return false;
         }
         //检查是否填写货号
-        if (!this.goodsForm.artNo) {
-          this.$Message.error('请填写货号');
-          return false;
-        }
+        // if (!this.goodsForm.artNo) {
+        //   this.$Message.error('请填写货号');
+        //   return false;
+        // }
         //往后台提交数据 并且判断数据是否有添加过
         let data = {
           tabs: 'goodsAdd',
@@ -490,13 +493,18 @@
         this.request('ActivityEdit', data).then((res) => {
           if (res.status) {
             this.$Message.success(res.msg);
+            //克隆数据防止 双向绑定 影响界面
+            let attrGroup = Util.cloneObj(this.goodsForm.attrGroup);
+            let attrIds = Util.cloneObj(this.goodsForm.attrIds);
+            let inventory = Util.cloneObj(this.goodsForm.inventory);
+            let additionalPrice = Util.cloneObj(this.goodsForm.additionalPrice);
             //往列表里推数据
             let goods = {
               id: res.data.id,
-              attr: this.goodsForm.attrIds,
-              attrGroup: this.goodsForm.attrGroup,
-              inventory: this.goodsForm.inventory,
-              additionalPrice: this.goodsForm.additionalPrice,
+              attr: attrIds,
+              attrGroup: attrGroup,
+              inventory: inventory,
+              additionalPrice: additionalPrice,
               artNo: this.goodsForm.artNo
             };
             this.goodsList.push(goods);
@@ -506,7 +514,7 @@
         });
       },
       //删除商品
-      deleteGoods(index, goodsId) {
+      deleteGoods (index, goodsId) {
         let data = {
           tabs: 'goodsDelete',
           id: this.id,
@@ -538,12 +546,10 @@
           tabs: 'goodsEdit',
           type: type,
           value: value
-        }
+        };
         this.request('ActivityEdit', data).then((res) => {
           if (res.status) {
             this.$Message.success(res.msg);
-            this.goodsList.splice(index, 1);
-            this.$Modal.remove();
           } else {
             this.$Message.error(res.msg);
           }
