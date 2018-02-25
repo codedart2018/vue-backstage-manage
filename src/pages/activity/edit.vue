@@ -164,46 +164,46 @@
           <i-col span="24">
             <table class="table2">
               <thead>
-                <tr>
-                  <td width="100">货品id</td>
-                  <td v-for="(item, index) in newAttribute" :key="index">选择{{item.name}}</td>
-                  <td width="150">附加价格</td>
-                  <td width="150">库存</td>
-                  <td width="150">货号</td>
-                  <td width="90">操作</td>
-                </tr>
+              <tr>
+                <td width="100">货品id</td>
+                <td v-for="(item, index) in newAttribute" :key="index">选择{{item.name}}</td>
+                <td width="150">附加价格</td>
+                <td width="150">库存</td>
+                <td width="150">货号</td>
+                <td width="90">操作</td>
+              </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in goodsList" :key="index">
-                  <td>{{item.id}}</td>
-                  <td>16G</td>
-                  <td>{{item.additionalPrice}}</td>
-                  <td>{{item.inventory}}</td>
-                  <td>{{item.artNo}}</td>
-                  <td>
-                    <Button type="warning">删除</Button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>添加属性</td>
-                  <td v-for="(item, index) in newAttribute" :key="index">
-                    <Select style="width:200px" v-model="goodsForm[item.name]" @on-change="handleChangeAttribute($event, index)">
-                      <Option v-for="(child, key) in item.value" :value="child.id" :key="key">{{child.attr}}</Option>
-                    </Select>
-                  </td>
-                  <td>
-                    <InputNumber :min="0" :precision="2" v-model="goodsForm.additionalPrice" placeholder="请填写附加价格"></InputNumber>
-                  </td>
-                  <td>
-                    <InputNumber :min="0" v-model="goodsForm.inventory" placeholder="请填写库存"></InputNumber>
-                  </td>
-                  <td>
-                    <Input v-model="goodsForm.artNo" placeholder="请填写货号"></Input>
-                  </td>
-                  <td width="90">
-                    <Button type="primary" @click="saveGoods">保存添加</Button>
-                  </td>
-                </tr>
+              <tr v-for="(item, index) in goodsList" :key="index">
+                <td>{{item.id}}</td>
+                <td v-for="(child, key) in item.attrGroup" :key="key">{{child}}</td>
+                <td>{{item.additionalPrice}}</td>
+                <td>{{item.inventory}}</td>
+                <td>{{item.artNo}}</td>
+                <td>
+                  <Button type="warning">删除</Button>
+                </td>
+              </tr>
+              <tr>
+                <td>添加属性</td>
+                <td v-for="(item, index) in newAttribute" :key="index">
+                  <Select style="width:200px" :label-in-value="true" v-model="goodsForm[item.name]" @on-change="handleChangeAttribute($event, index)">
+                    <Option v-for="(child, key) in item.value" :value="child.id" :key="key">{{child.attributeValue}}</Option>
+                  </Select>
+                </td>
+                <td>
+                  <InputNumber :min="0" :precision="2" v-model="goodsForm.additionalPrice" placeholder="请填写附加价格"></InputNumber>
+                </td>
+                <td>
+                  <InputNumber :min="0" v-model="goodsForm.inventory" placeholder="请填写库存"></InputNumber>
+                </td>
+                <td>
+                  <Input v-model="goodsForm.artNo" placeholder="请填写货号"></Input>
+                </td>
+                <td width="90">
+                  <Button type="primary" @click="saveGoods">保存添加</Button>
+                </td>
+              </tr>
               </tbody>
             </table>
           </i-col>
@@ -362,6 +362,7 @@
         //商品表单
         goodsForm: {
           attrIds: [],
+          attrGroup: [],
           inventory: 10,
           additionalPrice: 0,
           artNo: ''
@@ -371,27 +372,15 @@
           {
             name: '用餐人数',
             value: [
-              {id: 1, attr: '3人餐'},
-              {id: 2, attr: '5人餐'}
-            ]
-          },
-          {
-            name: '用餐时间',
-            value: [
-              {id: 3, attr: '中午'},
-              {id: 4, attr: '晚上'}
-            ]
-          },
-          {
-            name: '包房',
-            value: [
-              {id: 5, attr: '否'},
-              {id: 6, attr: '是'}
+              {id: 1, attributeValue: '3人餐'},
+              {id: 2, attributeValue: '5人餐'}
             ]
           }
         ],
         //商品数据
-        goodsList: []
+        goodsList: [
+          {id: '20', attrGroup: ['3人餐', '中午', '晚上'], inventory: 10, additionalPrice: 0, artNo: '5454545'}
+        ]
       };
     },
     methods: {
@@ -437,10 +426,11 @@
         this.deleteAttributeModal = false;
       },
       handleChangeAttribute (value, index) {
-        this.goodsForm.attrIds[index] = value;
+        this.goodsForm.attrIds[index] = value.value;
+        this.goodsForm.attrGroup[index] = value.label;
       },
       //保存Goods表单
-      saveGoods () {
+      saveGoods: function () {
         let check = true;
         let msgTip = '';
         //检查有多少个属性
@@ -478,13 +468,15 @@
           if (res.status) {
             this.$Message.success(res.msg);
             //往列表里推数据
-            let goodsData = {
+            let goods = {
               id: res.data.id,
+              attr: this.goodsForm.attrIds,
+              attrGroup: this.goodsForm.attrGroup,
               inventory: this.goodsForm.inventory,
               additionalPrice: this.goodsForm.additionalPrice,
               artNo: this.goodsForm.artNo
-            }
-            this.goodsList.push(goodsData);
+            };
+            this.goodsList.push(goods);
           } else {
             this.$Message.error(res.msg);
           }
@@ -659,6 +651,8 @@
             this.uploadList = data.coverList;
             //处理商品数据
             this.attribute = data.attribute;
+            this.newAttribute = data.attribute;
+            console.log(data.attribute);
             //this.goodsList = data.goodsData;
             //重新处理日期 必须处理不然会报错 todo 重置日期有导致活动封面不能正常加载 除非把uploadList 移到下面来，现在取消日期重置看是否报错
             //this.formField.startTime = new Date(data.startTime);
