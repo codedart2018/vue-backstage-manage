@@ -61,11 +61,6 @@
               </div>
             </div>
           </Form-item>
-          <FormItem label="活动类型" prop="type" style="width: 300px;">
-            <Select v-model="formField.type" placeholder="请选择活动类型">
-              <Option value="sign_up">报名活动</Option>
-            </Select>
-          </FormItem>
           <FormItem label="参与等级" prop="vipLevel" style="width: 300px;">
             <Select v-model="formField.vipLevel" placeholder="请选择参与等级">
               <Option value="0">不限等级</Option>
@@ -194,7 +189,6 @@
         formField: {
           name: '',
           keywords: '',
-          type: '',
           vipLevel: '',
           cover: [],
           coverList: [],
@@ -217,9 +211,6 @@
           ],
           keywords: [
             {required: true, message: '活动关键词不能为空', trigger: 'blur'}
-          ],
-          type: [
-            {required: true, message: '请选择活动类型', trigger: 'change'}
           ],
           vipLevel: [
             {required: true, message: '请选择参与等级', trigger: 'change'}

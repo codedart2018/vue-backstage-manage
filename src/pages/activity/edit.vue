@@ -55,11 +55,6 @@
                   </div>
                 </div>
               </Form-item>
-              <FormItem label="活动类型" prop="type" style="width: 300px;">
-                <Select v-model="formField.type" placeholder="请选择活动类型">
-                  <Option value="sign_up">报名活动</Option>
-                </Select>
-              </FormItem>
               <FormItem label="参与等级" prop="vipLevel" style="width: 300px;">
                 <Select v-model="formField.vipLevel" placeholder="请选择参与等级">
                   <Option value="0">不限等级</Option>
@@ -200,7 +195,7 @@
               <thead>
               <tr>
                 <td width="100">货品id</td>
-                <td v-for="(item, index) in newAttribute" :key="index">选择{{item.name}}</td>
+                <td v-for="(item, index) in attribute" :key="index">选择{{item.name}}</td>
                 <td width="150">附加价格</td>
                 <td width="150">库存</td>
                 <td width="150">货号</td>
@@ -209,7 +204,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="(item, index) in goodsList" :key="index" v-show="newAttribute.length > 0">
+              <tr v-for="(item, index) in goodsList" :key="index" v-show="attribute.length > 0">
                 <td>{{item.id}}</td>
                 <td v-for="(child, key) in item.attrGroup" :key="key">{{child}}</td>
                 <td>
@@ -228,7 +223,7 @@
               </tr>
               <tr>
                 <td>添加属性</td>
-                <td v-for="(item, index) in newAttribute" :key="index" v-show="newAttribute.length > 0">
+                <td v-for="(item, index) in attribute" :key="index" v-show="attribute.length > 0">
                   <Select style="width:200px" :label-in-value="true" v-model="goodsForm[item.name]" @on-change="handleChangeAttribute($event, index)">
                     <Option v-for="(child, key) in item.value" :value="child.id" :key="key">{{child.attributeValue}}</Option>
                   </Select>
@@ -404,7 +399,6 @@
         formField: {
           name: '',
           keywords: '',
-          type: '',
           vipLevel: '',
           cover: [],
           coverList: [],
@@ -427,9 +421,6 @@
           ],
           keywords: [
             {required: true, message: '活动关键词不能为空', trigger: 'blur'}
-          ],
-          type: [
-            {required: true, message: '请选择活动类型', trigger: 'change'}
           ],
           vipLevel: [
             {required: true, message: '请选择参与等级', trigger: 'change'}
@@ -466,10 +457,10 @@
         goodsAttributeValue: '',
         //商品属性数组
         attribute: [
-          {
-            name: '颜色',
-            type: 'color'
-          }
+          // {
+          //   name: '颜色',
+          //   type: 'color'
+          // }
         ],
         //商品表单
         goodsForm: {
@@ -479,32 +470,6 @@
           additionalPrice: 0,
           artNo: ''
         },
-        //商品属性
-        newAttribute: [
-          /**
-           {
-			 name: '用餐人数',
-			 value: [
-			   {id: 1, attributeValue: '3人餐'},
-			   {id: 2, attributeValue: '5人餐'}
-			 ]
-		   },
-           {
-			 name: '用餐时间',
-			 value: [
-			   {id: 3, attributeValue: '中午'},
-			   {id: 4, attributeValue: '晚上'}
-			 ]
-		   },
-           {
-			 name: '包房',
-			 value: [
-			   {id: 5, attributeValue: '否'},
-			   {id: 6, attributeValue: '是'}
-			 ]
-		   }
-           **/
-        ],
         //商品数据
         goodsList: [
           /**{id: '20', attrGroup: ['3人餐', '中午', '晚上'], inventory: 10, additionalPrice: 0, artNo: '5454545'}**/
@@ -560,7 +525,6 @@
             this.uploadList = data.coverList;
             //处理商品数据
             this.attribute = data.attribute;
-            this.newAttribute = data.attribute;
             this.goodsList = data.goodsList;
             //重新处理日期 必须处理不然会报错 todo 重置日期有导致活动封面不能正常加载 除非把uploadList 移到下面来，现在取消日期重置看是否报错
             //this.formField.startTime = new Date(data.startTime);
@@ -763,7 +727,7 @@
         let check = true;
         let msgTip = '';
         //检查有多少个属性
-        this.newAttribute.map((item) => {
+        this.attribute.map((item) => {
           if (typeof (this.goodsForm[item.name]) === 'undefined') {
             check = false;
             msgTip = item.name;
@@ -789,7 +753,7 @@
           tabs: 'goodsAdd',
           id: this.id,
           attr: this.goodsForm.attrIds,
-          attrValue: this.goodsForm.attrGroup,
+          //attrValue: this.goodsForm.attrGroup,
           inventory: this.goodsForm.inventory,
           additionalPrice: this.goodsForm.additionalPrice,
           artNo: this.goodsForm.artNo
