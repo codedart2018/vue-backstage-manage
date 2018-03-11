@@ -419,7 +419,6 @@
         if (!this.goodsList.hasOwnProperty(type)) {
           this.goodsList[type] = [];
         }
-        ;
         this.goodsList[type].push(obj);
         //强制更新页面
         this.$forceUpdate();

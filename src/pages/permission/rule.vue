@@ -2,7 +2,7 @@
 <template>
   <div>
     <Row class="mb-15">
-      <Col span="18" class="search">
+      <i-col span="18" class="search">
         <Form :model="formSearch" :label-width="80" inline label-position="right">
           <Form-item label="节点名称：">
             <Input v-model="formSearch.keywords" placeholder="请输入节点名称关键词"></Input>
@@ -29,12 +29,12 @@
             <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
           </Form-item>
         </Form>
-      </Col>
-      <Col span="6" class="text-align-right">
+      </i-col>
+      <i-col span="6" class="text-align-right">
         <Button type="primary" @click="addModal = true">
           <Icon type="plus-round"></Icon>&nbsp;添加节点
         </Button>
-      </Col>
+      </i-col>
     </Row>
     <Row class="mb-15">
       <Table :columns="columns" :data="list"></Table>
@@ -74,22 +74,22 @@
             <Input type="text" v-model="addForm.sort" placeholder="只能填写正数,数值越大越靠前" number></Input>
           </Form-item>
           <Row>
-            <Col span="8">
+            <i-col span="12">
               <Form-item label="是否显示" prop="display">
                 <Radio-group v-model="addForm.display">
                   <Radio label="1">显示</Radio>
                   <Radio label="0">隐藏</Radio>
                 </Radio-group>
               </Form-item>
-            </Col>
-            <Col span="8">
+            </i-col>
+            <i-col span="12">
               <Form-item label="节点状态" prop="status">
                 <Radio-group v-model="addForm.status">
                   <Radio label="1">正常</Radio>
                   <Radio label="0">锁定</Radio>
                 </Radio-group>
               </Form-item>
-            </Col>
+            </i-col>
           </Row>
           <Form-item label="节点说明" prop="desc">
             <Input v-model="addForm.desc" type="textarea" placeholder="节点简要说明..." :autosize="{minRows: 2,maxRows: 5}"></Input>
@@ -133,15 +133,15 @@
             <Input type="text" v-model="editForm.sort" placeholder="只能填写正数,数值越大越靠前" number></Input>
           </Form-item>
           <Row>
-            <Col span="8">
+            <i-col span="12">
               <Form-item label="是否显示" prop="display">
                 <Radio-group v-model="editForm.display">
                   <Radio label="1">显示</Radio>
                   <Radio label="0">隐藏</Radio>
                 </Radio-group>
               </Form-item>
-            </Col>
-            <Col span="12">
+            </i-col>
+            <i-col span="12">
               <Form-item label="节点状态" prop="status">
                 <Radio-group v-model="editForm.status">
                   <Radio label="1">正常</Radio>
@@ -149,7 +149,7 @@
                   <Radio label="-1">删除</Radio>
                 </Radio-group>
               </Form-item>
-            </Col>
+            </i-col>
           </Row>
           <Form-item label="节点说明" prop="desc">
             <Input v-model="editForm.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="节点简要说明..."></Input>
@@ -355,7 +355,7 @@
     },
     methods: {
       //取消 modal
-      modalCancel() {
+      modalCancel () {
         this.editModal = false;
       },
       //添加数据
@@ -445,7 +445,7 @@
         });
       },
       //表单搜索
-      search() {
+      search () {
         let page = 1;
         this.pageNumber = page;
         let search = this.formSearch;
@@ -454,7 +454,7 @@
         this.$router.push({name: this.$router.currentRoute.name, query: {page: page}});
       },
       //保存数据方法
-      save(url, data) {
+      save (url, data) {
         this.request(url, data).then((res) => {
           if (res.status) {
             this.addModal = false;
@@ -470,14 +470,14 @@
           }
         });
       },
-      selectModules(value) {
+      selectModules (value) {
         if (value !== '') {
           this.$refs.addForm.validateField('pid');
           this.$refs.editForm.validateField('pid');
         }
       }
     },
-    mounted() {
+    mounted () {
       //服务端获取数据
       this.getData();
     }

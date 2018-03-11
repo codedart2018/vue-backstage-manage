@@ -133,33 +133,68 @@
       <Tab-pane label="商品管理" name="goods">
         <Row class="mb-15 pb-15" style="border-bottom: 1px dashed #dedede;">
           <i-col span="24">
-            <Alert type="warning" show-icon>1.最多只能添加5个规格属性,每个规格属性下最多只能添加10个属性!<br><br>2.删除规格属性会导致属性设置的数量价格一并被删除!请谨慎操作!</Alert>
+            <Alert type="warning" show-icon>
+              1.最多只能添加5个规格属性,每个规格属性下最多只能添加10个属性!
+              <br><br>
+              2.修改属性及属性值请先将商品状态进行暂停处理,处理完毕后再进行上架!
+              <br><br>
+              3.新增一组属性会将原有商品数据删除掉!
+              <br><br>
+              4.删除规格属性会将所有添加的商品给删除掉!
+              <br><br>
+              5.新增属性值和修改属性名，属性值将不会对商品造成影响!
+            </Alert>
           </i-col>
-          <i-col span="10">
-            <Row>
-              <i-col span="9">
-                <Input v-model="goodsAttributeName" placeholder="请填写属性名称" @on-enter="handleAddAttribute"></Input>
-              </i-col>
-              <i-col span="1">&nbsp;</i-col>
-              <i-col span="9">
-                <Input v-model="goodsAttributeType" placeholder="请填写属性值,多个属性值请求(逗号分隔)" @on-enter="handleAddAttribute"></Input>
-              </i-col>
-              <i-col span="1">&nbsp;</i-col>
-              <i-col span="4">
-                <Button type="info" @click="handleAddAttribute">添加属性</Button>
-              </i-col>
-            </Row>
-          </i-col>
-          <i-col span="14">
-            <div class="tag-button" v-for="(item, index) in attribute" :key="index">
-              <div class="text-box" @click.stop="handleAddSpecifications(item.name, item.type)">
-                <Icon type="plus"></Icon>
-                <span>添加{{item.name}}</span></div>
-              <div class="close-box" @click.stop="deleteAttributeModal = true; deleteAttributeIndex = index">
-                <Icon type="close"></Icon>
+          <Row>
+            <i-col span="10">
+              <Row>
+                <i-col span="9">
+                  <Input v-model="goodsAttributeName" placeholder="请填写属性名称"></Input>
+                </i-col>
+                <i-col span="1">&nbsp;</i-col>
+                <i-col span="9">
+                  <Input v-model="goodsAttributeValue" placeholder="请填写属性值,多个属性值请求(半角,逗号分隔)"></Input>
+                </i-col>
+                <i-col span="1">&nbsp;</i-col>
+                <i-col span="4">
+                  <Button type="info" @click="handleAddAttribute">添加属性</Button>
+                </i-col>
+              </Row>
+            </i-col>
+          </Row>
+
+          <Row v-for="(item, index) in attribute" :key="index" style="margin-top: 15px">
+            <i-col span="3">
+              属性名：
+              <div class="tag-button" @click="editAttributeModal = true; attributeName = item.name; attributeIndex = index">
+                <div class="text-box" style="display: flex; flex-direction: row; padding: 0">
+                  <div @click.stop="addAttributeModal = true; attributeIndex = index; attributeName = item.name;" style="padding-left: 8px;">
+                    <Icon type="plus"></Icon>
+                  </div>
+                  <div style="padding-right: 8px;">
+                    <span>{{item.name}}</span>
+                  </div>
+                </div>
+                <div class="close-box" @click.stop="deleteAttributeModal = true; attributeIndex = index; attributeName = item.name;">
+                  <Icon type="close"></Icon>
+                </div>
               </div>
-            </div>
-          </i-col>
+            </i-col>
+            <i-col span="21">属性值：
+              <div class="tag-button" v-for="(child, key) in item.value" :key="key"
+                   @click="editAttributeValueModal = true; attributeValue = child.attributeValue; attributeId = child.id">
+                <div class="text-box">
+                  <Icon type="compose"></Icon>
+                  <span>{{child.attributeValue}}</span>
+                </div>
+                <div class="close-box"
+                     @click.stop="deleteAttributeValueModal = true; attributeIndex = index; attributeValueIndex = key; attributeId = child.id">
+                  <Icon type="close"></Icon>
+                </div>
+              </div>
+            </i-col>
+          </Row>
+
           <i-col span="24">
             <table class="table2">
               <thead>
@@ -232,17 +267,69 @@
       <img :src="imgName" v-if="visible" style="width: 100%">
     </Modal>
     <!--查看图片 modal 结束-->
+    <!--新增商品属性值modal-->
+    <Modal v-model="addAttributeModal" width="360">
+      <p slot="header">
+        <span>属性值名称</span>
+      </p>
+      <div style="text-align:center">
+        <Input v-model="attributeValue" placeholder="请填写要添加的属性名"></Input>
+      </div>
+      <div slot="footer">
+        <Button type="ghost" @click.native="addAttributeModal = false; attributeValue = ''; attributeIndex = -1">取消</Button>
+        <Button type="primary" @click.stop="confirmAddAttributeName">确认添加</Button>
+      </div>
+    </Modal>
+    <!--修改商品属性modal-->
+    <Modal v-model="editAttributeModal" width="360">
+      <p slot="header">
+        <span>修改属性名称</span>
+      </p>
+      <div style="text-align:center">
+        <Input v-model="attributeName" placeholder="请填写要修改的属性名"></Input>
+      </div>
+      <div slot="footer">
+        <Button type="ghost" @click.native="editAttributeModal = false; attributeName = ''; attributeIndex = -1">取消</Button>
+        <Button type="primary" @click.stop="confirmEditAttributeName">确认修改</Button>
+      </div>
+    </Modal>
     <!--删除商品属性 modal 提示-->
-    <Modal v-model="deleteAttributeModal" width="380">
+    <Modal v-model="deleteAttributeModal" width="400">
       <p slot="header" style="color:#f60; text-align:center">
         <Icon type="information-circled"></Icon>
         <span>温馨提示</span>
       </p>
       <div style="text-align:center">
-        <p>您确定要删除此属性,属性一旦删除下面商品列表也将会跟随删除!</p>
+        <p>您确定要删除此属性,属性一旦删除将清除所有的商品数据!请谨慎!!</p>
       </div>
       <div slot="footer">
-        <Button type="primary" size="large" @click="handleDeleteAttribute" long style="background: #09C">确认删除</Button>
+        <Button type="warning" size="large" @click="confirmDeleteAttribute" long>确认删除</Button>
+      </div>
+    </Modal>
+    <!--修改商品属性值modal-->
+    <Modal v-model="editAttributeValueModal" width="360">
+      <p slot="header">
+        <span>修改属性名称</span>
+      </p>
+      <div style="text-align:center">
+        <Input v-model="attributeValue" placeholder="请填写要修改的属性名"></Input>
+      </div>
+      <div slot="footer">
+        <Button type="ghost" @click.native="editAttributeValueModal = false; attributeValue = '';">取消</Button>
+        <Button type="primary" @click="confirmEditAttributeValue">确认修改</Button>
+      </div>
+    </Modal>
+    <!--删除商品属性值 modal 提示-->
+    <Modal v-model="deleteAttributeValueModal" width="400">
+      <p slot="header" style="color:#f60; text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>温馨提示</span>
+      </p>
+      <div style="text-align:center">
+        <p>您确定要删除此属性值,属性值一旦删除相关商品数据也将删除!请谨慎!!</p>
+      </div>
+      <div slot="footer">
+        <Button type="warning" size="large" @click="confirmDeleteAttributeValue" long>确认删除</Button>
       </div>
     </Modal>
   </div>
@@ -262,7 +349,28 @@
       return {
         id: this.$route.params.id,
         AMap: null,
+        //地图modal
         mapModal: false,
+        //要添加的属性名modal
+        addAttributeModal: false,
+        //要修改的属性名modal
+        editAttributeModal: false,
+        //属性名
+        attributeName: '',
+        //要修改的属性KEY值
+        attributeIndex: -1,
+        //修改商品属性值modal
+        editAttributeValueModal: false,
+        //修改商品属性值
+        attributeValue: '',
+        //要修改的商品属性值下标
+        attributeValueIndex: -1,
+        //商品属性值ID
+        attributeId: 0,
+        //删除商品属性值modal
+        deleteAttributeModal: false,
+        //删除商品属性值modal
+        deleteAttributeValueModal: false,
         //查看图片
         visible: false,
         //查看图片用的 图片名称
@@ -352,14 +460,10 @@
         },
         //提交状态
         subStart: true,
-        //删除商品属性modal
-        deleteAttributeModal: false,
-        //即将选择删除属性的下标
-        deleteAttributeIndex: -1,
         //商品属性名称
         goodsAttributeName: '',
         //商品属性类型
-        goodsAttributeType: '',
+        goodsAttributeValue: '',
         //商品属性数组
         attribute: [
           {
@@ -408,153 +512,6 @@
       };
     },
     methods: {
-      //添加规格属性
-      handleAddAttribute () {
-        if (!this.goodsAttributeName) {
-          this.$Message.error('请先填写属性名称');
-          return;
-        }
-        if (this.$strLen(this.goodsAttributeName) > 20) {
-          this.$Message.error('属性最多20个字符');
-          return false;
-        }
-        if (!this.goodsAttributeType) {
-          this.$Message.error('请填写属性值');
-          return false;
-        }
-        if (this.attribute.length > 10) {
-          this.$Message.error('最多只能添加10组属性');
-          return false;
-        }
-        let obj = {
-          name: this.goodsAttributeName,
-          type: this.goodsAttributeType
-        };
-        this.attribute.push(obj);
-        this.goodsAttributeName = '';
-        this.goodsAttributeType = '';
-      },
-      //添加属性规格
-      handleAddSpecifications (name, type) {
-        //强制更新页面
-        this.$forceUpdate();
-      },
-      //移除属性
-      handleDeleteAttribute () {
-        if (this.deleteAttributeIndex < 0) {
-          this.$Message.error('请检查要删除的属性');
-          return false;
-        }
-        //let key = this.attribute[this.deleteAttributeIndex];
-        this.attribute.splice(this.deleteAttributeIndex, 1);
-        this.deleteAttributeModal = false;
-      },
-      //select值变化时
-      handleChangeAttribute (value, index) {
-        this.goodsForm.attrIds[index] = value.value;
-        this.goodsForm.attrGroup[index] = value.label;
-      },
-      //保存Goods表单
-      saveGoods: function () {
-        let check = true;
-        let msgTip = '';
-        //检查有多少个属性
-        this.newAttribute.map((item) => {
-          if (typeof (this.goodsForm[item.name]) === 'undefined') {
-            check = false;
-            msgTip = item.name;
-            return false;
-          }
-        });
-        if (!check) {
-          this.$Message.error('请选择' + msgTip + '属性');
-          return false;
-        }
-        //检查是否填写库存
-        if (!this.goodsForm.inventory) {
-          this.$Message.error('库存不能为0');
-          return false;
-        }
-        //检查是否填写货号
-        // if (!this.goodsForm.artNo) {
-        //   this.$Message.error('请填写货号');
-        //   return false;
-        // }
-        //往后台提交数据 并且判断数据是否有添加过
-        let data = {
-          tabs: 'goodsAdd',
-          id: this.id,
-          attr: this.goodsForm.attrIds,
-          attrValue: this.goodsForm.attrGroup,
-          inventory: this.goodsForm.inventory,
-          additionalPrice: this.goodsForm.additionalPrice,
-          artNo: this.goodsForm.artNo
-        };
-        this.request('ActivityEdit', data).then((res) => {
-          if (res.status) {
-            this.$Message.success(res.msg);
-            //克隆数据防止 双向绑定 影响界面
-            let attrGroup = Util.cloneObj(this.goodsForm.attrGroup);
-            let attrIds = Util.cloneObj(this.goodsForm.attrIds);
-            let inventory = Util.cloneObj(this.goodsForm.inventory);
-            let additionalPrice = Util.cloneObj(this.goodsForm.additionalPrice);
-            //往列表里推数据
-            let goods = {
-              id: res.data.id,
-              attr: attrIds,
-              attrGroup: attrGroup,
-              inventory: inventory,
-              additionalPrice: additionalPrice,
-              artNo: this.goodsForm.artNo
-            };
-            this.goodsList.push(goods);
-          } else {
-            this.$Message.error(res.msg);
-          }
-        });
-      },
-      //删除商品
-      deleteGoods (index, goodsId) {
-        let data = {
-          tabs: 'goodsDelete',
-          id: this.id,
-          goodsId: goodsId
-        };
-        this.$Modal.confirm({
-          title: '温馨提示',
-          width: 300,
-          content: '<p>你确定要删除?删除后不可恢复!</p>',
-          loading: true,
-          onOk: () => {
-            this.request('ActivityEdit', data).then((res) => {
-              if (res.status) {
-                this.$Message.success(res.msg);
-                this.goodsList.splice(index, 1);
-                this.$Modal.remove();
-              } else {
-                this.$Message.error(res.msg);
-              }
-            });
-          }
-        });
-      },
-      //修改商品
-      editGoods (value, id, type) {
-        let data = {
-          id: this.id,
-          goodsId: id,
-          tabs: 'goodsEdit',
-          type: type,
-          value: value
-        };
-        this.request('ActivityEdit', data).then((res) => {
-          if (res.status) {
-            this.$Message.success(res.msg);
-          } else {
-            this.$Message.error(res.msg);
-          }
-        });
-      },
       initMap () {
         let AMap = this.AMap = window.AMap;
         map = new AMap.Map('map-container', {
@@ -585,6 +542,50 @@
           });
           this.formField.longitude = e.lnglat.getLng();
           this.formField.latitude = e.lnglat.getLat();
+        });
+      },
+      //获取数据 并初始化编辑器
+      editorReady (instance) {
+        let id = this.$route.params.id;
+        document.body.ondrop = function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        };
+        this.request('ActivityDetail', {id: id}).then((res) => {
+          if (res.status) {
+            const data = res.data;
+            this.formField = data;
+            this.formField.content = data.content;
+            this.formField.coverList = data.coverList;
+            this.uploadList = data.coverList;
+            //处理商品数据
+            this.attribute = data.attribute;
+            this.newAttribute = data.attribute;
+            this.goodsList = data.goodsList;
+            //重新处理日期 必须处理不然会报错 todo 重置日期有导致活动封面不能正常加载 除非把uploadList 移到下面来，现在取消日期重置看是否报错
+            //this.formField.startTime = new Date(data.startTime);
+            //this.formField.endTime = new Date(data.endTime);
+            instance.execCommand('insertHtml', res.data.content);
+            instance.addListener('contentChange', () => {
+              this.formField.content = instance.getContent();
+              this.$refs.formField.validateField('content');
+            });
+            this.$forceUpdate();
+          } else {
+            this.$Message.error(res.msg);
+          }
+        });
+      },
+      //请求七牛token
+      initQiNiuToken () {
+        this.request('QiNiuToken', {callback: true}).then((res) => {
+          if (res.status) {
+            this.uploadCoverParams.token = res.data.token;
+            this.uploadCoverParams.domain = res.data.domain;
+            this.action = res.data.action;
+          } else {
+            this.$Message.error('上传初始化失败,请重试!');
+          }
         });
       },
       handleSubmit (name) {
@@ -705,52 +706,313 @@
           return false;
         }
       },
-      //获取数据 并初始化编辑器
-      editorReady (instance) {
-        let id = this.$route.params.id;
-        document.body.ondrop = function (event) {
-          event.preventDefault();
-          event.stopPropagation();
+      //添加规格属性
+      handleAddAttribute () {
+        if (!this.goodsAttributeName) {
+          this.$Message.error('请先填写属性名称');
+          return;
+        }
+        if (this.$strLen(this.goodsAttributeName) > 20) {
+          this.$Message.error('属性最多20个字符');
+          return false;
+        }
+        if (!this.goodsAttributeValue) {
+          this.$Message.error('请填写属性值');
+          return false;
+        }
+        if (this.attribute.length > 5) {
+          this.$Message.error('最多只能添加5组属性');
+          return false;
+        }
+        let tempStatus = false;
+        //检查是否有相同的属性
+        this.attribute.map((item) => {
+          if (item.name === this.goodsAttributeName) {
+            tempStatus = true;
+          }
+        });
+        if (tempStatus) {
+          this.$Message.error('已经存在相同的属性名了');
+          return false;
+        }
+        //往后台发送数据
+        let data = {
+          tabs: 'addAttributeValue',
+          id: this.id,
+          attributeName: this.goodsAttributeName,
+          attributeValue: this.goodsAttributeValue
         };
-        this.request('ActivityDetail', {id: id}).then((res) => {
+        this.request('ActivityEdit', data).then((res) => {
           if (res.status) {
-            const data = res.data;
-            this.formField = data;
-            this.formField.content = data.content;
-            this.formField.coverList = data.coverList;
-            this.uploadList = data.coverList;
-            //处理商品数据
-            this.attribute = data.attribute;
-            this.newAttribute = data.attribute;
-            this.goodsList = data.goodsList;
-            //重新处理日期 必须处理不然会报错 todo 重置日期有导致活动封面不能正常加载 除非把uploadList 移到下面来，现在取消日期重置看是否报错
-            //this.formField.startTime = new Date(data.startTime);
-            //this.formField.endTime = new Date(data.endTime);
-            instance.execCommand('insertHtml', res.data.content);
-            instance.addListener('contentChange', () => {
-              this.formField.content = instance.getContent();
-              this.$refs.formField.validateField('content');
-            });
-            this.$forceUpdate();
+            this.$Message.success(res.msg);
+            this.attribute.push(res.data);
+            this.goodsAttributeName = '';
+            this.goodsAttributeValue = '';
           } else {
             this.$Message.error(res.msg);
           }
         });
       },
-      //请求七牛token
-      initQiNiuToken () {
-        this.request('QiNiuToken', {callback: true}).then((res) => {
+      //select值变化时
+      handleChangeAttribute (value, index) {
+        this.goodsForm.attrIds[index] = value.value;
+        this.goodsForm.attrGroup[index] = value.label;
+      },
+      //保存Goods表单
+      saveGoods: function () {
+        let check = true;
+        let msgTip = '';
+        //检查有多少个属性
+        this.newAttribute.map((item) => {
+          if (typeof (this.goodsForm[item.name]) === 'undefined') {
+            check = false;
+            msgTip = item.name;
+            return false;
+          }
+        });
+        if (!check) {
+          this.$Message.error('请选择' + msgTip + '属性');
+          return false;
+        }
+        //检查是否填写库存
+        if (!this.goodsForm.inventory) {
+          this.$Message.error('库存不能为0');
+          return false;
+        }
+        //检查是否填写货号
+        // if (!this.goodsForm.artNo) {
+        //   this.$Message.error('请填写货号');
+        //   return false;
+        // }
+        //往后台提交数据 并且判断数据是否有添加过
+        let data = {
+          tabs: 'goodsAdd',
+          id: this.id,
+          attr: this.goodsForm.attrIds,
+          attrValue: this.goodsForm.attrGroup,
+          inventory: this.goodsForm.inventory,
+          additionalPrice: this.goodsForm.additionalPrice,
+          artNo: this.goodsForm.artNo
+        };
+        this.request('ActivityEdit', data).then((res) => {
           if (res.status) {
-            this.uploadCoverParams.token = res.data.token;
-            this.uploadCoverParams.domain = res.data.domain;
-            this.action = res.data.action;
+            this.$Message.success(res.msg);
+            //克隆数据防止 双向绑定 影响界面
+            let attrGroup = Util.cloneObj(this.goodsForm.attrGroup);
+            let attrIds = Util.cloneObj(this.goodsForm.attrIds);
+            let inventory = Util.cloneObj(this.goodsForm.inventory);
+            let additionalPrice = Util.cloneObj(this.goodsForm.additionalPrice);
+            //往列表里推数据
+            let goods = {
+              id: res.data.id,
+              attr: attrIds,
+              attrGroup: attrGroup,
+              inventory: inventory,
+              additionalPrice: additionalPrice,
+              artNo: this.goodsForm.artNo
+            };
+            this.goodsList.push(goods);
           } else {
-            this.$Message.error('上传初始化失败,请重试!');
+            this.$Message.error(res.msg);
           }
         });
       },
-      //保存数据
-      save (data) {
+      //删除商品
+      deleteGoods (index, goodsId) {
+        let data = {
+          tabs: 'goodsDelete',
+          id: this.id,
+          goodsId: goodsId
+        };
+        this.$Modal.confirm({
+          title: '温馨提示',
+          width: 300,
+          content: '<p>你确定要删除?删除后不可恢复!</p>',
+          loading: true,
+          onOk: () => {
+            this.request('ActivityEdit', data).then((res) => {
+              if (res.status) {
+                this.$Message.success(res.msg);
+                this.goodsList.splice(index, 1);
+                this.$Modal.remove();
+              } else {
+                this.$Message.error(res.msg);
+              }
+            });
+          }
+        });
+      },
+      //修改商品
+      editGoods (value, id, type) {
+        let data = {
+          id: this.id,
+          goodsId: id,
+          tabs: 'goodsEdit',
+          type: type,
+          value: value
+        };
+        this.request('ActivityEdit', data).then((res) => {
+          if (res.status) {
+            this.$Message.success(res.msg);
+          } else {
+            this.$Message.error(res.msg);
+          }
+        });
+      },
+      //确认修改属性名
+      confirmAddAttributeName () {
+        if (!this.attributeValue) {
+          this.$Message.error('请填写要添加的属性值');
+          return false;
+        }
+        if (this.$strLen(this.attributeValue) > 20) {
+          this.$Message.error('属性最多20个字符');
+          return false;
+        }
+        let data = {
+          tabs: 'addAttributeValue',
+          id: this.id,
+          attributeValue: this.attributeValue,
+          attributeName: this.attributeName
+        };
+        this.request('ActivityEdit', data).then((res) => {
+          if (res.status) {
+            this.$Message.success(res.msg);
+            this.attribute[this.attributeIndex].value.push({
+              attributeName: this.attributeName,
+              attributeValue: this.attributeValue,
+              id: res.data.id
+            });
+          } else {
+            this.$Message.error(res.msg);
+          }
+          this.addAttributeModal = false;
+          this.attributeValue = '';
+          this.attributeIndex = -1;
+        });
+      },
+      //确认修改属性名
+      confirmEditAttributeName () {
+        if (!this.attributeName) {
+          this.$Message.error('请填写要修改的属性名');
+          return false;
+        }
+        if (this.$strLen(this.attributeName) > 20) {
+          this.$Message.error('属性最多20个字符');
+          return false;
+        }
+        let data = {
+          tabs: 'editAttributeName',
+          id: this.id,
+          attributeName: this.attributeName,
+          oldAttributeName: this.attribute[this.attributeIndex].name
+        };
+        this.request('ActivityEdit', data).then((res) => {
+          if (res.status) {
+            this.$Message.success(res.msg);
+            this.attribute[this.attributeIndex].name = this.attributeName;
+          } else {
+            this.$Message.error(res.msg);
+          }
+          this.editAttributeModal = false;
+          this.attributeName = '';
+          this.attributeIndex = -1;
+        });
+      },
+      //确认修改属性值
+      confirmEditAttributeValue () {
+        if (!this.attributeValue) {
+          this.$Message.error('请填写要修改的属性值');
+          return false;
+        }
+        if (this.$strLen(this.attributeValue) > 20) {
+          this.$Message.error('属性值最多20个字符');
+          return false;
+        }
+        let data = {
+          tabs: 'editAttributeValue',
+          id: this.id,
+          attributeValue: this.attributeValue,
+          attrId: this.attributeId
+        };
+        this.request('ActivityEdit', data).then((res) => {
+          if (res.status) {
+            this.$Message.success(res.msg);
+            this.attribute[this.attributeIndex].value[this.attributeValueIndex].attributeValue = this.attributeValue;
+          } else {
+            this.$Message.error(res.msg);
+          }
+          this.editAttributeValueModal = false;
+          this.attributeValue = '';
+          this.attributeValueIndex = -1;
+        });
+      },
+      //移除属性
+      confirmDeleteAttribute () {
+        if (this.attributeIndex < 0) {
+          this.$Message.error('请检查要删除的属性');
+          this.deleteAttributeModal = false;
+          return false;
+        }
+        //发起网络请求删除
+        let data = {
+          tabs: 'deleteAttributeName',
+          id: this.id,
+          attributeName: this.attributeName
+        };
+        this.request('ActivityEdit', data).then((res) => {
+          if (res.status) {
+            this.$Message.success(res.msg);
+            this.attribute.splice(this.attributeIndex, 1);
+            //重新接取数据
+            this.getGoodsData();
+          } else {
+            this.$Message.error(res.msg);
+          }
+        });
+        this.deleteAttributeModal = false;
+      },
+      //移除属性值
+      confirmDeleteAttributeValue () {
+        if (this.attributeIndex < 0 || !this.attributeId) {
+          this.$Message.error('请检查要删除的属性值');
+          this.deleteAttributeValueModal = false;
+          return false;
+        }
+        //发起网络请求删除
+        let data = {
+          tabs: 'deleteAttributeValue',
+          id: this.id,
+          attrId: this.attributeId
+        };
+        this.request('ActivityEdit', data).then((res) => {
+          if (res.status) {
+            this.$Message.success(res.msg);
+            this.attribute[this.attributeIndex].value.splice(this.attributeValueIndex, 1);
+            //判断检测属性是否还有值
+            if (this.attribute[this.attributeIndex].value.length === 0) {
+              this.attribute.splice(this.attributeIndex, 1);
+            }
+            //重新接取数据
+            this.getGoodsData();
+          } else {
+            this.$Message.error(res.msg);
+          }
+        });
+        this.deleteAttributeValueModal = false;
+      },
+      //取消关闭modal
+      cancel () {
+        this.editAttributeModal = false;
+      },
+      getGoodsData () {
+        this.request('ActivityGoods', {aid: this.id}).then((res) => {
+          if (res.status) {
+            this.goodsList = res.data;
+          } else {
+            this.$Message.error(res.msg);
+          }
+        });
       }
     },
     beforeCreate () {

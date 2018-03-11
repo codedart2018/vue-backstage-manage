@@ -5,24 +5,24 @@
     <Card dis-hover>
       <p slot="title">角色授权分配</p>
       <Row>
-        <Col span="24" class="mb-15">
+        <i-col span="24" class="mb-15">
         <Row>
-          <Col span="22" push="2" class="col">
+          <i-col span="22" push="2" class="col">
             <Input placeholder="请输入..." style="width: 300px" v-model="name"></Input>
-          </Col>
+          </i-col>
           <Col span="2" pull="22" class="text-align-right col pr-20">角色名称</Col>
         </Row>
-        </Col>
-        <Col span="24">
+        </i-col>
+        <i-col span="24">
         <Row>
-          <Col span="22" push="2">
+          <i-col span="22" push="2">
           <div class="rule-box">
             <table class="table">
               <tbody>
                 <tr class="ng-scope" v-for="(item, index) in list" :key="item.id">
                   <td class="col-td-1">
                     <Icon type="network"></Icon>
-                    </i>&nbsp;{{item.title}}
+                    &nbsp;{{item.title}}
                   </td>
                   <td class="col-td-2">
                     <label class="checkbox-inline">
@@ -43,13 +43,13 @@
               </tbody>
             </table>
           </div>
-          </Col>
-          <Col span="2" pull="22" class="text-align-right col pr-20">权限分配</Col>
+          </i-col>
+          <i-col span="2" pull="22" class="text-align-right col pr-20">权限分配</i-col>
         </Row>
-        </Col>
-        <Col span="24" class="text-align-right">
+        </i-col>
+        <i-col span="24" class="text-align-right">
           <Button type="primary" @click="save">保存权限</Button>&nbsp;&nbsp;&nbsp;&nbsp;<Button @click="goBack()">返回</Button>
-        </Col>
+        </i-col>
       </Row>
     </Card>
   </div>

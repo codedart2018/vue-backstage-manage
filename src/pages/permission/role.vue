@@ -1,14 +1,14 @@
 <template>
   <div>
     <Row class="mb-15">
-      <Col span="18" class="search">
+      <i-col span="18" class="search">
       &nbsp;
-      </Col>
-      <Col span="6" class="text-align-right">
+      </i-col>
+      <i-col span="6" class="text-align-right">
         <Button type="primary" @click="addModal = true">
           <Icon type="plus-round"></Icon>&nbsp;添加角色
         </Button>
-      </Col>
+      </i-col>
     </Row>
     <Row class="mb-15">
       <Table :columns="columns" :data="list"></Table>
