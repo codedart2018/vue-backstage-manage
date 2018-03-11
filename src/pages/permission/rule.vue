@@ -313,8 +313,8 @@
           icon: '',
           controller: '',
           action: '',
-          display: 0,
-          status: 1,
+          display: '0',
+          status: '1',
           sort: 0,
           desc: ''
         },

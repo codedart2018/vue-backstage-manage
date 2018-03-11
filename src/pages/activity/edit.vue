@@ -2,7 +2,7 @@
 <style src="@/assets/styles/activity/edit.less" lang="less" scoped></style>
 <template>
   <div>
-    <Tabs value="goods" :animated="false">
+    <Tabs value="base" :animated="false">
       <Tab-pane label="基础设置" name="base">
         <Form ref="formField" :model="formField" :rules="ruleValidate" :label-width="110">
           <Row>
@@ -94,8 +94,8 @@
               </Form-item>
             </i-col>
             <i-col span="14">
-              <Form-item label="是否销售" prop="openSales">
-                <Radio-group v-model="formField.openSales">
+              <Form-item label="附加商品" prop="addedGoods">
+                <Radio-group v-model="formField.addedGoods">
                   <Radio label="1">是</Radio>
                   <Radio label="0">否</Radio>
                 </Radio-group>
@@ -125,7 +125,7 @@
           </Row>
         </Form>
       </Tab-pane>
-      <Tab-pane label="商品管理" name="goods">
+      <Tab-pane label="商品管理" name="goods" v-if="formField.addedGoods === '1'">
         <Row class="mb-15 pb-15" style="border-bottom: 1px dashed #dedede;">
           <i-col span="24">
             <Alert type="warning" show-icon>
@@ -403,7 +403,7 @@
           cover: [],
           coverList: [],
           maxPeople: '0',
-          openSales: '1',
+          addedGoods: '0',
           isFollow: '1',
           link: '',
           startTime: '',

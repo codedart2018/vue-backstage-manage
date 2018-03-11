@@ -62,6 +62,17 @@ export const ActivityRouter = {
       },
       component: resolve => require(['../pages/activity/edit'], resolve),
       children: []
+    },
+    {
+      path: '/activity/order',
+      name: 'ActivityOrder',
+      icon: '',
+      meta: {
+        title: '系统活动订单列表',
+        routeAuth: true
+      },
+      component: resolve => require(['../pages/activity/order'], resolve),
+      children: []
     }
   ]
 };

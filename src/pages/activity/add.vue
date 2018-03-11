@@ -98,8 +98,8 @@
           </Form-item>
         </i-col>
         <i-col span="14">
-          <Form-item label="是否销售" prop="openSales">
-            <Radio-group v-model="formField.openSales">
+          <Form-item label="附加商品" prop="addedGoods">
+            <Radio-group v-model="formField.addedGoods">
               <Radio label="1">是</Radio>
               <Radio label="0">否</Radio>
             </Radio-group>
@@ -193,7 +193,7 @@
           cover: [],
           coverList: [],
           maxPeople: '0',
-          openSales: '1',
+          addedGoods: '0',
           isFollow: '1',
           link: '',
           startTime: '',

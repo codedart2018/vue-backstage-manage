@@ -247,7 +247,7 @@
                   },
                   on: {
                     click: () => {
-                      this.show(row.id, row.type);
+                      this.show(row.id);
                     }
                   }
                 }, '查看'),
@@ -270,11 +270,7 @@
     },
     methods: {
       //查看活动
-      show (id, type) {
-        if (!type && typeof type !== 'string') {
-          this.$Message.error('查看活动异常');
-          return false;
-        }
+      show (id) {
         //this.$router.push({path: '/activity/' + type + '/edit/' + id});
         this.$router.push({path: '/activity/edit/' + id});
       },
