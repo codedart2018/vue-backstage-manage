@@ -753,7 +753,7 @@
           tabs: 'goodsAdd',
           id: this.id,
           attr: this.goodsForm.attrIds,
-          //attrValue: this.goodsForm.attrGroup,
+          attrValue: this.goodsForm.attrGroup,
           inventory: this.goodsForm.inventory,
           additionalPrice: this.goodsForm.additionalPrice,
           artNo: this.goodsForm.artNo
@@ -762,18 +762,15 @@
           if (res.status) {
             this.$Message.success(res.msg);
             //克隆数据防止 双向绑定 影响界面
-            let attrGroup = Util.cloneObj(this.goodsForm.attrGroup);
-            let attrIds = Util.cloneObj(this.goodsForm.attrIds);
-            let inventory = Util.cloneObj(this.goodsForm.inventory);
-            let additionalPrice = Util.cloneObj(this.goodsForm.additionalPrice);
+            let clone = Util.cloneObj(this.goodsForm);
             //往列表里推数据
             let goods = {
-              id: res.data.id,
-              attr: attrIds,
-              attrGroup: attrGroup,
-              inventory: inventory,
-              additionalPrice: additionalPrice,
-              artNo: this.goodsForm.artNo
+              id: 1,
+              attr: clone.attrIds,
+              attrGroup: clone.attrGroup,
+              inventory: clone.inventory,
+              additionalPrice: clone.additionalPrice,
+              artNo: clone.artNo
             };
             this.goodsList.push(goods);
           } else {
