@@ -1,12 +1,12 @@
 <template>
   <div>
     <Row>
-      <Col span="18" class="search">
+      <i-col span="18" class="search">
       <Form :model="formSearch" :label-width="80" inline label-position="right">
         <Form-item label="文章名称：">
           <Input v-model="formSearch.keywords" placeholder="请输入文章关键词"></Input>
         </Form-item>
-        <Form-item label="标签分类：">
+        <Form-item label="文章分类：">
           <Select v-model="formSearch.cateId" placeholder="请选择" style="width:90px">
             <Option value="">请选择</Option>
             <Option v-for="item in cate" :value="item.id" :key="item.id">{{ item.name }}</Option>
@@ -17,14 +17,14 @@
         </Form-item>
       </Form>
       &nbsp;
-      </Col>
-      <Col span="6" class="text-align-right">
+      </i-col>
+      <i-col span="6" class="text-align-right">
       <router-link to="/article/add">
         <Button type="primary" @click="addModal = true">
           <Icon type="plus-round"></Icon>&nbsp;添加文章
         </Button>
       </router-link>
-      </Col>
+      </i-col>
     </Row>
     <Row class="mb-15">
       <Table :columns="columns" :data="list"></Table>
@@ -173,7 +173,7 @@
       //获取数据
       getData (params) {
         if (!params) params = {page: 1};
-        this.request('ArticleList', params, true).then((res) => {
+        this.request('ArticleCategoryList', params, true).then((res) => {
           if (res.status) {
             //列表数据
             this.list = res.data.list;
@@ -217,8 +217,7 @@
       },
       //表单搜索
       search() {
-        let page = 1;
-        this.pageNumber = page;
+        this.pageNumber = 1;
         let search = this.formSearch;
         //if(JSON.stringify(search) == "{}") return
         this.getData({params: search});

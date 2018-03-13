@@ -92,6 +92,8 @@ const methodMap = {
   ActivityDetail: {url: '/admin/activity/detail', method: 'post'},
   /** 活动商品数据 **/
   ActivityGoods: {url: '/admin/activity/goods', method: 'get'},
+  /** 活动订单数据 **/
+  ActivityOrder: {url: '/admin/activity_order/list', method: 'get'},
   /** 文章分类列表 **/
   ArticleCategoryList: {url: '/admin/article_category/list', method: 'get'},
   /** 添加文章分类 **/
