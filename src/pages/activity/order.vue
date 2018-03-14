@@ -163,7 +163,7 @@
           {
             title: '操作',
             key: 'operation',
-            width: 130,
+            width: 90,
             align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -180,18 +180,7 @@
                       this.$router.push({path: '/activity/order_detail/' + params.row.id});
                     }
                   }
-                }, '查看'),
-                h('Button', {
-                  props: {
-                    type: 'error',
-                    size: 'small'
-                  },
-                  on: {
-                    click: () => {
-                      this.remove(params.index, params.row.id);
-                    }
-                  }
-                }, '删除')
+                }, '查看')
               ]);
             }
           }

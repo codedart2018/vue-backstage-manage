@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table class="hd-table hd-table-form hd-form">
+    <table class="table">
       <thead>
       <tr>
         <td colspan="2">订单详情</td>
@@ -22,9 +22,47 @@
       <tr>
         <th>活动分类</th>
         <td>
-          何先生
+          {{data.cateName}}
         </td>
       </tr>
+      <template v-if="parseInt(data.goodsId) === 0 && data.attribute === ''">
+      <tr>
+        <th>商品价格</th>
+        <td>
+          {{$accDiv(parseInt(data.goodsPrice), 100)}}
+        </td>
+      </tr>
+      <tr>
+        <th>购买数量</th>
+        <td>
+          {{data.buyNumber}}
+        </td>
+      </tr>
+      <tr>
+        <th>总金额</th>
+        <td>
+          {{$accDiv(parseInt(data.totalAmount), 100)}}
+        </td>
+      </tr>
+      <tr>
+        <th>应付金额</th>
+        <td>
+          {{$accDiv(parseInt(data.actualAmount), 100)}}
+        </td>
+      </tr>
+      <tr>
+        <th>积分抵扣</th>
+        <td>
+          {{data.deductIntegral}}
+        </td>
+      </tr>
+      <tr>
+        <th>积分金额</th>
+        <td>
+          {{$accDiv(parseInt(data.integralMoney), 100)}}
+        </td>
+      </tr>
+      </template>
       <tr>
         <th>联系人</th>
         <td>
@@ -46,18 +84,37 @@
       <tr>
         <th>下单时间</th>
         <td>
-          2018-02-09 09:12
+          {{$formatDate(data.createTime)}}
         </td>
       </tr>
       <tr>
         <th>支付时间</th>
+        <td v-if="data.payStatus === '1' || data.payStatus === '2'">
+          {{$formatDate(data.payTime)}}
+          <Button type="warning" size="small">退款</Button>
+        </td>
+        <td v-else>
+          未支付
+        </td>
+      </tr>
+      <tr v-if="data.payStatus === '2'">
+        <th>退款时间</th>
         <td>
-          2018-02-09 09:12
+          {{$formatDate(data.refundTime)}}
+        </td>
+      </tr>
+      <tr>
+        <th>使用状态</th>
+        <td v-if="data.status === '0'">
+          未使用
+        </td>
+        <td v-else="data.status === '1'">
+          已使用
         </td>
       </tr>
       </tbody>
     </table>
-    <div class="order_body" v-if="data.goodsId > 0 && data.attribute !== ''">
+    <div class="order-body" v-if="parseInt(data.goodsId) > 0 && data.attribute !== ''">
       <dl class="last">
         <dt>商品清单</dt>
         <dd class="list">
@@ -94,7 +151,7 @@
       </dl>
     </div>
 
-    <div class="order_total">
+    <div class="order-total">
       <ul>
         <li><span>抵扣积分：</span>{{data.deductIntegral}}</li>
         <li><span>积分金额：</span>￥{{$accDiv(parseInt(data.integralMoney), 100)}}</li>
@@ -102,16 +159,18 @@
       <div class="clear"></div>
       <div class="total">
         应付总额：
-        <span class="money">¥{{$accDiv(parseInt(data.totalAmount), 100)}}</span>&nbsp;&nbsp;&nbsp;
-        实付总额：
-        <span class="money">¥{{$accDiv(parseInt(data.actualAmount), 100)}}</span>
+        <span class="money">¥{{$accDiv(parseInt(data.totalAmount), 100)}}</span>
+        <template v-if="data.payStatus === '1' || data.payStatus === '2'">
+          &nbsp;&nbsp;&nbsp;
+          实付总额：
+          <span class="money">¥{{$accDiv(parseInt(data.actualAmount), 100)}}</span>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  //todo 还有那个没有附加商品的时候
   export default {
     data () {
       return {
@@ -135,29 +194,21 @@
 </script>
 
 <style lang="less" scoped>
-  table {
+  .table {
     display: table;
-    border-color: grey;
     max-width: 100%;
     background-color: transparent;
-    border-collapse: collapse;
     border-spacing: 0;
-  }
-
-  .hd-table {
-    margin: 0px;
-    padding: 0px;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
     width: 100%;
     border-collapse: collapse;
     color: #666;
-  }
-
-  .hd-table-form {
+    border: 1px solid #CECECE;
     font-size: 12px;
   }
 
-  .hd-table-form thead th,
-  .hd-table-form thead td {
+  .table thead th,
+  .table thead td {
     background: #ECECEC;
     border-top: 1px solid #CECECE;
     border-bottom: 1px solid #CECECE;
@@ -165,14 +216,19 @@
     padding: 5px 9px;
   }
 
-  .hd-table-form tbody tr td,
-  .hd-table-form tbody tr th {
+  .table thead td {
+    height: 40px;
+    font-weight: bold;
+  }
+
+  .table tbody tr td,
+  .table tbody tr th {
     border-bottom: solid 1px #E5E5E5;
     vertical-align: middle;
     height: 40px;
   }
 
-  .hd-table-form tbody tr th {
+  .table tbody tr th {
     text-align: right;
     padding-right: 10px;
     background: #F8F8F8;
@@ -182,40 +238,40 @@
     width: 200px;
   }
 
-  .hd-table-form tbody tr td {
+  .table tbody tr td {
     padding-left: 10px;
   }
 
   /*订单body*/
-  .order_body {
+  .order-body {
     background: #fff;
     overflow: visible;
     margin-top: 15px;
   }
 
-  .order_body dl {
+  .order-body dl {
     border-bottom: 1px solid #ededed;
   }
 
-  .order_body dl dt {
+  .order-body dl dt {
     font-weight: bold;
     margin-bottom: 4px;
   }
 
-  .order_body dl.last {
+  .order-body dl.last {
     border: none;
   }
 
-  .order_body .list {
-    border-left: 1px solid #dedede;
+  .order-body .list {
+    border-left: 0 solid #dedede;
   }
 
-  .order_body .list table {
+  .order-body .list table {
     border-collapse: collapse;
     border: 1px solid #dedede;
   }
 
-  .order_body .list table tbody th {
+  .order-body .list table tbody th {
     background: #f0f0f0;
     border-bottom: 1px solid #dedede;
     border-top: 1px solid #dedede;
@@ -224,7 +280,7 @@
     text-align: center;
   }
 
-  .order_body .list table tbody td {
+  .order-body .list table tbody td {
     background: #FFFFFF;
     border-bottom: 1px solid #DEDEDE;
     text-align: center;
@@ -232,11 +288,11 @@
     padding: 5px;
   }
 
-  .order_body .list table tbody td a {
+  .order-body .list table tbody td a {
     color: #005AA0;
   }
 
-  .order_body .list table tbody td a.good {
+  .order-body .list table tbody td a.good {
     width: 50px;
     height: 50px;
     display: block;
@@ -244,21 +300,21 @@
     margin: 0 auto;
   }
 
-  .order_body .list table tbody td a.good img {
+  .order-body .list table tbody td a.good img {
     width: 50px;
     height: 50px;
   }
 
-  .order_body .list table tbody td a.good:hover {
+  .order-body .list table tbody td a.good:hover {
     border: 1px solid #EDD28B;
   }
 
-  .order_body .list table tbody td.tit {
+  .order-body .list table tbody td.tit {
     text-align: left;
   }
 
-  .order_body .list table tbody td a.buy_again {
-    /*background: url("../img/order/buy_again.png") no-repeat;*/
+  .order-body .list table tbody td a.buy-again {
+    /*background: url("../img/order/buy-again.png") no-repeat;*/
     display: block;
     height: 21px;
     line-height: 100px;
@@ -267,36 +323,36 @@
     width: 73px;
   }
 
-  .order_body .list table tbody td a.buy_again:hover {
+  .order-body .list table tbody td a.buy-again:hover {
     background-position: 0 -24px;
   }
 
-  .order_body .list table tbody td span.price {
+  .order-body .list table tbody td span.price {
     color: #FF3434;
   }
 
-  .order_total {
+  .order-total {
     padding: 15px 10px 0;
     overflow: hidden;
   }
 
-  .order_total ul {
-    padding: 0 20px 10px 0;
+  .order-total ul {
+    padding: 0 0 10px 0;
     float: right;
     font-size: 14px;
     text-align: right;
   }
 
-  .order_total .total {
+  .order-total .total {
     border-top: 1px solid #ccc;
     float: right;
     font-size: 16px;
     font-weight: bold;
-    padding: 10px 20px 0 0;
+    padding: 10px 0 0 0;
     color: #333333;
   }
 
-  .order_total .total .money {
+  .order-total .total .money {
     color: #f00;
     font-size: 24px;
   }
