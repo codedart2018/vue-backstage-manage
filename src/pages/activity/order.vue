@@ -177,7 +177,7 @@
                   },
                   on: {
                     click: () => {
-                      this.edit(params.row.id);
+                      this.$router.push({path: '/activity/order_detail/' + params.row.id});
                     }
                   }
                 }, '查看'),

@@ -73,6 +73,17 @@ export const ActivityRouter = {
       },
       component: resolve => require(['../pages/activity/order'], resolve),
       children: []
+    },
+    {
+      path: '/activity/order_detail/:id',
+      name: 'ActivityOrderDetail',
+      icon: '',
+      meta: {
+        title: '订单详情',
+        routeAuth: true
+      },
+      component: resolve => require(['../pages/activity/orderDetail'], resolve),
+      children: []
     }
   ]
 };
