@@ -1,38 +1,63 @@
 <template>
   <div>
     <Row>
-      <i-col span="18" class="search">
-      <Form :model="formSearch" :label-width="80" inline label-position="right">
-        <Form-item label="活动名称：">
-          <Input v-model="formSearch.keywords" placeholder="请输入文章关键词"></Input>
-        </Form-item>
-        <Form-item label="活动分类：">
-          <Select v-model="formSearch.cateId" placeholder="请选择" style="width:90px">
-            <Option value="">请选择</Option>
-            <Option v-for="item in cate" :value="item.id" :key="item.id">{{ item.name }}</Option>
-          </Select>
-        </Form-item>
-        <Form-item label="支付状态：">
-          <Select v-model="formSearch.payStatus" placeholder="请选择" style="width:90px">
-            <Option value="">请选择</Option>
-            <Option value="0">未支付</Option>
-            <Option value="1">已支付</Option>
-            <Option value="2">已退款</Option>
-          </Select>
-        </Form-item>
-        <Form-item label="使用状态：">
-          <Select v-model="formSearch.status" placeholder="请选择" style="width:90px">
-            <Option value="">请选择</Option>
-            <Option value="0">未使用</Option>
-            <Option value="1">已使用</Option>
-          </Select>
-        </Form-item>
-        <Form-item :label-width="1">
-          <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
-        </Form-item>
+      <Form :model="formSearch" :label-width="75" inline label-position="right">
+        <i-col span="24" class="search">
+          <Form-item label="活动名称：">
+            <Input v-model="formSearch.keywords" placeholder="请输入活动名称关键词"></Input>
+          </Form-item>
+          <Form-item label="活动分类：">
+            <Select v-model="formSearch.cateId" placeholder="请选择" style="width:120px">
+              <Option value="">请选择</Option>
+              <Option v-for="item in cate" :value="item.id" :key="item.id">{{ item.name }}</Option>
+            </Select>
+          </Form-item>
+          <Form-item label="购买人：">
+            <Input v-model="formSearch.contacts" placeholder="请输入购买人姓名"></Input>
+          </Form-item>
+          <Form-item label="手机号码：">
+            <Input v-model="formSearch.mobile" placeholder="请输入购买人手机号码"></Input>
+          </Form-item>
+          <Form-item label="支付状态：">
+            <Select v-model="formSearch.payStatus" placeholder="请选择" style="width:120px">
+              <Option value="">请选择</Option>
+              <Option value="0">未支付</Option>
+              <Option value="1">已支付</Option>
+              <Option value="2">已退款</Option>
+            </Select>
+          </Form-item>
+          <Form-item label="使用状态：">
+            <Select v-model="formSearch.status" placeholder="请选择" style="width:120px">
+              <Option value="">请选择</Option>
+              <Option value="0">未使用</Option>
+              <Option value="1">已使用</Option>
+            </Select>
+          </Form-item>
+        </i-col>
+        <i-col span="24" class="search">
+          <Form-item label="下单日期：">
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.startTime" style="width: 160px"></Date-picker>
+          </Form-item>
+          <Form-item label="结束日期：">
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.endTime" style="width: 160px"></Date-picker>
+          </Form-item>
+          <Form-item label="支付日期：">
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.startPayTime" style="width: 160px"></Date-picker>
+          </Form-item>
+          <Form-item label="结束日期：">
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.endPayTime" style="width: 160px"></Date-picker>
+          </Form-item>
+          <Form-item label="退款日期：">
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.startRefundTime" style="width: 160px"></Date-picker>
+          </Form-item>
+          <Form-item label="结束日期：">
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.endRefundTime" style="width: 160px"></Date-picker>
+          </Form-item>
+          <Form-item :label-width="1">
+            <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
+          </Form-item>
+        </i-col>
       </Form>
-      &nbsp;
-      </i-col>
     </Row>
     <Row class="mb-15">
       <Table :columns="columns" :data="list"></Table>
@@ -44,7 +69,7 @@
 </template>
 
 <script>
-  export default{
+  export default {
     name: 'articleIndex',
     data () {
       return {
@@ -236,7 +261,7 @@
           }
         });
       },
-      edit(id) {
+      edit (id) {
         this.$router.push({path: '/article/edit/' + id, params: {id: id}});
       },
       //删除文章数据
@@ -261,14 +286,14 @@
         });
       },
       //表单搜索
-      search() {
+      search () {
         this.pageNumber = 1;
         let search = this.formSearch;
         //if(JSON.stringify(search) == "{}") return
         this.getData({params: search});
       },
       //获得分类数据
-      getCate() {
+      getCate () {
         this.request('ActivityCategory', {}).then((res) => {
           if (res.status) {
             this.cate = res.data.list;
@@ -291,3 +316,8 @@
     destroyed () {}
   };
 </script>
+<style lang="less" scoped>
+  .search {
+    margin-bottom: 15px;
+  }
+</style>
