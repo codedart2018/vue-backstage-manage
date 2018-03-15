@@ -52,16 +52,16 @@
           </Form-item>
         </i-col>
         <i-col span="12">
-        <Form-item label="文章内容" prop="content">
-          <UEditor ref="editor" @ready="editorReady" v-model="formField.content" :config="config" style="line-height: normal"></UEditor>
-        </Form-item>
-        <Form-item>
-          <Form-item>
-            <Button type="ghost" @click="goBack">返回</Button>
-            <Button type="ghost" @click="handleReset('formField')" style="margin-left: 8px">重置</Button>
-            <Button type="primary" @click="handleSubmit('formField')" style="margin-left: 8px">提交</Button>
+          <Form-item label="文章内容" prop="content">
+            <UEditor ref="editor" @ready="editorReady" v-model="formField.content" :config="config" style="line-height: normal"></UEditor>
           </Form-item>
-        </Form-item>
+          <Form-item>
+            <Form-item>
+              <Button type="ghost" @click="goBack">返回</Button>
+              <Button type="ghost" @click="handleReset('formField')" style="margin-left: 8px">重置</Button>
+              <Button type="primary" @click="handleSubmit('formField')" style="margin-left: 8px">提交</Button>
+            </Form-item>
+          </Form-item>
         </i-col>
       </Row>
     </Form>
@@ -70,7 +70,6 @@
 
 <script>
   import UEditor from '@/components/editor';
-  import ICol from 'iview/src/components/grid/col';
 
   export default {
     name: 'articleAdd',
@@ -130,7 +129,6 @@
       };
     },
     components: {
-      ICol,
       UEditor
     },
     methods: {

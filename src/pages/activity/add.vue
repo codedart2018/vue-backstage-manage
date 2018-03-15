@@ -22,6 +22,14 @@
           <Form-item label="活动关键词" prop="keywords">
             <Input v-model="formField.keywords" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
           </Form-item>
+          <Form-item label="活动分类" prop="categoryId" style="width: 300px;">
+            <Select v-model="formField.categoryId" placeholder="请选择">
+              <Option value="">请选择</Option>
+              <div v-for="item in cate">
+                <Option :value="item.id" :key="item.id" v-html="item.name"></Option>
+              </div>
+            </Select>
+          </Form-item>
           <Form-item label="活动封面" prop="cover">
             <div class="upload-mini-box">
               <div v-if="uploadList.length > 0" style="margin-right: 8px;">
@@ -186,6 +194,8 @@
           autoHeightEnabled: false
         },
         isChanceShow: true,
+        //分类数据
+        cate: [],
         formField: {
           name: '',
           keywords: '',
@@ -199,9 +209,7 @@
           startTime: '',
           endTime: '',
           desc: '',
-          content: '',
-          //商品数据
-          goodsData: {}
+          content: ''
         },
         ruleValidate: {
           name: [
@@ -211,6 +219,9 @@
           ],
           keywords: [
             {required: true, message: '活动关键词不能为空', trigger: 'blur'}
+          ],
+          categoryId: [
+            {required: true, message: '请选择活动分类', trigger: 'change'}
           ],
           vipLevel: [
             {required: true, message: '请选择参与等级', trigger: 'change'}
@@ -402,7 +413,13 @@
           }
         });
       },
-      confirmLocation () {
+      //获得分类数据
+      getCate () {
+        this.request('ActivityCategory', {}).then((res) => {
+          if (res.status) {
+            this.cate = res.data.list;
+          }
+        });
       }
     },
     created () {
@@ -418,6 +435,8 @@
       });
     },
     mounted () {
+      //获得分类数据
+      this.getCate();
       this.initQiNiuToken();
       //todo 没用了
       this.uploadList = this.$refs.upload.fileList;

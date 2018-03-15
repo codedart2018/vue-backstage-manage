@@ -16,6 +16,14 @@
               <Form-item label="活动关键词" prop="keywords">
                 <Input v-model="formField.keywords" placeholder="请填写活动关键词,多个用逗号分隔"/>
               </Form-item>
+              <Form-item label="活动分类" prop="categoryId" style="width: 300px;">
+                <Select v-model="formField.categoryId" placeholder="请选择">
+                  <Option value="">请选择</Option>
+                  <div v-for="item in cate">
+                    <Option :value="item.id" :key="item.id" v-html="item.name"></Option>
+                  </div>
+                </Select>
+              </Form-item>
               <Form-item label="活动封面" prop="cover">
                 <div class="upload-mini-box">
                   <div v-if="uploadList.length > 0" style="margin-right: 8px;">
@@ -118,7 +126,7 @@
           <Row>
             <i-col span="6" push="18" style="text-align: right">
               <Form-item>
-                <Button type="primary" @click="handleSubmit('formField')">保存进入下一步</Button>
+                <Button type="primary" @click="handleSubmit('formField')">修改保存</Button>
                 <Button type="ghost" @click="handleReset('formField')" style="margin-left: 8px">重置</Button>
               </Form-item>
             </i-col>
@@ -409,9 +417,7 @@
           startTime: '',
           endTime: '',
           desc: '',
-          content: '',
-          //商品数据
-          goodsData: {}
+          content: ''
         },
         ruleValidate: {
           name: [
@@ -421,6 +427,9 @@
           ],
           keywords: [
             {required: true, message: '活动关键词不能为空', trigger: 'blur'}
+          ],
+          categoryId: [
+            {required: true, message: '请选择活动分类', trigger: 'change'}
           ],
           vipLevel: [
             {required: true, message: '请选择参与等级', trigger: 'change'}
@@ -473,7 +482,9 @@
         //商品数据
         goodsList: [
           /**{id: '20', attrGroup: ['3人餐', '中午', '晚上'], inventory: 10, additionalPrice: 0, artNo: '5454545'}**/
-        ]
+        ],
+        //分类数据
+        cate: []
       };
     },
     methods: {
@@ -537,6 +548,14 @@
             this.$forceUpdate();
           } else {
             this.$Message.error(res.msg);
+          }
+        });
+      },
+      //获得分类数据
+      getCate () {
+        this.request('ActivityCategory', {}).then((res) => {
+          if (res.status) {
+            this.cate = res.data.list;
           }
         });
       },
@@ -999,6 +1018,8 @@
     },
     beforeMount () {},
     mounted () {
+      //获得分类数据
+      this.getCate();
       //请求七牛token
       this.initQiNiuToken();
       //this.uploadList = this.$refs.upload.fileList;

@@ -36,25 +36,26 @@
         </i-col>
         <i-col span="24" class="search">
           <Form-item label="下单日期：">
-            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.startTime" style="width: 160px"></Date-picker>
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.startTime" style="width: 155px"></Date-picker>
           </Form-item>
           <Form-item label="结束日期：">
-            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.endTime" style="width: 160px"></Date-picker>
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.endTime" style="width: 155px"></Date-picker>
           </Form-item>
           <Form-item label="支付日期：">
-            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.startPayTime" style="width: 160px"></Date-picker>
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.startPayTime" style="width: 155px"></Date-picker>
           </Form-item>
           <Form-item label="结束日期：">
-            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.endPayTime" style="width: 160px"></Date-picker>
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.endPayTime" style="width: 155px"></Date-picker>
           </Form-item>
           <Form-item label="退款日期：">
-            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.startRefundTime" style="width: 160px"></Date-picker>
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.startRefundTime" style="width: 155px"></Date-picker>
           </Form-item>
           <Form-item label="结束日期：">
-            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.endRefundTime" style="width: 160px"></Date-picker>
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.endRefundTime" style="width: 155px"></Date-picker>
           </Form-item>
           <Form-item :label-width="1">
-            <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
+            <Button type="primary" @click="search('formSearch')">搜索</Button>
+            <Button type="ghost" @click="formSearch = {}; getData()" style="margin-left: 8px">清除条件</Button>
           </Form-item>
         </i-col>
       </Form>
@@ -219,7 +220,14 @@
         //当前页码
         pageNumber: 1,
         //搜索表单
-        formSearch: {},
+        formSearch: {
+          startTime: '',
+          endTime: '',
+          startPayTime: '',
+          endPayTime: '',
+          startRefundTime: '',
+          endRefundTime: ''
+        },
         //分类
         cate: []
       };

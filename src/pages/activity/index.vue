@@ -1,44 +1,44 @@
 <template>
   <div>
     <Row class="mb-15">
-      <Col span="20" class="search">
-      <Form :model="formSearch" :label-width="80" inline label-position="right">
-        <Form-item label="活动名称：">
-          <Input v-model="formSearch.keywords" placeholder="请输入商铺名称关键词"></Input>
-        </Form-item>
-        <Form-item label="开始日期：">
-          <Date-picker type="date" placeholder="选择日期" v-model="formSearch.startTime"></Date-picker>
-        </Form-item>
-        <Form-item label="结束日期：">
-          <Date-picker type="date" placeholder="选择日期" v-model="formSearch.endTime"></Date-picker>
-        </Form-item>
-        <Form-item label="活动类型：">
-          <Select v-model="formSearch.type" placeholder="请选择">
-            <Option value="">请选择</Option>
-            <Option value="1">报名活动</Option>
-          </Select>
-        </Form-item>
-        <Form-item label="活动状态：">
-          <Select v-model="formSearch.status" placeholder="请选择">
-            <Option value="">请选择</Option>
-            <Option value="0">未开始</Option>
-            <Option value="1">进行中</Option>
-            <Option value="2">暂停中</Option>
-            <Option value="3">已结束</Option>
-            <Option value="4">过期</Option>
-          </Select>
-        </Form-item>
-        <Form-item :label-width="1">
-          <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
-          <Button type="ghost" @click="formSearch = {}; getData()">清除条件</Button>
-        </Form-item>
-      </Form>
-      </Col>
-      <Col span="4" class="text-align-right">
-      <Button type="primary" @click="$router.push({path: '/activity/add'})">
-        <Icon type="plus-round"></Icon>&nbsp;添加活动
-      </Button>
-      </Col>
+      <i-col span="20" class="search">
+        <Form :model="formSearch" :label-width="80" inline label-position="right">
+          <Form-item label="活动名称：">
+            <Input v-model="formSearch.keywords" placeholder="请输入商铺名称关键词"></Input>
+          </Form-item>
+          <Form-item label="开始日期：">
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.startTime"></Date-picker>
+          </Form-item>
+          <Form-item label="结束日期：">
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.endTime"></Date-picker>
+          </Form-item>
+          <Form-item label="活动类型：">
+            <Select v-model="formSearch.type" placeholder="请选择">
+              <Option value="">请选择</Option>
+              <Option value="1">报名活动</Option>
+            </Select>
+          </Form-item>
+          <Form-item label="活动状态：">
+            <Select v-model="formSearch.status" placeholder="请选择">
+              <Option value="">请选择</Option>
+              <Option value="0">未开始</Option>
+              <Option value="1">进行中</Option>
+              <Option value="2">暂停中</Option>
+              <Option value="3">已结束</Option>
+              <Option value="4">过期</Option>
+            </Select>
+          </Form-item>
+          <Form-item :label-width="1">
+            <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
+            <Button type="ghost" @click="formSearch = {}; getData()">清除条件</Button>
+          </Form-item>
+        </Form>
+      </i-col>
+      <i-col span="4" class="text-align-right">
+        <Button type="primary" @click="$router.push({path: '/activity/add'})">
+          <Icon type="plus-round"></Icon>&nbsp;添加活动
+        </Button>
+      </i-col>
     </Row>
     <Row class="mb-15">
       <Table :columns="columns" :data="list"></Table>
@@ -223,7 +223,8 @@
             render: (h, params) => {
               const row = params.row;
               return h('div', [
-                h('Button', {
+                /**
+                 h('Button', {
                   props: {
                     type: 'success',
                     size: 'small'
@@ -237,6 +238,7 @@
                     }
                   }
                 }, '数据'),
+                 **/
                 h('Button', {
                   props: {
                     type: 'primary',
@@ -275,7 +277,7 @@
         this.$router.push({path: '/activity/edit/' + id});
       },
       //查看详细数据
-      data(id, type) {
+      data (id, type) {
         if (!type && typeof type !== 'string') {
           this.$Message.error('查看活动异常');
           return false;
@@ -343,14 +345,14 @@
         this.getData({page: page, params: search});
       },
       //表单搜索
-      search() {
+      search () {
         let page = 1;
         this.pageNumber = page;
         let search = this.formSearch;
         this.getData({params: search});
       }
     },
-    mounted() {
+    mounted () {
       //服务端获取数据
       this.getData();
     }
