@@ -42,6 +42,17 @@ export const ArticleRouter = {
       children: []
     },
     {
+      path: '/article/edit/:id',
+      name: 'ArticleEdit',
+      icon: '',
+      meta: {
+        title: '编辑文章',
+        routeAuth: true
+      },
+      component: resolve => require(['../pages/article/edit'], resolve),
+      children: []
+    },
+    {
       path: '/article_category/index',
       name: 'ArticleCategory',
       icon: '',

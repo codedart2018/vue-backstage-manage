@@ -614,6 +614,10 @@
       },
       //上传前前置操作
       handleBeforeUpload (file) {
+        if (!this.action) {
+          this.$Message.error('上传地址初始化失败');
+          return false;
+        }
         const check = this.uploadList.length < 5;
         if (!check) {
           this.$Notice.warning({

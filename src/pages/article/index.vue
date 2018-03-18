@@ -62,8 +62,8 @@
             align: 'center',
             render: (h, params) => {
               const row = params.row;
-              const color = row.status === '1' ? 'green' : row.status === '0' ? 'yellow' : 'red';
-              const text = row.status === '1' ? '正常' : row.status === '0' ? '锁定' : '删除';
+              const color = row.status === '1' ? 'green' : 'red';
+              const text = row.status === '1' ? '正常' : '删除';
               return h('Tag', {
                 props: {
                   type: 'dot',
@@ -173,7 +173,7 @@
       //获取数据
       getData (params) {
         if (!params) params = {page: 1};
-        this.request('ArticleCategoryList', params, true).then((res) => {
+        this.request('ArticleList', params, true).then((res) => {
           if (res.status) {
             //列表数据
             this.list = res.data.list;
@@ -206,7 +206,7 @@
               if (res.status) {
                 this.$Message.info(res.msg);
                 this.$Modal.remove();
-                this.list[index].status = '2';
+                this.list[index].status = '0';
               } else {
                 this.$Message.error(res.msg);
                 this.$Modal.remove();
@@ -239,10 +239,6 @@
       this.getData();
       //服务端分类数据
       this.getCate();
-    },
-    beforeUpdate () {},
-    updated () {},
-    beforeDestroy () {},
-    destroyed () {}
+    }
   };
 </script>

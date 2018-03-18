@@ -18,7 +18,6 @@
           <Form-item label="文章作者" prop="author" style="width: 400px;">
             <Input v-model="formField.author" placeholder="请填写文章作者"></Input>
           </Form-item>
-
           <Form-item label="缩略图片" prop="cover">
             <div class="upload-mini-box">
               <div v-if="uploadList.length > 0" style="margin-right: 8px;">
@@ -140,6 +139,8 @@
           title: '',
           author: '',
           cateId: '',
+          cover: [],
+          coverList: [],
           link: '',
           sourceUrl: '',
           thumbnail: '',
@@ -183,7 +184,7 @@
       handleSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
-            this.request('ArticleAdd', this.formField).then((res) => {
+            this.request('ArticleEdit', this.formField).then((res) => {
               if (res.status) {
                 this.$Message.success(res.msg);
                 this.$router.go(-1);
@@ -209,9 +210,23 @@
       },
       //初始化编辑器
       editorReady (instance) {
-        instance.setContent('');
-        instance.addListener('contentChange', () => {
-          this.formField.content = instance.getContent();
+        let id = this.$route.params.id;
+        this.apiGet('/admin/article/edit', {id: id}).then((res) => {
+          this.formField = res.data;
+          this.formField.coverList = res.data.coverList;
+          //特殊处理图片
+          this.uploadList = res.data.coverList.map(item => {
+            item.status = 'finished';
+            item.percentage = 100;
+            item.uid = Date.now() + this.tempIndex++;
+            return item;
+          });
+          instance.execCommand('insertHtml', res.data.content);
+          instance.addListener('contentChange', () => {
+            this.formField.content = instance.getContent();
+            this.$refs.formField.validateField('content');
+          });
+          this.$forceUpdate();
         });
       },
       //后退海阔天空
@@ -304,14 +319,9 @@
       }
     },
     beforeCreate () {},
-    created () {},
-    beforeMount () {},
     mounted () {
       this.getCate();
-    },
-    beforeUpdate () {},
-    updated () {},
-    beforeDestroy () {},
-    destroyed () {}
+      this.initQiNiuToken();
+    }
   };
 </script>
