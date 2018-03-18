@@ -1,29 +1,28 @@
 <template>
   <div>
-    <Row>
+    <Row class="mb-15">
       <i-col span="18" class="search">
-      <Form :model="formSearch" :label-width="80" inline label-position="right">
-        <Form-item label="文章名称：">
-          <Input v-model="formSearch.keywords" placeholder="请输入文章关键词"></Input>
-        </Form-item>
-        <Form-item label="文章分类：">
-          <Select v-model="formSearch.cateId" placeholder="请选择" style="width:90px">
-            <Option value="">请选择</Option>
-            <Option v-for="item in cate" :value="item.id" :key="item.id">{{ item.name }}</Option>
-          </Select>
-        </Form-item>
-        <Form-item :label-width="1">
-          <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
-        </Form-item>
-      </Form>
-      &nbsp;
+        <Form :model="formSearch" :label-width="80" inline label-position="right">
+          <Form-item label="文章名称：">
+            <Input v-model="formSearch.keywords" placeholder="请输入文章关键词"></Input>
+          </Form-item>
+          <Form-item label="文章分类：">
+            <Select v-model="formSearch.cateId" placeholder="请选择" style="width:90px">
+              <Option value="">请选择</Option>
+              <Option v-for="item in cate" :value="item.id" :key="item.id">{{ item.name }}</Option>
+            </Select>
+          </Form-item>
+          <Form-item :label-width="1">
+            <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
+          </Form-item>
+        </Form>
       </i-col>
       <i-col span="6" class="text-align-right">
-      <router-link to="/article/add">
-        <Button type="primary" @click="addModal = true">
-          <Icon type="plus-round"></Icon>&nbsp;添加文章
-        </Button>
-      </router-link>
+        <router-link to="/article/add">
+          <Button type="primary" @click="addModal = true">
+            <Icon type="plus-round"></Icon>&nbsp;添加文章
+          </Button>
+        </router-link>
       </i-col>
     </Row>
     <Row class="mb-15">
@@ -36,7 +35,7 @@
 </template>
 
 <script>
-  export default{
+  export default {
     name: 'articleIndex',
     data () {
       return {
@@ -191,7 +190,7 @@
           }
         });
       },
-      edit(id) {
+      edit (id) {
         this.$router.push({path: '/article/edit/' + id, params: {id: id}});
       },
       //删除文章数据
@@ -216,14 +215,14 @@
         });
       },
       //表单搜索
-      search() {
+      search () {
         this.pageNumber = 1;
         let search = this.formSearch;
         //if(JSON.stringify(search) == "{}") return
         this.getData({params: search});
       },
       //获得分类数据
-      getCate() {
+      getCate () {
         this.request('ArticleCategoryList', {}).then((res) => {
           if (res.status) {
             this.cate = res.data;

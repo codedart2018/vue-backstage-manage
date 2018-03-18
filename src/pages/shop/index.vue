@@ -1,39 +1,39 @@
 <template>
   <div>
     <Row class="mb-15">
-      <Col span="18" class="search">
-      <Form :model="formSearch" :label-width="80" inline label-position="right">
-        <Form-item label="商铺名称：">
-          <Input v-model="formSearch.keywords" placeholder="请输入商铺名称关键词"></Input>
-        </Form-item>
-        <Form-item label="添加日期：">
-          <Date-picker type="date" placeholder="选择日期" v-model="formSearch.date"></Date-picker>
-        </Form-item>
-        <Form-item label="是否显示：">
-          <Select v-model="formSearch.display" placeholder="请选择">
-            <Option value="">请选择</Option>
-            <Option value="1">显示</Option>
-            <Option value="0">隐藏</Option>
-          </Select>
-        </Form-item>
-        <Form-item label="节点状态：">
-          <Select v-model="formSearch.status" placeholder="请选择">
-            <Option value="">请选择</Option>
-            <Option value="1">正常</Option>
-            <Option value="0">锁定</Option>
-            <Option value="-1">删除</Option>
-          </Select>
-        </Form-item>
-        <Form-item :label-width="1">
-          <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
-        </Form-item>
-      </Form>
-      </Col>
-      <Col span="6" class="text-align-right">
-      <Button type="primary" @click="addModal = true">
-        <Icon type="plus-round"></Icon>&nbsp;添加商铺
-      </Button>
-      </Col>
+      <i-col span="18" class="search">
+        <Form :model="formSearch" :label-width="80" inline label-position="right">
+          <Form-item label="商铺名称：">
+            <Input v-model="formSearch.keywords" placeholder="请输入商铺名称关键词"></Input>
+          </Form-item>
+          <Form-item label="添加日期：">
+            <Date-picker type="date" placeholder="选择日期" v-model="formSearch.date"></Date-picker>
+          </Form-item>
+          <Form-item label="是否显示：">
+            <Select v-model="formSearch.display" placeholder="请选择">
+              <Option value="">请选择</Option>
+              <Option value="1">显示</Option>
+              <Option value="0">隐藏</Option>
+            </Select>
+          </Form-item>
+          <Form-item label="节点状态：">
+            <Select v-model="formSearch.status" placeholder="请选择">
+              <Option value="">请选择</Option>
+              <Option value="1">正常</Option>
+              <Option value="0">锁定</Option>
+              <Option value="-1">删除</Option>
+            </Select>
+          </Form-item>
+          <Form-item :label-width="1">
+            <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
+          </Form-item>
+        </Form>
+      </i-col>
+      <i-col span="6" class="text-align-right">
+        <Button type="primary" @click="addModal = true">
+          <Icon type="plus-round"></Icon>&nbsp;添加商铺
+        </Button>
+      </i-col>
     </Row>
     <Row class="mb-15">
       <Table :columns="columns" :data="list"></Table>
@@ -45,8 +45,8 @@
 </template>
 
 <script>
-  export default{
-    data() {
+  export default {
+    data () {
       return {
         columns: [
           {
@@ -112,7 +112,8 @@
               } else {
                 color = '';
                 text = '未知';
-              };
+              }
+              ;
               return h('Tag', {
                 props: {
                   type: 'dot',
@@ -205,7 +206,7 @@
         }).catch((response) => {});
       }
     },
-    mounted() {
+    mounted () {
       this.getData();
     },
     components: {}

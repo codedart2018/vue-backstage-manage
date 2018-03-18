@@ -1,22 +1,22 @@
 <template>
   <div class="service-tag-box">
     <Row class="mb-15">
-      <Col span="18" class="search">
+      <i-col span="18" class="search">
       &nbsp;
-      </Col>
-      <Col span="6" class="text-align-right">
+      </i-col>
+      <i-col span="6" class="text-align-right">
       <Button type="primary" @click="addModal = true">
         <Icon type="plus-round"></Icon>&nbsp;添加标签
       </Button>
-      </Col>
+      </i-col>
     </Row>
     <Row type="flex" justify="start" class="code-row-bg">
-      <Col span="2" v-for="(item, index) in data" :key="index">
+      <i-col span="2" v-for="(item, index) in data" :key="index">
         <div class="icons-item" @click="edit(index)">
           <i :class="'icon-font ' + item.icon"></i>
           <span>{{item.name}}</span>
         </div>
-      </Col>
+      </i-col>
     </Row>
     <!--添加 Modal 对话框-->
     <Modal v-model="addModal" title="添加服务标签" class-name="customize-modal-center" @on-cancel="modalCancel()">
@@ -189,10 +189,6 @@
     beforeMount () {},
     mounted () {
       this.getData();
-    },
-    beforeUpdate () {},
-    updated () {},
-    beforeDestroy () {},
-    destroyed () {}
+    }
   };
 </script>
