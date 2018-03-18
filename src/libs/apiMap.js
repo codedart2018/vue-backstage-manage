@@ -37,15 +37,15 @@ const methodMap = {
   /** 删除节点接口 **/
   AdminDelRule: {url: '/admin/permission/delete_rule', method: 'post'},
   /** 后台用户列表 **/
-  AdminUser: {url: '/admin/user/index', method: 'get'},
+  AdminUser: {url: '/admin/backstage_users/index', method: 'get'},
   /** 添加后台用户 **/
-  AdminAddUser: {url: '/admin/user/add', method: 'post'},
+  AdminAddUser: {url: '/admin/backstage_users/add', method: 'post'},
   /** 编辑后台用户 **/
-  AdminEditUser: {url: '/admin/user/edit', method: 'post'},
+  AdminEditUser: {url: '/admin/backstage_users/edit', method: 'post'},
   /** 重置后台用户密码 **/
-  RestPassword: {url: '/admin/user/rest_password', method: 'post'},
+  RestPassword: {url: '/admin/backstage_users/rest_password', method: 'post'},
   /** 清空头像 **/
-  AdminEmptyAvatar: {url: '/admin/user/empty_avatar', method: 'post'},
+  AdminEmptyAvatar: {url: '/admin/backstage_users/empty_avatar', method: 'post'},
   /** 商铺列表 **/
   ShopList: {url: '/admin/shop/list_data', method: 'post'},
   /** 商铺详情 **/
@@ -111,6 +111,8 @@ const methodMap = {
   /** 修改文章 **/
   ArticleEdit: {url: '/admin/article/edit', method: 'post'},
   /** 删除文章 **/
-  ArticleDelete: {url: '/admin/article/delete', method: 'post'}
+  ArticleDelete: {url: '/admin/article/delete', method: 'post'},
+  /** 前台用户列表 **/
+  UserList: {url: '/admin/user/list', method: 'get'}
 };
 export default methodMap;

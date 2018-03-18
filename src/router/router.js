@@ -12,11 +12,13 @@ import Layout from '@/pages/layout/index.vue';
 import {ShopRouter} from './shop';
 import {ActivityRouter} from './activity';
 import {ArticleRouter} from './article';
+import {UserRouter} from './user';
 //菜单路由
 export const SubRouter = [
   ShopRouter,
   ActivityRouter,
   ArticleRouter,
+  UserRouter,
   {
     path: '/permission/default',
     name: 'Permission',
