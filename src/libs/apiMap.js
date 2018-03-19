@@ -113,6 +113,8 @@ const methodMap = {
   /** 删除文章 **/
   ArticleDelete: {url: '/admin/article/delete', method: 'post'},
   /** 前台用户列表 **/
-  UserList: {url: '/admin/user/list', method: 'get'}
+  UserList: {url: '/admin/user/list', method: 'get'},
+  /** 前台用户详情 **/
+  UserDetail: {url: '/admin/user/detail', method: 'get'}
 };
 export default methodMap;

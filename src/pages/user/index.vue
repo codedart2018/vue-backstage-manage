@@ -122,7 +122,10 @@
                   },
                   on: {
                     click: () => {
-                      this.edit(params.row.id);
+                      let id = params.row.id;
+                      this.$router.push({
+                        path: '/user/detail/' + id
+                      });
                     }
                   }
                 }, '查看')

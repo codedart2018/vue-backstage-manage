@@ -29,6 +29,17 @@ export const UserRouter = {
       },
       component: resolve => require(['../pages/user/index'], resolve),
       children: []
+    },
+    {
+      path: '/user/detail/:id',
+      name: 'UserDetail',
+      icon: '',
+      meta: {
+        title: '用户详情',
+        routeAuth: true
+      },
+      component: resolve => require(['../pages/user/detail'], resolve),
+      children: []
     }
   ]
 };
