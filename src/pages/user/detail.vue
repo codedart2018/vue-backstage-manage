@@ -12,6 +12,12 @@
         </dd>
       </dl>
       <dl class="line">
+        <dt>openID：</dt>
+        <dd>
+          <label>{{userFrom.openid}}</label>
+        </dd>
+      </dl>
+      <dl class="line">
         <dt>呢称：</dt>
         <dd>
           <label>{{userFrom.nickname}}</label>
@@ -106,6 +112,7 @@
       return {
         userFrom: {
           nickname: '',
+          openid: '',
           address: '',
           vipLevel: '0',
           subscribe: 1,
