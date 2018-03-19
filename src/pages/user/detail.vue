@@ -75,7 +75,7 @@
       <dl class="line">
         <dt>是否关注：</dt>
         <dd>
-          <label v-if="userFrom.subscribe === '1'">已关注</label>
+          <label v-if="userFrom.subscribe === 1">已关注</label>
           <label v-else>未关注</label>
         </dd>
       </dl>
