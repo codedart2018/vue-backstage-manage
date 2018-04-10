@@ -115,8 +115,8 @@
                 </Radio-group>
                 <span>温馨提示：强制关注有可能会被封号哟!</span>
               </Form-item>
-              <Form-item label="活动简介" prop="desc">
-                <Input v-model="formField.desc" type="textarea" :rows="4" placeholder="限500字简单说明介绍"/>
+              <Form-item label="活动简介" prop="remarks">
+                <Input v-model="formField.remarks" type="textarea" :rows="4" placeholder="限500字简单说明介绍"/>
               </Form-item>
               <Form-item label="活动详情" prop="content">
                 <UEditor ref="editor" @ready="editorReady" v-model="formField.content" :config="config" style="line-height: normal"></UEditor>
@@ -416,7 +416,7 @@
           link: '',
           startTime: '',
           endTime: '',
-          desc: '',
+          remarks: '',
           content: ''
         },
         ruleValidate: {

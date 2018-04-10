@@ -30,8 +30,8 @@
               <Radio label="0">锁定</Radio>
             </Radio-group>
           </Form-item>
-          <Form-item label="角色说明" prop="desc">
-            <Input v-model="addForm.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="角色简要说明..."></Input>
+          <Form-item label="角色说明" prop="remarks">
+            <Input v-model="addForm.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="角色简要说明..."></Input>
           </Form-item>
         </Form>
       </div>
@@ -56,8 +56,8 @@
               <Radio label="-1">删除</Radio>
             </Radio-group>
           </Form-item>
-          <Form-item label="角色说明" prop="desc">
-            <Input v-model="editForm.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="角色说明..."></Input>
+          <Form-item label="角色说明" prop="remarks">
+            <Input v-model="editForm.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="角色说明..."></Input>
           </Form-item>
         </Form>
       </div>
@@ -86,7 +86,7 @@
           },
           {
             title: '角色简介',
-            key: 'desc'
+            key: 'remarks'
           },
           {
             title: '状态',
@@ -173,7 +173,7 @@
         addForm: {
           name: '',
           status: 1,
-          desc: ''
+          remarks: ''
         },
         //验证规则
         ruleValidate: {

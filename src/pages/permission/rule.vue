@@ -91,8 +91,8 @@
               </Form-item>
             </i-col>
           </Row>
-          <Form-item label="节点说明" prop="desc">
-            <Input v-model="addForm.desc" type="textarea" placeholder="节点简要说明..." :autosize="{minRows: 2,maxRows: 5}"></Input>
+          <Form-item label="节点说明" prop="remarks">
+            <Input v-model="addForm.remarks" type="textarea" placeholder="节点简要说明..." :autosize="{minRows: 2,maxRows: 5}"></Input>
           </Form-item>
         </Form>
       </div>
@@ -151,8 +151,8 @@
               </Form-item>
             </i-col>
           </Row>
-          <Form-item label="节点说明" prop="desc">
-            <Input v-model="editForm.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="节点简要说明..."></Input>
+          <Form-item label="节点说明" prop="remarks">
+            <Input v-model="editForm.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="节点简要说明..."></Input>
           </Form-item>
         </Form>
       </div>
@@ -316,7 +316,7 @@
           display: '0',
           status: '1',
           sort: 0,
-          desc: ''
+          remarks: ''
         },
         //验证规则
         ruleValidate: {

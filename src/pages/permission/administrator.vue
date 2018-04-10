@@ -104,8 +104,8 @@
               <Radio label="0">锁定</Radio>
             </Radio-group>
           </Form-item>
-          <Form-item label="备注说明" prop="desc">
-            <Input v-model="addForm.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="200字说明备注..."></Input>
+          <Form-item label="备注说明" prop="remarks">
+            <Input v-model="addForm.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="200字说明备注..."></Input>
           </Form-item>
         </Form>
       </div>
@@ -173,8 +173,8 @@
               <Radio label="0">锁定</Radio>
             </Radio-group>
           </Form-item>
-          <Form-item label="备注说明" prop="desc">
-            <Input v-model="editForm.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="200字说明备注..."></Input>
+          <Form-item label="备注说明" prop="remarks">
+            <Input v-model="editForm.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="200字说明备注..."></Input>
           </Form-item>
         </Form>
       </div>
@@ -402,7 +402,7 @@
           email: '',
           status: 1,
           realName: '',
-          desc: '',
+          remarks: '',
           avatarId: '',
           avatarUrl: ''
         },
@@ -428,7 +428,7 @@
           email: [
             {type: 'email', message: '邮箱格式不正确', trigger: 'blur'}
           ],
-          desc: [
+          remarks: [
             {type: 'string', max: 200, message: '备注说明不能超过200字', trigger: 'blur'}
           ]
         },
@@ -453,7 +453,7 @@
           email: [
             {type: 'email', message: '邮箱格式不正确', trigger: 'blur'}
           ],
-          desc: [
+          remarks: [
             {type: 'string', max: 200, message: '备注说明不能超过200字', trigger: 'blur'}
           ]
         },
