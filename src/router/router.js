@@ -13,12 +13,14 @@ import {ShopRouter} from './shop';
 import {ActivityRouter} from './activity';
 import {ArticleRouter} from './article';
 import {UserRouter} from './user';
+import {MessageServicesRouter} from './messageServices'
 //菜单路由
 export const SubRouter = [
   ShopRouter,
   ActivityRouter,
   ArticleRouter,
   UserRouter,
+  MessageServicesRouter,
   {
     path: '/permission/default',
     name: 'Permission',
