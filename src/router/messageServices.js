@@ -38,7 +38,7 @@ export const MessageServicesRouter = {
         title: '模板管理',
         routeAuth: true
       },
-      component: resolve => require(['../pages/messageServices/index'], resolve),
+      component: resolve => require(['../pages/messageServices/template'], resolve),
       children: []
     },
     {

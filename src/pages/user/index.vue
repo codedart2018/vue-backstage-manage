@@ -22,7 +22,7 @@
             <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
           </Form-item>
           <Form-item :label-width="1">
-            <Button type="ghost" @click="formSearch = {}">清空条件</Button>
+            <Button type="ghost" @click="clearSearch">清空条件</Button>
           </Form-item>
         </Form>
       </i-col>
@@ -183,6 +183,11 @@
         this.pageNumber = 1;
         let search = this.formSearch;
         this.getData({params: search});
+      },
+      //清除搜索
+      clearSearch() {
+        this.formSearch = {};
+        this.getData();
       }
     },
     beforeCreate () {},
