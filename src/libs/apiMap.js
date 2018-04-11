@@ -116,6 +116,14 @@ const methodMap = {
   UserList: {url: '/admin/user/list', method: 'get'},
   /** 前台用户详情 **/
   UserDetail: {url: '/admin/user/detail', method: 'get'},
+  /** 消息服务列表 **/
+  MessageServicesIndex: {url: '/admin/message_services/index', method: 'get'},
+  /** 消息服务添加 **/
+  MessageServicesAdd: {url: '/admin/message_services/add', method: 'post'},
+  /** 消息服务修改 **/
+  MessageServicesEdit: {url: '/admin/message_services/edit', method: 'post'},
+  /** 消息服务删除 **/
+  MessageServicesDelete: {url: '/admin/message_services/delete', method: 'post'},
   /** 消息服务模板列表 **/
   MessageServicesTemplate: {url: '/admin/message_services/template', method: 'get'},
   /** 添加消息服务模板 **/
@@ -123,6 +131,8 @@ const methodMap = {
   /** 编辑消息服务模板 **/
   MessageServicesTemplateEdit: {url: '/admin/message_services/edit_template', method: 'post'},
   /** 删除消息服务模板 **/
-  MessageServicesTemplateDelete: {url: '/admin/message_services/delete_template', method: 'post'}
+  MessageServicesTemplateDelete: {url: '/admin/message_services/delete_template', method: 'post'},
+  /** 消息服务日志列表 **/
+  MessageServicesLog: {url: '/admin/message_services/log', method: 'get'}
 };
 export default methodMap;

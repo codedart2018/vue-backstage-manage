@@ -4,7 +4,7 @@
       <i-col span="18" class="search">
         <Form :model="formSearch" :label-width="80" inline label-position="right">
           <Form-item label="模板名称：">
-            <Input v-model="formSearch.name" placeholder="请输入用户呢称"></Input>
+            <Input v-model="formSearch.name" placeholder="请输入模板名称"></Input>
           </Form-item>
           <Form-item label="服务商：">
             <Select v-model="formSearch.services" placeholder="请选择" style="width: 150px;">
@@ -328,6 +328,13 @@
             this.total = res.data.count;
             //每页多少条数据
             this.pageSize = res.data.size;
+          } else {
+            //列表数据
+            this.list = [];
+            //总页数
+            this.total = 0;
+            //每页多少条数据
+            this.pageSize = 0;
           }
         }).catch((response) => {
         });

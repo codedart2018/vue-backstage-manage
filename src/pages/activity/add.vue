@@ -164,6 +164,16 @@
       UEditor
     },
     data () {
+      //验证正整数 自带的 number integer 好像有问题
+      const validateMaxPeople = (rule, value, callback) => {
+        if (value) {
+          let reg = /^[0-9]+$/;
+          if (!reg.test(value)) {
+            callback(new Error('参与人数只能填写正正数'));
+          }
+        }
+        callback();
+      };
       return {
         AMap: null,
         mapModal: false,
@@ -228,7 +238,7 @@
           ],
           maxPeople: [
             {required: true, message: '请填写参与人数', trigger: 'blur'},
-            {type: 'regexp', message: '参与人数只能是0或整数', trigger: 'blur', pattern: /^(\d|([1-9]\d+))(\.\d{1,2})?$/}
+            {validator: validateMaxPeople, trigger: 'blur'}
           ],
           cover: [
             {required: true, type: 'array', min: 1, message: '请上传活动封面', trigger: 'change'},
