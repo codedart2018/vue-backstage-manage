@@ -58,6 +58,9 @@
               <Option value="2">邮件</Option>
             </Select>
           </Form-item>
+          <Form-item label="每天限制" prop="num">
+            <InputNumber v-model="addForm.num" :min="0" :max="100" placeholder="每天限制发送数量,0不限制"></InputNumber>
+          </Form-item>
           <Form-item label="服务状态" prop="status">
             <Radio-group v-model="addForm.status">
               <Radio label="1">正常</Radio>
@@ -89,6 +92,9 @@
               <Option value="1">短信</Option>
               <Option value="2">邮件</Option>
             </Select>
+          </Form-item>
+          <Form-item label="每天限制" prop="num">
+            <InputNumber v-model="editForm.num" :min="0" :max="100" placeholder="每天限制发送数量,0不限制"></InputNumber>
           </Form-item>
           <Form-item label="服务状态" prop="status">
             <Radio-group v-model="editForm.status">
@@ -153,6 +159,12 @@
               const text = row.type === '1' ? '短信' : row.type === '2' ? '邮件' : '未知';
               return h('div', text);
             }
+          },
+          {
+            title: '每日限制',
+            key: 'num',
+            width: 90,
+            align: 'center'
           },
           {
             title: '状态',
@@ -226,7 +238,8 @@
           name: '',
           templateId: '',
           type: '',
-          status: '1'
+          status: '1',
+          num: 0
         },
         //验证规则
         ruleValidate: {
@@ -255,7 +268,7 @@
     },
     methods: {
       //取消 modal
-      modalCancel() {
+      modalCancel () {
         this.editModal = false;
       },
       //添加数据
@@ -340,7 +353,7 @@
         });
       },
       //表单搜索
-      search() {
+      search () {
         this.pageNumber = 1;
         let search = this.formSearch;
         this.getData({params: search});
@@ -348,12 +361,12 @@
         //this.$router.push({name: this.$router.currentRoute.name, query: {page: page}});
       },
       //清除搜索
-      clearSearch() {
+      clearSearch () {
         this.formSearch = {};
         this.getData();
       },
       //保存数据方法
-      save(url, data) {
+      save (url, data) {
         this.request(url, data).then((res) => {
           if (res.status) {
             this.addModal = false;
@@ -382,7 +395,7 @@
         }
       }
     },
-    mounted() {
+    mounted () {
       //服务端获取数据
       this.getData();
     }

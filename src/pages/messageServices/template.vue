@@ -68,14 +68,11 @@
           <Form-item label="appSecret(Key)" prop="appSecret">
             <Input v-model="addForm.appSecret" placeholder="请填写appSecret(Key)"></Input>
           </Form-item>
-          <Form-item label="模板ID" prop="template">
-            <Input v-model="addForm.template" placeholder="请填写模板ID"></Input>
+          <Form-item label="服务商模板ID" prop="template">
+            <Input v-model="addForm.template" placeholder="请填写服务商模板ID"></Input>
           </Form-item>
           <Form-item label="参数" prop="params">
             <Input v-model="addForm.params" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="多个参数用半角逗号分隔开..."></Input>
-          </Form-item>
-          <Form-item label="每天限制" prop="num">
-            <InputNumber v-model="addForm.num" :min="0" :max="100" placeholder="每天限制发送数量,0不限制"></InputNumber>
           </Form-item>
         </Form>
       </div>
@@ -113,14 +110,11 @@
           <Form-item label="appSecret(Key)" prop="appSecret">
             <Input v-model="editForm.appSecret" placeholder="请填写appSecret(Key)"></Input>
           </Form-item>
-          <Form-item label="模板ID" prop="template">
-            <Input v-model="editForm.template" placeholder="请填写模板ID"></Input>
+          <Form-item label="服务商模板ID" prop="template">
+            <Input v-model="editForm.template" placeholder="请填写服务商模板ID"></Input>
           </Form-item>
           <Form-item label="参数" prop="params">
             <Input v-model="editForm.params" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="多个参数用半角逗号分隔开..."></Input>
-          </Form-item>
-          <Form-item label="每天限制" prop="num">
-            <InputNumber v-model="editForm.num" :min="0" :max="100" placeholder="每天限制发送数量,0不限制"></InputNumber>
           </Form-item>
         </Form>
       </div>
@@ -190,12 +184,6 @@
             align: 'center'
           },
           {
-            title: '每日限制',
-            key: 'num',
-            width: 90,
-            align: 'center'
-          },
-          {
             title: '添加时间',
             key: 'createTime',
             width: 135,
@@ -253,8 +241,7 @@
           appId: '',
           appSecret: '',
           template: '',
-          params: '',
-          num: 0
+          params: ''
         },
         //验证规则
         ruleValidate: {
