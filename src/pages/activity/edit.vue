@@ -70,8 +70,13 @@
                   <Option value="1">VIP2</Option>
                 </Select>
               </FormItem>
-              <FormItem label="参与人数" prop="maxPeople" style="width: 300px;">
+              <FormItem label="参与人数" prop="maxPeople" style="width: 300px; position: relative;">
                 <Input v-model="formField.maxPeople" placeholder="限制参与人数,填0为不限制"/>
+                <span style="position: absolute; top: 0; right: -160px;">开启附加商品后限制将失效</span>
+              </FormItem>
+              <FormItem label="基础价格" prop="price" style="width: 300px; position: relative;">
+                <Input v-model="formField.price" placeholder="销售基础价格"/>
+                <span style="position: absolute; top: 0; right: -280px;">开启附加商品后将基础价格加附加价格为销售价格</span>
               </FormItem>
               <Form-item label="活动日期" class="ivu-form-item-required">
                 <Row>
@@ -349,6 +354,15 @@
       UEditor
     },
     data () {
+      const validateMaxPeople = (rule, value, callback) => {
+        if (value) {
+          let reg = /^[0-9]+$/;
+          if (!reg.test(value)) {
+            callback(new Error('参与人数只能是整数'));
+          }
+        }
+        callback();
+      };
       return {
         id: this.$route.params.id,
         AMap: null,
@@ -397,7 +411,7 @@
         config: {
           actionUrl: '',
           initialFrameWidth: null,
-          initialFrameHeight: 300,
+          initialFrameHeight: 400,
           toolbars: [['undo', 'redo', 'bold', 'italic', 'forecolor', 'backcolor', 'paragraph', 'fontfamily', 'fontsize', 'autotypeset', 'insertorderedlist', 'lineheight', 'inserttable', 'removeformat', 'insertvideo', 'link', 'insertimage', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', 'indent', 'source']],
           zIndex: 0, // 编辑器层级
           charset: 'utf-8', //编码
@@ -411,6 +425,7 @@
           cover: [],
           coverList: [],
           maxPeople: '0',
+          price: 0,
           addedGoods: '0',
           isFollow: '1',
           link: '',
@@ -436,7 +451,11 @@
           ],
           maxPeople: [
             {required: true, message: '请填写参与人数', trigger: 'blur'},
-            {type: 'string', message: '参与人数只能是0或整数', trigger: 'blur', pattern: /^(\d|([1-9]\d+))(\.\d{1,2})?$/}
+            {validator: validateMaxPeople, trigger: 'blur'}
+          ],
+          price: [
+            {required: true, message: '请填写参与人数', trigger: 'blur'},
+            {type: 'string', message: '价格只能是2位小数的合法数字', trigger: 'blur', pattern: /^(\d|([1-9]\d+))(\.\d{1,2})?$/}
           ],
           cover: [
             {required: true, type: 'array', min: 1, message: '请上传活动封面', trigger: 'change'},
