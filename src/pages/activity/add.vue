@@ -109,6 +109,13 @@
           <Form-item label="活动外接" prop="link">
             <Input v-model="formField.link" placeholder="请填写活动关键词,多个用逗号分隔"></Input>
           </Form-item>
+          <Form-item label="是否关注" prop="isFollow">
+            <Radio-group v-model="formField.isFollow">
+              <Radio label="1">是</Radio>
+              <Radio label="0">否</Radio>
+            </Radio-group>
+            <span>温馨提示：强制关注有可能会被封号哟!</span>
+          </Form-item>
         </i-col>
         <i-col span="14">
           <Form-item label="附加商品" prop="addedGoods">
@@ -117,13 +124,12 @@
               <Radio label="0">否</Radio>
             </Radio-group>
           </Form-item>
-          <Form-item label="是否关注" prop="isFollow">
-            <Radio-group v-model="formField.isFollow">
-              <Radio label="1">是</Radio>
-              <Radio label="0">否</Radio>
-            </Radio-group>
-            <span>温馨提示：强制关注有可能会被封号哟!</span>
-          </Form-item>
+          <FormItem label="推荐位置" prop="vipLevel" style="width: 300px;">
+            <Select v-model="formField.hotPosition" placeholder="请选择推荐位置">
+              <Option value="">暂无推荐</Option>
+              <Option value="1">首页</Option>
+            </Select>
+          </FormItem>
           <Form-item label="活动简介" prop="remarks">
             <Input v-model="formField.remarks" type="textarea" :rows="4" placeholder="限500字简单说明介绍"></Input>
           </Form-item>
@@ -215,6 +221,7 @@
           name: '',
           keywords: '',
           vipLevel: '',
+          hotPosition: '',
           cover: [],
           coverList: [],
           maxPeople: '0',

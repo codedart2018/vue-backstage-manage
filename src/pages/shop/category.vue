@@ -1,22 +1,22 @@
 <template>
   <div>
     <Row>
-      <Col span="18" class="search">
-      <Form :model="formSearch" :label-width="80" inline label-position="right">
-        <Form-item label="分类名称：">
-          <Input v-model="formSearch.keywords" placeholder="请输入分类名称关键词"></Input>
-        </Form-item>
-        <Form-item :label-width="1">
-          <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
-        </Form-item>
-      </Form>
-      &nbsp;
-      </Col>
-      <Col span="6" class="text-align-right">
-      <Button type="primary" @click="addModal = true">
-        <Icon type="plus-round"></Icon>&nbsp;添加分类
-      </Button>
-      </Col>
+      <i-col span="18" class="search">
+        <Form :model="formSearch" :label-width="80" inline label-position="right">
+          <Form-item label="分类名称：">
+            <Input v-model="formSearch.keywords" placeholder="请输入分类名称关键词"></Input>
+          </Form-item>
+          <Form-item :label-width="1">
+            <Button type="primary" @click="search('formSearch')" icon="ios-search">搜索</Button>
+          </Form-item>
+        </Form>
+        &nbsp;
+      </i-col>
+      <i-col span="6" class="text-align-right">
+        <Button type="primary" @click="addModal = true">
+          <Icon type="plus-round"></Icon>&nbsp;添加分类
+        </Button>
+      </i-col>
     </Row>
     <Row class="mb-15">
       <Table :columns="columns" :data="list"></Table>
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-  export default{
+  export default {
     data () {
       return {
         columns: [
@@ -228,7 +228,7 @@
     components: {},
     methods: {
       //取消 modal
-      modalCancel() {
+      modalCancel () {
         this.editModal = false;
       },
       //重置表单数据
@@ -272,7 +272,7 @@
           }
         });
       },
-      edit(index) {
+      edit (index) {
         //打开 modal 窗口
         this.editModal = true;
         //获取原数据
@@ -300,12 +300,12 @@
         });
       },
       //表单搜索
-      search() {
+      search () {
         let search = this.formSearch;
         this.getData({params: search});
       },
       //保存数据方法
-      save(url, data) {
+      save (url, data) {
         this.request(url, data).then((res) => {
           if (res.status) {
             this.addModal = false;
