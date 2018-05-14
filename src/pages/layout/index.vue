@@ -31,7 +31,7 @@
           <Dropdown>
             <div><span>{{userInfo.account}}</span><Icon type="arrow-down-b"></Icon></div>
             <DropdownMenu slot="list">
-              <DropdownItem @click.native="modalUser=true">个人信息</DropdownItem>
+              <DropdownItem>个人信息</DropdownItem>
               <DropdownItem @click.native="modal = true">退出登录</DropdownItem>
               <DropdownItem @click.native="screenLock">锁定屏幕</DropdownItem>
             </DropdownMenu>

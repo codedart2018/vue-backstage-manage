@@ -183,7 +183,7 @@
         addForm: {
           name: '',
           pid: '',
-          status: 1,
+          status: '1',
           sort: ''
         },
         //编辑表单
